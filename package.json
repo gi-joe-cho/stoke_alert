@@ -57,7 +57,9 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "server-start": "node server/index.js",
+    "server-watch": "nodemon server/index.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -113,5 +115,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
   }
 }
