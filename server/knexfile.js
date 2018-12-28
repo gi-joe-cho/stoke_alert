@@ -8,7 +8,7 @@ module.exports = {
       host: '127.0.0.1',
       user: 'ryanchangyeolshin',
       password: '101changyeol',
-      database: '',
+      database: 'postgres',
       charset: 'utf8'
     },
     migrations: {
