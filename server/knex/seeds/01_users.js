@@ -1,5 +1,4 @@
 const uuid = require('uuid/v4');
-const bcrypt = require('bcrypt');
 const faker = require('faker');
 
 exports.seed = async (knex, Promise) => {
