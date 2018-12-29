@@ -1,18 +1,21 @@
+const path = require('path');
+const envPath = path.join(__dirname, '../.env');
+require('dotenv').config({ path: envPath });
+
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const app = express();
+const mainRouter = require('./routes/mainRouter');
 
-app.use(bodyParser.json());
-
-app.get('/', (req, res) => {
-  res.send("HELLO WORLD!");
-});
-
-app.listen(9000, err => {
-  if (err) {
-    console.error(err);
-  } else {
-    console.log("SERVER STARTED ON PORT 9000");
-  }
-});
+express()
+  .use(cors())
+  .use(bodyParser.json())
+  .use('/api', mainRouter())
+  .listen(process.env.PORT, err => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(`Server started on PORT ${process.env.PORT}`);
+    }
+  });
 
