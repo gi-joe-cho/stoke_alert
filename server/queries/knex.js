@@ -1,6 +1,14 @@
-import Knex from 'knex';
+const Knex = require('knex');
 
-export const knex = new Knex({
+const knex = new Knex({
   client: 'pg',
-  connection: process.env.POSTGRESQL_URL,
+  connection: {
+    host: process.env.HOST,
+    user: process.env.USERNAME,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+    charset: 'utf8'
+  },
 });
+
+module.exports = knex;
