@@ -6,14 +6,10 @@ const findUserById = id =>
     .where(id)
     .first();
 
-const findUserByEmail = email =>
-  users
-    .where('email', email)
-    .first();
-
-const findUserByName = username =>
+const findUserByNameOrEmail = (username, email) =>
   users
     .where('username', username)
+    .orWhere('email', email)
     .first();
 
 const addNewUser = newUser =>
@@ -23,7 +19,6 @@ const addNewUser = newUser =>
 
 module.exports = {
   findUserById,
-  findUserByEmail,
-  findUserByName,
+  findUserByNameOrEmail,
   addNewUser,
 };

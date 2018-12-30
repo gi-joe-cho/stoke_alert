@@ -1,29 +1,16 @@
-const {
-  findUserByEmail,
-  findUserByName,
-} = require('../queries/users');
+const { findUserByNameOrEmail } = require('../queries/users');
 
-const checkForDuplicateEmail = async ({ body: { email } }, res, next) => {
-  console.log(email);
-  const user = await findUserByEmail(email);
-  console.log("EMAIL: ", user);
+const checkForDuplicateNameAndEmail = async ({ body: { username, email } }, res, next) => {
+  const user = await findUserByNameOrEmail(username, email);
   if (user) {
-    return res.status(400).json({ error: ` User with email ${email} already exists!` });
+    if (user.username === username) {
+      return res.status(400).json({ error: `User with username ${username} already exists!` });
+    }
+    if (user.email === email) {
+      return res.status(400).json({ error: `User with email ${email} already exists!` });
+    }
   }
   next();
 };
 
-const checkForDuplicateName = async ({ body: { username } }, res, next) => {
-  console.log(username);
-  const user = await findUserByName(username);
-  console.log("NAME: ", user);
-  if (user) {
-    return res.status(400).json({ error: `User with username ${username} already exists!` });
-  }
-  next();
-};
-
-module.exports = {
-  checkForDuplicateEmail,
-  checkForDuplicateName,
-};
+module.exports = checkForDuplicateNameAndEmail;

@@ -1,6 +1,9 @@
 const { Router } = require('express');
+const uuid = require('uuid/v4');
+const bcrypt = require('bcrypt');
+
 const { findUserById, addNewUser } = require('../queries/users');
-const { checkForDuplicateEmail, checkForDuplicateName } = require('../utils/validations');
+const checkForDuplicateNameAndEmail = require('../utils/validations');
 
 const usersRouter = () => {
   const router = new Router();
@@ -15,8 +18,30 @@ const usersRouter = () => {
         res.status(404).json({ error });
       }
     })
-    .post('/', checkForDuplicateEmail, checkForDuplicateName, ({ body }, res, next) => {
-      res.status(200).jsonp("YAS!");
+    .post('/', checkForDuplicateNameAndEmail, async ({ body }, res, next) => {
+      const saltRounds = 10;
+      const hashedPassword = bcrypt.hashSync(body.password, saltRounds);
+      const newUser = {
+        id: uuid(),
+        first_name: body.first_name,
+        last_name: body.last_name,
+        username: body.username,
+        email: body.email,
+        password: hashedPassword,
+        birth_date: body.birth_date,
+        city: body.city,
+        state: body.state,
+        annotation: body.annotation,
+      };
+
+      try {
+        await addNewUser(newUser);
+        return res.status(200).jsonp({ message: `${newUser.username} has been successfully added as a new user!` });
+      }
+      catch (error) {
+        console.error(error);
+        return res.status(400).jsonp({ error: "Could not add new user!" });
+      }
     });
 };
 
