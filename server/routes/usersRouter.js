@@ -1,5 +1,6 @@
 const { Router } = require('express');
-const { findUserById, findUserByName, addNewUser } = require('../queries/users');
+const { findUserById, addNewUser } = require('../queries/users');
+const { checkForDuplicateEmail, checkForDuplicateName } = require('../utils/validations');
 
 const usersRouter = () => {
   const router = new Router();
@@ -14,8 +15,8 @@ const usersRouter = () => {
         res.status(404).json({ error });
       }
     })
-    .post('/', (req, res, next) => {
-
+    .post('/', checkForDuplicateName, checkForDuplicateEmail, ({ body }, res, next) => {
+      res.status(200).jsonp("YAS!");
     });
 };
 
