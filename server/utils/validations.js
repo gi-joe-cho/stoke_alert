@@ -14,7 +14,9 @@ const checkForDuplicateEmail = async ({ body: { email } }, res, next) => {
 };
 
 const checkForDuplicateName = async ({ body: { username } }, res, next) => {
+  console.log(username);
   const user = await findUserByName(username);
+  console.log("NAME: ", user);
   if (user) {
     return res.status(400).json({ error: `User with username ${username} already exists!` });
   }

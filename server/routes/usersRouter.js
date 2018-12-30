@@ -15,7 +15,7 @@ const usersRouter = () => {
         res.status(404).json({ error });
       }
     })
-    .post('/', checkForDuplicateName, checkForDuplicateEmail, ({ body }, res, next) => {
+    .post('/', checkForDuplicateEmail, checkForDuplicateName, ({ body }, res, next) => {
       res.status(200).jsonp("YAS!");
     });
 };

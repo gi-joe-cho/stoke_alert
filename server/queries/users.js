@@ -4,23 +4,17 @@ const users = knex('users');
 const findUserById = id =>
   users
     .where(id)
-    .first()
-    .then(user => user)
-    .catch(error => error);
+    .first();
 
 const findUserByEmail = email =>
   users
     .where('email', email)
-    .first()
-    .then(user => user)
-    .catch(error => error);
+    .first();
 
 const findUserByName = username =>
   users
     .where('username', username)
-    .first()
-    .then(user => user)
-    .catch(error => error);
+    .first();
 
 const addNewUser = newUser =>
   users
