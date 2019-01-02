@@ -13,7 +13,6 @@
     "babel-preset-react-app": "^7.0.0",
     "bcrypt": "^3.0.3",
     "bfj": "6.1.1",
-    "body-parse": "^0.1.0",
     "body-parser": "^1.18.3",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",
@@ -82,7 +81,8 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts"
+      "!src/**/*.d.ts",
+      "tests/**/**/*.{js,jsx,ts,tsx}"
     ],
     "resolver": "jest-pnp-resolver",
     "setupFiles": [
@@ -90,7 +90,8 @@
     ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
+      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}",
+      "<rootDir>/tests/**/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
     ],
     "testEnvironment": "jsdom",
     "testURL": "http://localhost",
