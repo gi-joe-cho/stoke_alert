@@ -1,7 +1,8 @@
+const users = require('../queries/knex')('users');
 const { findUserByNameOrEmail } = require('../queries/users');
 
 const checkForDuplicateNameAndEmail = async ({ body: { username, email } }, res, next) => {
-  const user = await findUserByNameOrEmail(username, email);
+  const user = await findUserByNameOrEmail(users, username, email);
   if (user) {
     if (user.username === username) {
       return res.status(400).json({ error: `User with username ${username} already exists!` });
