@@ -10,7 +10,7 @@ const usersRouter = () => {
   const router = new Router();
 
   return router
-    .get('/:id', async ({ params: id }, res, next) => {
+    .get('/:id', async ({ params: { id } }, res, next) => {
       try {
         const user = await findUserById(users, id);
         res.status(200).jsonp({ user });
