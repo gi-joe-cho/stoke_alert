@@ -4,7 +4,7 @@ const uuid = require('uuid/v4');
 const bcrypt = require('bcrypt');
 
 const { findUserById, addNewUser } = require('../queries/users');
-const checkForDuplicateNameAndEmail = require('../utils/validations');
+const { checkForDuplicateNameAndEmail } = require('../utils/validations');
 
 const usersRouter = () => {
   const router = new Router();

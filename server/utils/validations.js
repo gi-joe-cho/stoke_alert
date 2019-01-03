@@ -14,4 +14,6 @@ const checkForDuplicateNameAndEmail = async ({ body: { username, email } }, res,
   next();
 };
 
-module.exports = checkForDuplicateNameAndEmail;
+module.exports = {
+  checkForDuplicateNameAndEmail
+};
