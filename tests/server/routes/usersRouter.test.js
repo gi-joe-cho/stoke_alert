@@ -7,7 +7,7 @@ const users = require('../knex')('users');
 describe('testing the usersRouter', async () => {
   let fakeUser;
 
-  beforeAll(async (done) => {
+  beforeEach(async (done) => {
     const fakePassword = 'andiechoie1991';
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
@@ -29,7 +29,7 @@ describe('testing the usersRouter', async () => {
     done();
   });
 
-  afterAll(async (done) => {
+  afterEach(async (done) => {
     await users
       .clone()
       .del();
@@ -44,10 +44,18 @@ describe('testing the usersRouter', async () => {
           "Content-Type": "application/json",
         },
       });
-      const user = await response.json();
+      const { user } = await response.json();
 
-      console.log(response);
-      console.log(user);
+      expect(user.id).toBe(fakeUser.id);
+      expect(user.first_name).toBe(fakeUser.first_name);
+      expect(user.last_name).toBe(fakeUser.last_name);
+      expect(user.username).toBe(fakeUser.username);
+      expect(user.email).toBe(fakeUser.email);
+      expect(user.password).toBe(fakeUser.password);
+      expect(user.birth_date).toBe(fakeUser.birth_date.toISOString());
+      expect(user.city).toBe(fakeUser.city);
+      expect(user.state).toBe(fakeUser.state);
+      expect(user.annotation).toBe(fakeUser.annotation);
     });
   });
 });

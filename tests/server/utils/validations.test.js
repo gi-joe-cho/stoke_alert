@@ -6,7 +6,7 @@ const { checkForDuplicateNameAndEmail } = require('../../../server/utils/validat
 describe('Testing all of the validations util methods', () => {
   let fakeUser;
 
-  beforeAll(async (done) => {
+  beforeEach(async (done) => {
     const fakePassword = 'andiechoie1991';
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
@@ -28,7 +28,7 @@ describe('Testing all of the validations util methods', () => {
     done();
   });
 
-  afterAll(async (done) => {
+  afterEach(async (done) => {
     await knex('users')
       .clone()
       .del();

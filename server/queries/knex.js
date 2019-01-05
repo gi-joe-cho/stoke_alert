@@ -1,5 +1,5 @@
 const Knex = require('knex');
-const returnPostgresConnection = () => process.env.NODE_ENV
+const returnPostgresConnection = () => process.env.NODE_ENV === 'development'
   ? process.env.POSTGRESQL_DEV_URL
   : process.env.POSTGRESQL_TEST_URL;
 

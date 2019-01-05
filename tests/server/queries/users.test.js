@@ -7,7 +7,7 @@ const { findUserById, findUserByNameOrEmail, addNewUser } = require('../../../se
 describe('users queries', async () => {
   let fakeUser;
 
-  beforeAll(async (done) => {
+  beforeEach(async (done) => {
      const fakePassword = 'andiechoie1991';
      const saltRounds = 10;
      const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
@@ -29,7 +29,7 @@ describe('users queries', async () => {
     done();
   });
 
-  afterAll(async (done) => {
+  afterEach(async (done) => {
     await users
       .clone()
       .del();
@@ -60,7 +60,7 @@ describe('users queries', async () => {
     });
   });
 
-  describe('findUserByNameOrEMail', async () => {
+  describe('findUserByNameOrEmail', async () => {
     test('it should return the inserted user by username and email', async () => {
       const user = await findUserByNameOrEmail(users, fakeUser.username, fakeUser.email);
 
