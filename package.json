@@ -65,7 +65,8 @@
   "scripts": {
     "start:client": "node scripts/start.js",
     "start:server": "node server/index.js",
-    "watch:server": "nodemon server/index.js",
+    "watch:dev_server": "nodemon server/index.js NODE_ENV=development",
+    "watch:test_server": "nodemon server/index.js NODE_ENV=test",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },
