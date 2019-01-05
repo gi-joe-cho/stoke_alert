@@ -1,7 +1,6 @@
-const users = require('../queries/knex')('users');
 const { findUserByNameOrEmail } = require('../queries/users');
 
-const checkForDuplicateNameAndEmail = async ({ body: { username, email } }, res, next) => {
+const checkForDuplicateNameAndEmail = users => async ({ body: { username, email } }, res, next) => {
   const user = await findUserByNameOrEmail(users, username, email);
   if (user) {
     if (user.username === username) {

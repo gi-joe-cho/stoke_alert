@@ -19,7 +19,7 @@ const usersRouter = () => {
         res.status(404).jsonp({ error });
       }
     })
-    .post('/', checkForDuplicateNameAndEmail, async ({ body }, res, next) => {
+    .post('/', checkForDuplicateNameAndEmail(users), async ({ body }, res, next) => {
       const saltRounds = 10;
       const hashedPassword = bcrypt.hashSync(body.password, saltRounds);
       const newUser = {
