@@ -1,4 +1,3 @@
-const users = require('../queries/knex')('users');
 const { Router } = require('express');
 const uuid = require('uuid/v4');
 const bcrypt = require('bcrypt');
@@ -6,17 +5,18 @@ const bcrypt = require('bcrypt');
 const { findUserById, addNewUser } = require('../queries/users');
 const { checkForDuplicateNameAndEmail } = require('../utils/validations');
 
-const usersRouter = () => {
+const usersRouter = knex => {
+  const users = knex('users');
   const router = new Router();
 
   return router
     .get('/:id', async ({ params: { id } }, res, next) => {
       try {
         const user = await findUserById(users, id);
-        res.status(200).jsonp({ user });
+        return res.status(200).jsonp({ user });
       }
       catch(error) {
-        res.status(404).jsonp({ error });
+        return res.status(404).jsonp({ error });
       }
     })
     .post('/', checkForDuplicateNameAndEmail(users), async ({ body }, res, next) => {
