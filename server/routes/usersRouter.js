@@ -40,7 +40,7 @@ const usersRouter = knex => {
       };
 
       try {
-        const response = await addNewUser(users, newUser);
+        await addNewUser(users, newUser);
         return res.status(200).jsonp({ message: `${newUser.username} has been successfully added as a new user!` });
       }
       catch (error) {
