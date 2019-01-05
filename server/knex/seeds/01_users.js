@@ -30,7 +30,7 @@ exports.seed = async (knex, Promise) => {
           birth_date: faker.date.between('1980-01-01', '2000-12-31'),
           city: faker.address.city(),
           state: faker.address.state(),
-          zipcode: faker.address.zipcode(),
+          zipcode: faker.address.zipCode(),
           annotation: faker.lorem.sentence(),
         },
       ]);
