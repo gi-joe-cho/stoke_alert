@@ -13,10 +13,13 @@ const usersRouter = knex => {
     .get('/:id', async ({ params: { id } }, res, next) => {
       try {
         const user = await findUserById(users, id);
-        return res.status(200).jsonp({ user });
+        if (user) {
+          return res.status(200).jsonp({ user });
+        }
+        return res.status(404).jsonp({ message: 'User record not found!' });
       }
       catch(error) {
-        return res.status(404).jsonp({ error });
+        return res.status(500).jsonp({ error });
       }
     })
     .post('/', checkForDuplicateNameAndEmail(users), async ({ body }, res, next) => {

@@ -38,7 +38,7 @@ describe('testing the usersRouter', async () => {
 
   describe('GET /api/users/:id', async () => {
     test('it should return a response with the found user', async () => {
-      const response = await fetch(`http://localhost:9000/api/users/${fakeUser.id}`, {
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/${fakeUser.id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -46,6 +46,7 @@ describe('testing the usersRouter', async () => {
       });
       const { user } = await response.json();
 
+      expect(response.status).toBe(200);
       expect(user.id).toBe(fakeUser.id);
       expect(user.first_name).toBe(fakeUser.first_name);
       expect(user.last_name).toBe(fakeUser.last_name);
@@ -57,5 +58,23 @@ describe('testing the usersRouter', async () => {
       expect(user.state).toBe(fakeUser.state);
       expect(user.annotation).toBe(fakeUser.annotation);
     });
+
+    test('it should return a 404 error and message when using an unavailable user ID', async () => {
+      const fakeId = 'weiufgwufeigwifgi1893223';
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/${fakeId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { message } = await response.json();
+
+      expect(response.status).toBe(404);
+      expect(message).toBe('User record not found!');
+    });
+  });
+
+  describe('POST /api/users/', async () => {
+
   });
 });
