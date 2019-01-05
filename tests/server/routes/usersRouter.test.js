@@ -114,19 +114,27 @@ describe('testing the usersRouter', async () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(testUser),
+        body: JSON.stringify(fakeUser),
       });
-      const { message } = await response.json();
 
       expect(response.status).toBe(400);
-      expect(message).toBe(`${testUser.username} has been successfully added as a new user!`)
     });
 
-    test('it should not insert user data with missing non-nullable fields and should return a 500 error status code', async () => {
+    test('it should not insert user data with missing one non-nullable fields and should return a 500 error status code', async () => {
+      const fakePassword = 'glutenfree';
+      const saltRounds = 10;
+      const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
       const incompleteUser = {
         id: uuid(),
         first_name: "Ryan",
         last_name: "Shin",
+        username: "ryan_shinster",
+        email: "ryan_shin@gmail.com",
+        password: hashedPassword,
+        birth_date: new Date('08-08-1992'),
+        city: "Irvine",
+        state: "CA",
+        annotation: "Ryan is a software engineer who enjoys gaming.",
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/`, {
         method: "POST",
