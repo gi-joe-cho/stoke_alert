@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
     table.date('birth_date').notNullable();
     table.string('city').notNullable();
     table.string('state').notNullable();
+    table.string('zipcode').notNullable();
     table.text('annotation');
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('updated_at').defaultTo(knex.fn.now());

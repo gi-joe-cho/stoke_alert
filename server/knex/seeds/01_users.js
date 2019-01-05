@@ -17,6 +17,7 @@ exports.seed = async (knex, Promise) => {
           birth_date: faker.date.between('1980-01-01', '2000-12-31'),
           city: 'Los Angeles',
           state: 'CA',
+          zipcode: '90007',
           annotation: 'Shure Shure Shure Shure Shure Shure Shure Shure!',
         },
         {
@@ -29,6 +30,7 @@ exports.seed = async (knex, Promise) => {
           birth_date: faker.date.between('1980-01-01', '2000-12-31'),
           city: faker.address.city(),
           state: faker.address.state(),
+          zipcode: faker.address.zipcode(),
           annotation: faker.lorem.sentence(),
         },
       ]);

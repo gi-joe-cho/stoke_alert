@@ -75,6 +75,48 @@ describe('testing the usersRouter', async () => {
   });
 
   describe('POST /api/users/', async () => {
+    const fakePassword = 'borax4thewin';
+    const saltRounds = 10;
+    const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
+    const testUser = {
+      id: uuid(),
+      first_name: 'Joseph',
+      last_name: 'Cho',
+      username: 'gijoecho',
+      email: 'gijoecho@gmail.com',
+      password: hashedPassword,
+      birth_date: new Date('09-15-1991'),
+      city: 'Brea',
+      state: 'CA',
+      annotation: 'I am a software engineer who enjoys surfing.',
+    };
 
+    test('it should insert a new user to the users table and return a 200 status code with a message', async () => {
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(testUser),
+      });
+      const { message } = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(message).toBe(`${testUser.username} has been successfully added as a new user!`)
+    });
+
+    test('it should not insert the already available user and should return a 400 error status code with message', async () => {
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(testUser),
+      });
+      const { message } = await response.json();
+
+      expect(response.status).toBe(400);
+      expect(message).toBe(`${testUser.username} has been successfully added as a new user!`)
+    });
   });
 });
