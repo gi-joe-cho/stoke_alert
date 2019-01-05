@@ -35,16 +35,16 @@ const usersRouter = knex => {
         birth_date: body.birth_date,
         city: body.city,
         state: body.state,
+        zipcode: body.zipcode,
         annotation: body.annotation,
       };
 
       try {
-        await addNewUser(users, newUser);
+        const response = await addNewUser(users, newUser);
         return res.status(200).jsonp({ message: `${newUser.username} has been successfully added as a new user!` });
       }
       catch (error) {
-        console.error(error);
-        return res.status(400).jsonp({ error: "Could not add new user!" });
+        return res.status(500).jsonp(error);
       }
     });
 };

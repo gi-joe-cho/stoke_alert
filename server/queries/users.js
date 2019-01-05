@@ -17,8 +17,7 @@ const addNewUser = (users, newUser) =>
   users
     .clone()
     .insert(newUser)
-    .returning('*')
-    .catch(error => error);
+    .returning('*');
 
 module.exports = {
   findUserById,

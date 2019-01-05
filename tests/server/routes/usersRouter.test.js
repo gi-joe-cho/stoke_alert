@@ -121,5 +121,22 @@ describe('testing the usersRouter', async () => {
       expect(response.status).toBe(400);
       expect(message).toBe(`${testUser.username} has been successfully added as a new user!`)
     });
+
+    test('it should not insert user data with missing non-nullable fields and should return a 500 error status code', async () => {
+      const incompleteUser = {
+        id: uuid(),
+        first_name: "Ryan",
+        last_name: "Shin",
+      };
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(incompleteUser),
+      });
+
+      expect(response.status).toBe(500);
+    });
   });
 });
