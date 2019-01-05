@@ -21,6 +21,7 @@ describe('users queries', async () => {
        birth_date: new Date('02-01-1991'),
        city: 'Los Angeles',
        state: 'CA',
+       zipcode: '90007',
        annotation: 'I am an architectural engineer who enjoys powerlifting.',
      };
      await users
@@ -49,6 +50,7 @@ describe('users queries', async () => {
       expect(user.birth_date.toISOString()).toBe(fakeUser.birth_date.toISOString());
       expect(user.city).toBe(fakeUser.city);
       expect(user.state).toBe(fakeUser.state);
+      expect(user.zipcode).toBe(fakeUser.zipcode);
       expect(user.annotation).toBe(fakeUser.annotation);
     });
 
@@ -73,6 +75,7 @@ describe('users queries', async () => {
       expect(user.birth_date.toISOString()).toBe(fakeUser.birth_date.toISOString());
       expect(user.city).toBe(fakeUser.city);
       expect(user.state).toBe(fakeUser.state);
+      expect(user.zipcode).toBe(fakeUser.zipcode);
       expect(user.annotation).toBe(fakeUser.annotation);
     });
 
@@ -89,6 +92,7 @@ describe('users queries', async () => {
       expect(user.birth_date.toISOString()).toBe(fakeUser.birth_date.toISOString());
       expect(user.city).toBe(fakeUser.city);
       expect(user.state).toBe(fakeUser.state);
+      expect(user.zipcode).toBe(fakeUser.zipcode);
       expect(user.annotation).toBe(fakeUser.annotation);
     });
   });
@@ -107,6 +111,7 @@ describe('users queries', async () => {
       birth_date: new Date('09-15-1991'),
       city: 'Brea',
       state: 'CA',
+      zipcode: '92821',
       annotation: 'I am a musician who enjoys software engineering.',
     };
 
@@ -123,6 +128,7 @@ describe('users queries', async () => {
       expect(newUser.birth_date.toISOString()).toBe(testUser.birth_date.toISOString());
       expect(newUser.city).toBe(testUser.city);
       expect(newUser.state).toBe(testUser.state);
+      expect(newUser.zipcode).toBe(testUser.zipcode);
       expect(newUser.annotation).toBe(testUser.annotation);
     })
   });

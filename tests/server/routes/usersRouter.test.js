@@ -21,6 +21,7 @@ describe('testing the usersRouter', async () => {
       birth_date: new Date('02-01-1991'),
       city: 'Los Angeles',
       state: 'CA',
+      zipcode: '90007',
       annotation: 'I am an architectural engineer who enjoys powerlifting.',
     };
     await users
@@ -56,6 +57,7 @@ describe('testing the usersRouter', async () => {
       expect(user.birth_date).toBe(fakeUser.birth_date.toISOString());
       expect(user.city).toBe(fakeUser.city);
       expect(user.state).toBe(fakeUser.state);
+      expect(user.zipcode).toBe(fakeUser.zipcode);
       expect(user.annotation).toBe(fakeUser.annotation);
     });
 
@@ -88,6 +90,7 @@ describe('testing the usersRouter', async () => {
       birth_date: new Date('09-15-1991'),
       city: 'Brea',
       state: 'CA',
+      zipcode: '92821',
       annotation: 'I am a software engineer who enjoys surfing.',
     };
 
