@@ -5,6 +5,13 @@ const findUserById = (users, id) =>
     .first()
     .catch(error => error);
 
+const findUserByName = (users, username) =>
+  users
+    .clone()
+    .where('username', username)
+    .first()
+    .catch(error => error);
+
 const findUserByNameOrEmail = (users, username, email) =>
   users
     .clone()
@@ -21,6 +28,7 @@ const addNewUser = (users, newUser) =>
 
 module.exports = {
   findUserById,
+  findUserByName,
   findUserByNameOrEmail,
   addNewUser,
 };
