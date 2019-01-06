@@ -1,6 +1,7 @@
 require('dotenv').config({ path: '../../../.env' });
 const uuid = require('uuid/v4');
 const bcrypt = require('bcrypt');
+const faker = require('faker');
 
 const users = require('../knex')('users');
 
@@ -76,7 +77,7 @@ describe('testing the usersRouter', async () => {
     });
   });
 
-  describe('POST /api/users/', async () => {
+  describe('POST /api/users/signup', async () => {
     const fakePassword = 'borax4thewin';
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
@@ -95,7 +96,7 @@ describe('testing the usersRouter', async () => {
     };
 
     test('it should insert a new user to the users table and return a 200 status code with a message', async () => {
-      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/`, {
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -109,7 +110,7 @@ describe('testing the usersRouter', async () => {
     });
 
     test('it should not insert the already available user and should return a 400 error status code with message', async () => {
-      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/`, {
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +137,7 @@ describe('testing the usersRouter', async () => {
         state: "CA",
         annotation: "Ryan is a software engineer who enjoys gaming.",
       };
-      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/`, {
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -145,6 +146,60 @@ describe('testing the usersRouter', async () => {
       });
 
       expect(response.status).toBe(500);
+    });
+  });
+
+  describe('POST /api/users/signin', async () => {
+    test('should return a 200 status code response with the user object and JSON web token', async () => {
+      const request = {
+        username: fakeUser.username,
+        password: fakeUser.password,
+      };
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      });
+      const user = await response.json();
+      console.log(user);
+    });
+
+    test('should return a 404 status code response when user record is not found', async () => {
+      const request = {
+        username: faker.internet.userName(),
+        password: faker.internet.password(),
+      };
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      });
+      const { message } = await response.json();
+
+      expect(response.status).toBe(404);
+      expect(message).toBe('User record is not found!');
+    });
+
+    test('should return a 404 status code response with a message saying the password did not match', async () => {
+      const request = {
+        username: fakeUser.username,
+        password: faker.internet.password(),
+      };
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      });
+      const { message } = await response.json();
+
+      expect(response.status).toBe(404);
+      expect(message).toBe('Password did not match with the given username!');
     });
   });
 });
