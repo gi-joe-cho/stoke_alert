@@ -12,7 +12,7 @@ const usersRouter = knex => {
   const router = new Router();
 
   return router
-    .get('/:id', async ({ params: { id } }, res, next) => {
+    .get('/:id', async ({ params: { id } }, res) => {
       try {
         const user = await findUserById(users, id);
         if (user) {
@@ -24,7 +24,7 @@ const usersRouter = knex => {
         return res.status(500).jsonp({ error });
       }
     })
-    .post('/signup', checkForDuplicateNameAndEmail(users), async ({ body }, res, next) => {
+    .post('/signup', checkForDuplicateNameAndEmail(users), async ({ body }, res) => {
       const newUser = returnUserObject(body);
       try {
         await addNewUser(users, newUser);
@@ -34,7 +34,7 @@ const usersRouter = knex => {
         return res.status(500).jsonp(error);
       }
     })
-    .post('/signin', async ({ body: { username, password } }, res, next) => {
+    .post('/signin', async ({ body: { username, password } }, res) => {
       try {
         const user = await findUserByName(users, username);
         if (user) {
