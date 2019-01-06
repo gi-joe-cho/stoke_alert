@@ -23,7 +23,7 @@ const usersRouter = knex => {
         return res.status(500).jsonp({ error });
       }
     })
-    .post('/', checkForDuplicateNameAndEmail(users), async ({ body }, res, next) => {
+    .post('/signup', checkForDuplicateNameAndEmail(users), async ({ body }, res, next) => {
       const saltRounds = 10;
       const hashedPassword = bcrypt.hashSync(body.password, saltRounds);
       const newUser = {
@@ -54,6 +54,7 @@ const usersRouter = knex => {
         if (user) {
           const match = await bcrypt.compare(password, user.password);
           if (match) {
+
             return res.status(200).jsonp({ user });
           }
           return res.status(404).jsonp({ message: 'Password did not match with the given username!' });
