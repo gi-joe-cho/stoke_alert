@@ -2,7 +2,7 @@ const uuid = require('uuid/v4');
 const bcrypt = require('bcrypt');
 
 const users = require('../knex')('users');
-const { findUserById, findUserByNameOrEmail, addNewUser } = require('../../../server/queries/users');
+const { findUserById, findUserByName, findUserByNameOrEmail, addNewUser } = require('../../../server/queries/users');
 
 describe('users queries', async () => {
   let fakeUser;
@@ -57,6 +57,31 @@ describe('users queries', async () => {
     test('it should return undefined when providing unavailable ID', async () => {
       const fakeUserId = uuid();
       const user = await findUserById(users, fakeUserId);
+
+      expect(user).toBe(undefined);
+    });
+  });
+
+  describe('findUserByName', async () => {
+    test('it should return the inserted user by username', async () => {
+      const user = await findUserByName(users, fakeUser.username);
+
+      expect(user.id).toBe(fakeUser.id);
+      expect(user.first_name).toBe(fakeUser.first_name);
+      expect(user.last_name).toBe(fakeUser.last_name);
+      expect(user.username).toBe(fakeUser.username);
+      expect(user.email).toBe(fakeUser.email);
+      expect(user.password).toBe(fakeUser.password);
+      expect(user.birth_date.toISOString()).toBe(fakeUser.birth_date.toISOString());
+      expect(user.city).toBe(fakeUser.city);
+      expect(user.state).toBe(fakeUser.state);
+      expect(user.zipcode).toBe(fakeUser.zipcode);
+      expect(user.annotation).toBe(fakeUser.annotation);
+    });
+
+    test('it should return undefined when providing unavailable username', async () => {
+      const fakeUserName = 'Borax4Life';
+      const user = await findUserById(users, fakeUserName);
 
       expect(user).toBe(undefined);
     });

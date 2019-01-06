@@ -37,6 +37,7 @@
     "jest": "23.6.0",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",
+    "jsonwebtoken": "^8.4.0",
     "knex": "^0.16.3",
     "mini-css-extract-plugin": "0.4.3",
     "node-sass": "^4.11.0",
@@ -64,10 +65,10 @@
   },
   "scripts": {
     "start:client": "node scripts/start.js",
-    "start:dev_server": "node server/index.js NODE_ENV=development",
-    "start:test_server": "node server/index.js NODE_ENV=test",
-    "watch:dev_server": "nodemon server/index.js NODE_ENV=development",
-    "watch:test_server": "nodemon server/index.js NODE_ENV=test",
+    "start:dev_server": "NODE_ENV=development node server/index.js",
+    "start:test_server": "NODE_ENV=test node server/index.js",
+    "watch:dev_server": " NODE_ENV=development nodemon server/index.js",
+    "watch:test_server": "NODE_ENV=test nodemon server/index.js",
     "build": "node scripts/build.js",
     "test": "jest tests --detectOpenHandles"
   },
