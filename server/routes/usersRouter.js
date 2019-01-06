@@ -1,8 +1,9 @@
 const { Router } = require('express');
 const uuid = require('uuid/v4');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-const { findUserById, addNewUser } = require('../queries/users');
+const { findUserById, addNewUser, findUserByName } = require('../queries/users');
 const { checkForDuplicateNameAndEmail } = require('../utils/validations');
 
 const usersRouter = knex => {
@@ -45,6 +46,22 @@ const usersRouter = knex => {
       }
       catch (error) {
         return res.status(500).jsonp(error);
+      }
+    })
+    .post('/signin', async ({ body: { username, password } }, res, next) => {
+      try {
+        const user = await findUserByName(users, username);
+        if (user) {
+          const match = await bcrypt.compare(password, user.password);
+          if (match) {
+            return res.status(200).jsonp({ user });
+          }
+          return res.status(404).jsonp({ message: 'Password did not match with the given username!' });
+        }
+        return res.status(404).jsonp({ message: 'User record is not found!' });
+      }
+      catch (error) {
+        return res.status(500).jsonp({ error });
       }
     });
 };
