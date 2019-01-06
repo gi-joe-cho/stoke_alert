@@ -6,10 +6,10 @@ const faker = require('faker');
 const users = require('../knex')('users');
 
 describe('testing the usersRouter', async () => {
+  const fakePassword = 'andiechoie1991';
   let fakeUser;
 
   beforeEach(async (done) => {
-    const fakePassword = 'andiechoie1991';
     const saltRounds = 10;
     const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
     fakeUser = {
@@ -153,7 +153,7 @@ describe('testing the usersRouter', async () => {
     test('should return a 200 status code response with the user object and JSON web token', async () => {
       const request = {
         username: fakeUser.username,
-        password: fakeUser.password,
+        password: fakePassword,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
         method: "POST",
@@ -163,7 +163,20 @@ describe('testing the usersRouter', async () => {
         body: JSON.stringify(request),
       });
       const user = await response.json();
-      console.log(user);
+
+      expect(response.status).toBe(200);
+      expect(user.id).toBe(fakeUser.id);
+      expect(user.first_name).toBe(fakeUser.first_name);
+      expect(user.last_name).toBe(fakeUser.last_name);
+      expect(user.username).toBe(fakeUser.username);
+      expect(user.email).toBe(fakeUser.email);
+      expect(user.password).toBe(fakeUser.password);
+      expect(user.birth_date).toBe(fakeUser.birth_date.toISOString());
+      expect(user.city).toBe(fakeUser.city);
+      expect(user.state).toBe(fakeUser.state);
+      expect(user.zipcode).toBe(fakeUser.zipcode);
+      expect(user.annotation).toBe(fakeUser.annotation);
+      expect(user.token).toBeDefined();
     });
 
     test('should return a 404 status code response when user record is not found', async () => {
@@ -200,6 +213,17 @@ describe('testing the usersRouter', async () => {
 
       expect(response.status).toBe(404);
       expect(message).toBe('Password did not match with the given username!');
+    });
+
+    test('should return a 500 status code when not providing any information', async () => {
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      expect(response.status).toBe(500);
     });
   });
 });
