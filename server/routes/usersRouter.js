@@ -2,6 +2,7 @@ const { Router } = require('express');
 const uuid = require('uuid/v4');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
 
 const { findUserById, addNewUser, findUserByName } = require('../queries/users');
 const { checkForDuplicateNameAndEmail } = require('../utils/validations');
@@ -54,8 +55,9 @@ const usersRouter = knex => {
         if (user) {
           const match = await bcrypt.compare(password, user.password);
           if (match) {
-
-            return res.status(200).jsonp({ user });
+            const jwtSign = promisify(jwt.sign);
+            const token = await jwtSign({ password: user.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
+            res.status(200).jsonp({ ...user, token });
           }
           return res.status(404).jsonp({ message: 'Password did not match with the given username!' });
         }
