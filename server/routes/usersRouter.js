@@ -1,11 +1,11 @@
 const { Router } = require('express');
-const uuid = require('uuid/v4');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 
 const { findUserById, addNewUser, findUserByName } = require('../queries/users');
 const { checkForDuplicateNameAndEmail } = require('../utils/validations');
+const { returnUserObject } = require('../utils/dataHelper');
 
 const usersRouter = knex => {
   const users = knex('users');
@@ -25,22 +25,7 @@ const usersRouter = knex => {
       }
     })
     .post('/signup', checkForDuplicateNameAndEmail(users), async ({ body }, res, next) => {
-      const saltRounds = 10;
-      const hashedPassword = bcrypt.hashSync(body.password, saltRounds);
-      const newUser = {
-        id: uuid(),
-        first_name: body.first_name,
-        last_name: body.last_name,
-        username: body.username,
-        email: body.email,
-        password: hashedPassword,
-        birth_date: body.birth_date,
-        city: body.city,
-        state: body.state,
-        zipcode: body.zipcode,
-        annotation: body.annotation,
-      };
-
+      const newUser = returnUserObject(body);
       try {
         await addNewUser(users, newUser);
         return res.status(200).jsonp({ message: `${newUser.username} has been successfully added as a new user!` });
