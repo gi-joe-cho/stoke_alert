@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 
 const { findUserById, addNewUser, findUserByName } = require('../queries/users');
-const { checkForDuplicateNameAndEmail } = require('../utils/validations');
+const { checkForDuplicateNameAndEmail, validateSessionToken } = require('../utils/validations');
 const { returnUserObject } = require('../utils/dataHelper');
 
 const usersRouter = knex => {
@@ -51,6 +51,9 @@ const usersRouter = knex => {
       catch (error) {
         return res.status(500).jsonp({ error });
       }
+    })
+    .post('/refresh_token', validateSessionToken, (req, res) => {
+      res.status(200).jsonp("HELLO WORLD");
     });
 };
 
