@@ -141,7 +141,7 @@ describe('Testing all of the validations util methods', () => {
       expect(res.status).toBeCalled();
     });
 
-    test('should call the next function when providing a token', async () => {
+    test('should return a 401 status code error when the token still has not expired yet', async () => {
       const jwtSign = promisify(jwt.sign);
       const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
       const req = {
@@ -153,10 +153,10 @@ describe('Testing all of the validations util methods', () => {
       };
       await checkSessionTokenExists(req, res, next);
 
-      expect(next).toBeCalled();
+      expect(res.status).toBeCalled();
     });
 
-    test('should return a 401 status code error when the token expired', async () => {
+    test('should call the next function when the token expired', async () => {
       const jwtSign = promisify(jwt.sign);
       const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: 2 });
       const req = {
@@ -168,7 +168,7 @@ describe('Testing all of the validations util methods', () => {
       };
       await checkSessionTokenExists(req, res, next);
 
-      expect(res.status).toBeCalled();
+      expect(next).toBeCalled();
     });
   });
 });
