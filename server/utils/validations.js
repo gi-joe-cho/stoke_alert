@@ -27,11 +27,14 @@ const validateSessionToken = async ({ body: { token }}, res, next) => {
   if (!token) {
     return res.status(401).jsonp({ message: 'Session token is unavailable!' });
   }
-  jwt.verify(token, process.env.JWT_TOKEN_SECRET, (error, decoded) => {
-    if (!error) {
-      return res.status(401).jsonp({ message: "Token has not expired yet!" });
+  const expired = jwt.verify(token, process.env.JWT_TOKEN_SECRET, (error, decoded) => {
+    if (error) {
+      return true;
     }
   });
+  if (!expired) {
+    return res.status(401).jsonp({ message: "Token has not expired yet!" });
+  }
 
   next();
 };
