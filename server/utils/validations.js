@@ -14,9 +14,18 @@ const checkForDuplicateNameAndEmail = users => async ({ body: { username, email 
   next();
 };
 
+const checkSessionTokenExists = async ({ body: { username, token } }, res, next) => {
+  jwt.verify(token, process.env.JWT_TOKEN_SECRET, (error, decoded) => {
+    if (decoded) {
+      return res.status(401).jsonp({ message: `${username} is already logged in!` });
+    }
+    return next();
+  });
+};
+
 const validateSessionToken = async ({ body: { token }}, res, next) => {
   if (!token) {
-    res.status(404).jsonp({ message: 'Session token is unavailable!' });
+    res.status(401).jsonp({ message: 'Session token is unavailable!' });
   }
   jwt.verify(token, process.env.JWT_TOKEN_SECRET, (error, decoded) => {
     if (error) {
@@ -29,5 +38,6 @@ const validateSessionToken = async ({ body: { token }}, res, next) => {
 
 module.exports = {
   checkForDuplicateNameAndEmail,
+  checkSessionTokenExists,
   validateSessionToken
 };
