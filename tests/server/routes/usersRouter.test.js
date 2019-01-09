@@ -2,6 +2,8 @@ require('dotenv').config({ path: '../../../.env' });
 const uuid = require('uuid/v4');
 const bcrypt = require('bcrypt');
 const faker = require('faker');
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
 
 const users = require('../knex')('users');
 
@@ -150,10 +152,32 @@ describe('testing the usersRouter', async () => {
   });
 
   describe('POST /api/users/signin', async () => {
+    test('should return a 401 status code response when a JSON web token is available and not expired', async () => {
+      const jwtSign = promisify(jwt.sign);
+      const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
+      const request = {
+        username: fakeUser.username,
+        password: fakePassword,
+        token,
+      };
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      });
+      const { message } = await response.json();
+
+      expect(response.status).toBe(401);
+      expect(message).toBe(`${fakeUser.username} is already logged in!`);
+    });
+
     test('should return a 200 status code response with the user object and JSON web token', async () => {
       const request = {
         username: fakeUser.username,
         password: fakePassword,
+        token: null,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
         method: "POST",
@@ -183,6 +207,7 @@ describe('testing the usersRouter', async () => {
       const request = {
         username: faker.internet.userName(),
         password: faker.internet.password(),
+        token: null,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
         method: "POST",
@@ -201,6 +226,7 @@ describe('testing the usersRouter', async () => {
       const request = {
         username: fakeUser.username,
         password: faker.internet.password(),
+        token: null,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
         method: "POST",
