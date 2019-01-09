@@ -158,7 +158,7 @@ describe('Testing all of the validations util methods', () => {
 
     test('should call the next function when the token expired', async () => {
       const jwtSign = promisify(jwt.sign);
-      const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: 2 });
+      const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '1' });
       const req = {
         body: {
           username: fakeUser.username,

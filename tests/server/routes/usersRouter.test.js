@@ -252,4 +252,78 @@ describe('testing the usersRouter', async () => {
       expect(response.status).toBe(500);
     });
   });
+
+  describe('POST /api/users/refresh_token', async () => {
+    test('should return a 401 status code response when a JSON web token is not sent', async () => {
+      const request = {
+        username: fakeUser.username,
+        password: fakePassword,
+        token: null,
+      };
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/refresh_token`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      });
+      const { message } = await response.json();
+
+      expect(response.status).toBe(401);
+      expect(message).toBe('Session token is unavailable!');
+    });
+
+    test('should return a 200 status code with a new token and user object response when a JSON web token has expired', async () => {
+      const jwtSign = promisify(jwt.sign);
+      const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: "1" });
+      const request = {
+        username: fakeUser.username,
+        password: fakePassword,
+        token,
+      };
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/refresh_token`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      });
+      const user = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(user.id).toBe(fakeUser.id);
+      expect(user.first_name).toBe(fakeUser.first_name);
+      expect(user.last_name).toBe(fakeUser.last_name);
+      expect(user.username).toBe(fakeUser.username);
+      expect(user.email).toBe(fakeUser.email);
+      expect(user.password).toBe(fakeUser.password);
+      expect(user.birth_date).toBe(fakeUser.birth_date.toISOString());
+      expect(user.city).toBe(fakeUser.city);
+      expect(user.state).toBe(fakeUser.state);
+      expect(user.zipcode).toBe(fakeUser.zipcode);
+      expect(user.annotation).toBe(fakeUser.annotation);
+      expect(user.token).toBeDefined();
+    });
+
+    test('should return a 401 status code response when a JSON web token has not expired yet', async () => {
+      const jwtSign = promisify(jwt.sign);
+      const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
+      const request = {
+        username: fakeUser.username,
+        password: fakePassword,
+        token,
+      };
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/refresh_token`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+      });
+      const { message } = await response.json();
+
+      expect(response.status).toBe(401);
+      expect(message).toBe('Token has not expired yet!');
+    });
+  });
 });
