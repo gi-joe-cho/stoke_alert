@@ -1,7 +1,9 @@
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
 const knex = require('../knex');
-const { checkForDuplicateNameAndEmail } = require('../../../server/utils/validations');
+const { checkForDuplicateNameAndEmail, checkSessionTokenExists, validateSessionToken } = require('../../../server/utils/validations');
 
 describe('Testing all of the validations util methods', () => {
   let fakeUser;
@@ -56,7 +58,7 @@ describe('Testing all of the validations util methods', () => {
       expect(res.status).toBeCalled();
     });
 
-    test('the next function should be called when providing already available email', async () => {
+    test('the status function should be called when providing unavailable email', async () => {
       const req = {
         body: {
           username: 'fakerrrrrr',
@@ -78,6 +80,95 @@ describe('Testing all of the validations util methods', () => {
       await checkForDuplicateNameAndEmail(knex('users'))(req, res, next);
 
       expect(next).toBeCalled();
+    });
+  });
+
+  describe('checkSessionTokenExists', async () => {
+    const res = {
+      status: jest.fn(() => ({
+        jsonp: jest.fn(),
+      })),
+    };
+    const next = jest.fn();
+
+    test('should call the next function when a token is not provided', async () => {
+      const req = {
+        body: {
+          username: fakeUser.username,
+          email: 'faker@gmail.com',
+          token: null,
+        },
+      };
+      await checkSessionTokenExists(req, res, next);
+
+      expect(next).toBeCalled();
+    });
+
+    test('should return a 401 status code error when providing a token', async () => {
+      const jwtSign = promisify(jwt.sign);
+      const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
+      const req = {
+        body: {
+          username: fakeUser.username,
+          email: 'faker@gmail.com',
+          token,
+        },
+      };
+      await checkSessionTokenExists(req, res, next);
+
+      expect(res.status).toBeCalled();
+    });
+  });
+
+  describe('validateSessionToken', async () => {
+    const res = {
+      status: jest.fn(() => ({
+        jsonp: jest.fn(),
+      })),
+    };
+    const next = jest.fn();
+
+    test('should return a 401 status code error when not providing a session token', async () => {
+      const req = {
+        body: {
+          username: fakeUser.username,
+          email: 'faker@gmail.com',
+          token: null,
+        },
+      };
+      await validateSessionToken(req, res, next);
+
+      expect(res.status).toBeCalled();
+    });
+
+    test('should call the next function when providing a token', async () => {
+      const jwtSign = promisify(jwt.sign);
+      const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
+      const req = {
+        body: {
+          username: fakeUser.username,
+          email: 'faker@gmail.com',
+          token,
+        },
+      };
+      await checkSessionTokenExists(req, res, next);
+
+      expect(next).toBeCalled();
+    });
+
+    test('should return a 401 status code error when the token expired', async () => {
+      const jwtSign = promisify(jwt.sign);
+      const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: 2 });
+      const req = {
+        body: {
+          username: fakeUser.username,
+          email: 'faker@gmail.com',
+          token,
+        },
+      };
+      await checkSessionTokenExists(req, res, next);
+
+      expect(res.status).toBeCalled();
     });
   });
 });
