@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { props } from 'bluebird';
+
 
 class TabBar extends Component {
   render() {
@@ -7,7 +7,7 @@ class TabBar extends Component {
       <div className="nav-bar">
         <div className="title-bar">
           <ul>
-            <li> <span>S t o k e_A l e r t_{props.name}</span></li>
+            <li> <span>S t o k e_A l e r t_</span></li>
             <button className="btn-title-bar">x</button>
           </ul>
         </div>
