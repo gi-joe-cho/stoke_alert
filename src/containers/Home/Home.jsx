@@ -52,10 +52,12 @@ class Home extends Component {
                         </Dropdown>
 
                         <Button className="start-menu-icon" icon>
-                            <Icon  name='facebook official' size='large' />
+                            <Icon className="fb-icon"  name='facebook official' size='large' />
                         </Button>
-                        <Button className="start-menu-icon" icon>
-                            <Icon name='instagram' size='large'/>
+                        <Button className="start-menu-icon-ig" icon>
+                            <span className="ig-icon">
+                                <Icon name='instagram' size='large'/>
+                            </span>
                         </Button>
                         <Button className="start-menu-icon" icon>
                             <Icon name='text width' size='large' />
