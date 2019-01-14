@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Menu, Button, Icon } from 'semantic-ui-react'
 
 export default class MenuExampleTabularOnTop extends Component {
+
     state = { activeItem: 'bio' }
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
@@ -22,11 +23,9 @@ export default class MenuExampleTabularOnTop extends Component {
                             </Button>
                             <Button id="sign-out">
                                 <Icon name="close" />
-                                {/* <p className="sign-out-content">Sign Out</p> */}
                             </Button>
                         </Menu.Item>
                     </Menu.Menu>
-                    
                 </Menu>
                 <Menu className="file-menu" attached='top' tabular>
                     <Menu.Item 
@@ -36,7 +35,6 @@ export default class MenuExampleTabularOnTop extends Component {
                     >
                         <span className="under-line">H</span>
                         <span>ome</span>
-
                     </Menu.Item> 
                     
                     <Menu.Item 
@@ -46,14 +44,18 @@ export default class MenuExampleTabularOnTop extends Component {
                     >
                         <span className="under-line">N</span>
                         <span>ew Post</span>
-                        
                     </Menu.Item>
-                 
+
+                    <Menu.Item
+                        name='Profile'
+                        active={activeItem === 'Profile'}
+                        onClick={this.handleItemClick}
+                    >
+                        <span className="under-line">P</span>
+                        <span>rofile</span>
+                    </Menu.Item>
                 </Menu>
             </div>
-        
-
-            
         )
     }
 }
