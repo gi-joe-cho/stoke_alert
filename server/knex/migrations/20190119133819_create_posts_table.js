@@ -1,7 +1,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('posts', (table) => {
     table.string('id').notNullable();
-    table.foreign('user_id').references('id').inTable('users');
+    table.string('user_id').references('id').inTable('users');
     table.string('user_rating');
     table.integer('up_votes').defaultTo(0);
     table.integer('down_votes').defaultTo(0);
