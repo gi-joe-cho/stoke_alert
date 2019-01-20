@@ -1,18 +1,18 @@
 const uuid = require('uuid/v4');
 const faker = require('faker');
 
-const user_ratings = ["Awful", "Bad", "Average", "Good", "Great", "Gnarly"];
-
 exports.seed = async (knex, Promise) => {
   // Deletes ALL existing entries
+  const user_ratings = ["Awful", "Bad", "Average", "Good", "Great", "Gnarly"];
   return knex('posts').del()
     .then(async () => {
       // Inserts seed entries
       for (let i = 0; i < 50; i++) {
+        const randomUserRatingsIndex = Math.floor(Math.random() * user_ratings.length);
         await knex('posts').insert([
           {
             id: uuid(),
-            user_rating: user_ratings[Math.random() * user_ratings.length],
+            user_rating: user_ratings[randomUserRatingsIndex],
             up_votes: faker.random.number(),
             down_votes: faker.random.number(),
             image_location_url: faker.image.imageUrl(),
