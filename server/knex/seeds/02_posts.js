@@ -7,7 +7,7 @@ exports.seed = async (knex, Promise) => {
   return knex('posts').del()
     .then(async () => {
       // Inserts seed entries
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 100; i++) {
         const randomUserRatingsIndex = Math.floor(Math.random() * user_ratings.length);
         await knex('posts').insert([
           {
