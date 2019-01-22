@@ -1,5 +1,6 @@
 const { Router } = require('express');
 
+const PostModel = require('../models/postModel');
 const { findPostsWithinRadius } = require('../queries/posts');
 
 const postsRouter = knex => {
@@ -7,11 +8,11 @@ const postsRouter = knex => {
   const router = new Router();
 
   return router
-    .get('/', async ({ params: { lat, lng } }, res) => {
+    .get('/', async ({ query: { lat, lng } }, res) => {
       try {
-        const posts = await findPostsWithinRadius(posts, lat, lng);
-        if (posts.length > 0) {
-          return res.status(200).jsonp({ posts: [ ...posts ] });
+        const data = await findPostsWithinRadius(posts, lat, lng);
+        if (data.length > 0) {
+          return res.status(200).jsonp({ posts: [ ...data ] });
         }
         return res.status(404).jsonp({ message: 'Post records not found!' });
       }
