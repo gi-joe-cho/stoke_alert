@@ -61,22 +61,16 @@ export const validateZip = (zipcodes) => {
   const SmartyStreetsCore = SmartyStreetsSDK.core;
   const Lookup = SmartyStreetsSDK.usZipcode.Lookup;
 
-  // Add your credentials to a credentials object.
   let authId = process.env.REACT_APP_SS_ZIPCODE_API_KEY;
   let authToken = '';
-  // let authId = process.env.REACT_APP_SS_ZIPCODE_AUTH_ID;
-  // let authToken = process.env.REACT_APP_SS_ZIPCODE_AUTH_TOKEN;
   let credentials = new SmartyStreetsCore.StaticCredentials(authId, authToken);
 
-  // Build a client.
   let clientBuilder = new SmartyStreetsCore.ClientBuilder(credentials);
   let client = clientBuilder.buildUsZipcodeClient();
 
-  // Create and populate a lookup.
   let lookup1 = new Lookup();
   lookup1.zipCode = zipcodes;
 
-  // Send the lookup from the client and handle the response.
   return client.send(lookup1)
     .then(parseResults)
     .catch(handleError);
@@ -87,8 +81,5 @@ export const validateZip = (zipcodes) => {
 }
 
 const parseResults = (response) => {
-  // Log the lookup city results to the console.
-  // console.log("PARAMS: ", response);
   return response.lookups[0].result[0].cities[0];
-}
-
+} 
