@@ -1,31 +1,23 @@
 class PostModel {
   constructor(post) {
-    this.id = post.id;
-    this.user_id = post.user_id;
-    this.user_rating = post.user_rating;
-    this.up_votes = post.up_votes;
-    this.down_votes = post.down_votes;
-    this.image_location_url = post.image_location_url;
-    this.post_content = post.image_location_url;
-    this.lat = post.lat;
-    this.lng = post.lng;
-    this.city = post.city;
-    this.state = post.state;
-    this.zipcode = post.zipcode;
-    this.created_at = post.created_at;
-    this.updated_at = post.updated_at;
-    this.first_name = post.first_name;
-    this.last_name = post.last_name;
-    this.username = post.username;
-    this.email = post.email;
-  }
-
-  set setId(id) {
-    this.id = id;
-  }
-
-  setUserId(user_id) {
-    this.user_id = user_id;
+    this._id = post.id;
+    this._user_id = post.user_id;
+    this._user_rating = post.user_rating;
+    this._up_votes = post.up_votes;
+    this._down_votes = post.down_votes;
+    this._image_location_url = post.image_location_url;
+    this._post_content = post.image_location_url;
+    this._lat = post.lat;
+    this._lng = post.lng;
+    this._city = post.city;
+    this._state = post.state;
+    this._zipcode = post.zipcode;
+    this._created_at = post.created_at;
+    this._updated_at = post.updated_at;
+    this._first_name = post.first_name;
+    this._last_name = post.last_name;
+    this._username = post.username;
+    this._email = post.email;
   }
 
   setUpVotes(up_votes) {
@@ -72,118 +64,102 @@ class PostModel {
     this.updated_at = updated_at;
   }
 
-  setFirstName(first_name) {
-    this.first_name = first_name;
-  }
-
-  setLastName(last_name) {
-    this.last_name = last_name;
-  }
-
-  setUsername(username) {
-    this.username = username;
-  }
-
-  setEmail(email) {
-    this.email = email;
-  }
-
   get id() {
-    return this.id;
+    return this._id;
   }
 
   get user_id() {
-    return this.user_id;
+    return this._user_id;
   }
 
   get user_rating() {
-    return this.user_rating;
+    return this._user_rating;
   }
 
   get up_votes() {
-    return this.up_votes;
+    return this._up_votes;
   }
 
   get down_votes() {
-    return this.down_votes;
+    return this._down_votes;
   }
 
   get image_location_url() {
-    return this.image_location_url;
+    return this._image_location_url;
   }
 
   get post_content() {
-    return this.post_content;
+    return this._post_content;
   }
 
   get lat() {
-    return this.lat;
+    return this._lat;
   }
 
   get lng() {
-    return this.lng;
+    return this._lng;
   }
 
   get city() {
-    return this.city;
+    return this._city;
   }
 
   get state() {
-    return this.state;
+    return this._state;
   }
 
   get zipcode() {
-    return this.zipcode;
+    return this._zipcode;
   }
 
   get created_at() {
-    return this.created_at;
+    return this._created_at;
   }
 
   get updated_at() {
-    return this.updated_at;
+    return this._updated_at;
   }
 
   get first_name() {
-    return this.first_name;
+    return this._first_name;
   }
 
   get last_name() {
-    return this.last_name;
+    return this._last_name;
   }
 
   get username() {
-    return this.username;
+    return this._username;
   }
 
   get email() {
-    return this.email;
+    return this._email;
   }
 
-  get user() {
+  user() {
     return {
-      id: this.user_id,
-      first_name: this.first_name,
-      last_name: this.last_name,
-      email: this.email,
+      id: this._user_id,
+      first_name: this._first_name,
+      last_name: this._last_name,
+      email: this._email,
     }
   }
 
-  get post() {
+  post() {
     return {
-      id: this.id,
-      user_rating: this.user_rating,
-      up_votes: this.up_votes,
-      down_votes: this.down_votes,
-      image_location_url: this.image_location_url,
-      post_content: this.post_content,
-      lat: this.lat,
-      lng: this.lng,
-      city: this.city,
-      state: this.state,
-      zipcode: this.zipcode,
-      created_at: this.created_at,
-      updated_at: this.updated_at,
+      id: this._id,
+      user_rating: this._user_rating,
+      up_votes: this._up_votes,
+      down_votes: this._down_votes,
+      image_location_url: this._image_location_url,
+      post_content: this._post_content,
+      lat: this._lat,
+      lng: this._lng,
+      city: this._city,
+      state: this._state,
+      zipcode: this._zipcode,
+      created_at: this._created_at,
+      updated_at: this._updated_at,
       user: this.user(),
     }
   }

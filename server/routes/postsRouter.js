@@ -12,7 +12,11 @@ const postsRouter = knex => {
       try {
         const data = await findPostsWithinRadius(posts, lat, lng);
         if (data.length > 0) {
-          return res.status(200).jsonp({ posts: [ ...data ] });
+          const posts = data.map(post => {
+            const newPost = new PostModel(post);
+            return newPost.post();
+          });
+          return res.status(200).jsonp({ posts });
         }
         return res.status(404).jsonp({ message: 'Post records not found!' });
       }
