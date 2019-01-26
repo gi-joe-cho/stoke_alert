@@ -51,7 +51,6 @@ class Home extends Component {
                             </span>
                         </Button>
                     </div>     
-
                 </Segment>   
             </div>
         )
