@@ -1,11 +1,7 @@
 import React from 'react';
 import { Icon, Button, Popup } from 'semantic-ui-react';
 
-const TabBar = (
-  {
-    closeModal
-  }
-) => (
+const TabBar = ({ closeModal}) => (
       <div className="nav-bar">
         <div className="title-bar">
           <ul>
