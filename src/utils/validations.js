@@ -9,7 +9,7 @@ export const validateName = value => {
 
 export const validateZipcode = value => {
   var regex = /\d{5}/;
-  if (value.length > 0 && value.length === 5 && regex.test(value)) {
+  if (regex.test(value)) {
     return true;
   }
   return false;
@@ -21,11 +21,6 @@ export const validateCity = value => {
     return true;
   }
   return false;
-};
-
-export const validatedZip = async (value) => {
-  return await validateZip(value);
-
 };
 
 export const validateUsername = value => {
