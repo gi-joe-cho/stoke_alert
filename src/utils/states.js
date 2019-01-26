@@ -56,7 +56,3 @@ export const states = [
   { key:'VI', value:'VI', text:'U.S. Virgin Islands'     },
   { key:'MP', value:'MP', text:'Northern Mariana Islands' },
 ]
-
- 
-
-
