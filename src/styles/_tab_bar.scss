@@ -13,7 +13,7 @@
 .menu-bar {
   border-right: 2px solid rgb(210, 210, 210);
   border-left: 2px solid rgb(210, 210, 210);
-
+  
   ul {
     list-style-type: none;
     margin: 0;
@@ -36,6 +36,10 @@
     text-align: center;
     padding: 3px 3px;
     text-decoration: none;
+
+    &::first-letter {
+      text-decoration: underline;
+    }
   }
 
   li a:hover {
@@ -81,5 +85,16 @@ li span {
 
   &:hover {
     background-color:rgb(181, 181, 181);
+  }
+}
+
+#close-window{
+  float: right;
+  margin-right: 4px;
+  padding: 5px 4px;
+  margin-top: 3px;
+
+  i {
+    margin: 0;
   }
 }

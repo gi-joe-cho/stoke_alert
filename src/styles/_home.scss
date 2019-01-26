@@ -17,7 +17,6 @@ html,body {
 .ui.segment.div-thang {
   height: 90%;
   width: 90%;
-  background:linear-gradient(to bottom right, rgb(170, 0, 255), rgb(205, 7, 235));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -151,8 +150,11 @@ html,body {
 }
 
 .ui.labeled.icon.button, .ui.labeled.icon.buttons .button {
-  min-height:0;
-  background: rgb(210, 210, 210);
+  min-height: 0;
+  background: rgb(196, 195, 195);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-right: 0;
 }
 
 .start-menu {
@@ -162,52 +164,55 @@ html,body {
   display: flex;
   flex-direction: row;
   justify-content: left;
+  border-left: 2px solid rgb(210, 210, 210);
 
-  .ui.upward.selection.dropdown { 
-    min-width: 1em;
-
+  .ui.floating.dropdown>.menu { 
+    min-width: 170px;
+    border-bottom:0;
+    border-radius: 0px!important; 
     .text {
       position: relative;
-      top: -3px;
+      // top: -3px;
     }
   }
 
   .ui.button.start-menu-icon-ig{
     height: 90%;
-    margin-top:4px;
-    margin-bottom:2px;
+    margin-top: 6px;
+    margin-bottom: 4px;
     padding: 0px;
-    padding-top: 3px;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-bottom: 4px;
-    color: rgba(0, 0, 0, 1);   
+    padding: 3px 3px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    color: rgba(0, 0, 0, 1);
+
 
     .ig-icon {
       display: inline-block;
-      width: 21px;
-      height: 20px;
+      width: 19px;
+      height: 19px;
       text-align: center;
       border-radius: 4px;
       color: #fff;
       font-size: 12px;
-      line-height: 17px;
+      line-height: 16px;
       background: #d6249f;
       background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
       box-shadow: 0px 3px 10px rgba(0,0,0,.25);
+      padding-right: 2px;
       
       .icon {
-        margin: 0;
+        padding-right: 2px;
       }
     }
   }
   .ui.button.start-menu-icon {
     height: 90%;
-    margin-top:4px;
-    margin-bottom:2px;
+    margin-top: 6px;
+    margin-bottom: 2px;
     padding: 0px;
-    padding-top: 2px;
-    padding-bottom: 6px;
+    padding-top: 1px;
+    padding-bottom: 4px;
     color: rgba(0, 0, 0, 1);
 
     .fb-icon {
@@ -216,6 +221,91 @@ html,body {
   }
 }
 
-.ui.selection.dropdown .menu {
+.ui.dropdown .menu {
   min-width: calc(100% + 120%);
+}
+
+.ui.modal>.header:not(.ui) {
+  padding: 0;
+  font-weight: 100;
+  font-size: 1rem;
+  border-bottom: 0;
+}
+@media only screen and (max-width: 767px){
+  .ui.modal>.header {
+    padding: 0!important;
+  }
+}
+
+.ui.modal>.content {
+  border: 3px solid rgb(255, 253, 253);
+  border-bottom: 0;
+  border-top: 0;
+  background: rgb(227, 226, 226);
+  filter: brightness(0.8);
+
+  .modal-ocean {
+    background-image: url(../utils/signPic.png);
+    background-size: contain;
+    color: white;
+    .color-div {
+      background-color: red;
+      opacity: 0.4;
+      margin-top: 1rem;
+    }
+  }
+  .visible.menu.transition {
+    min-width: 0;
+  }
+  .hidden {
+    display: none;
+  }
+
+  .ui.checkbox input.hidden+label {
+    background: #fff;
+    padding-right: 4px;
+    opacity: 0.7;
+  }
+}
+.ui.modal>.actions {
+  background: rgb(198, 197, 197);
+  border: 3px solid rgb(210, 210, 210);
+  border-top: 0;
+  
+  .windows-btn {
+    border-radius: 0;
+    border: 0.5px solid rgb(142, 142, 142);
+    border-top: 0;
+    border-left: 0;
+    background: rgb(198, 197, 197);
+    padding: 5.5px 3px;
+    box-shadow: 
+    2px 1px 0.7px rgb(91, 91, 91),
+    inset 1px 1px 2px rgb(114, 114, 114);
+    margin-left: 10px;
+
+    &:focus {
+      outline: 0;
+    }
+    
+    &:hover {
+    background-color:rgb(181, 181, 181);
+    cursor: pointer;
+    }
+    
+    &:active {
+      background:rgb(133, 133, 133);
+    }
+
+    .window-btn-span-ok {
+      border: 1px dotted black;
+      padding: 1px 3rem;
+    }
+    .window-btn-span-cancel {
+      padding: 1px 2rem;
+    }
+    &::first-letter {
+      text-decoration: underline;
+    }
+  }
 }
