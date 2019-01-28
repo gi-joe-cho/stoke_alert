@@ -31,19 +31,7 @@ const ModalSignUp = (
     closeModal,
     closeConfig,
     newClose,
-    firstNameValidation,
-    lastNameValidation,
-    zipcodeValidation,
-    cityValidation,
-    stateValidation,
-    usernameValidation,
-    passwordValidation,
-    monthValidation,
-    dateValidation,
-    yearValidation,
-    emailValidation,
-    passwordMatch,
-    cityZipStateValidation
+    validations,
   }
 ) => (
     <Modal trigger={<SignUpButton closeConfig={closeConfig}/>}
@@ -55,16 +43,16 @@ const ModalSignUp = (
     <Modal.Content>
       <Form onSubmit={handleSubmit} widths='equal'>
         <Form.Group unstackable widths={6}>
-          <Form.Input label='First name' placeholder='First name' name='first_name' value={first_name} onChange={handleChange} error={!firstNameValidation} />
-          <Form.Input label='Last name' placeholder='Last name' name='last_name' value={last_name} onChange={handleChange} error={!lastNameValidation} />
+          <Form.Input label='First name' placeholder='First name' name='first_name' value={first_name} onChange={handleChange} error={!validations.first_name} />
+          <Form.Input label='Last name' placeholder='Last name' name='last_name' value={last_name} onChange={handleChange} error={!validations.last_name} />
         </Form.Group>
         <Form.Group >
-          <Form.Input label='Username' placeholder='Username' width='2'  name='username' value={username} onChange={handleChange} error={!usernameValidation} />
-          <Form.Input label='Password' type='Password' width='4' name='password' value={password} onChange={handleChange} error={!passwordValidation} />
-          <Form.Input label='Re-type Password'  type='Password' name='retype_password' value={retype_password} onChange={handleChange}  width='4' error={!passwordMatch} />
+          <Form.Input label='Username' placeholder='Username' width='2'  name='username' value={username} onChange={handleChange} error={!validations.username} />
+          <Form.Input label='Password' type='Password' width='4' name='password' value={password} onChange={handleChange} error={!validations.password} />
+          <Form.Input label='Re-type Password'  type='Password' name='retype_password' value={retype_password} onChange={handleChange}  width='4' error={!validations.retype_password} />
         </Form.Group>
         <Form.Group>
-          <Form.Input label='Email' placeholder='Email' width='4' name='email' value={email} onChange={handleChange} error={!emailValidation} />
+          <Form.Input label='Email' placeholder='Email' width='4' name='email' value={email} onChange={handleChange} error={!validations.email} />
           <Form.Field
             compact
             control={Select} 
@@ -75,7 +63,7 @@ const ModalSignUp = (
             width='1'
             value={month} 
             onChange={handleChange}
-            error={!monthValidation}
+            error={!validations.month}
           />
           <Form.Field
             compact
@@ -87,7 +75,7 @@ const ModalSignUp = (
             name='date'
             value={date} 
             onChange={handleChange}
-            error={!dateValidation}
+            error={!validations.date}
           />
           <Form.Field
             compact
@@ -99,11 +87,11 @@ const ModalSignUp = (
             name='year'
             value={year} 
             onChange={handleChange}
-            error={!yearValidation}
+            error={!validations.year}
           />
         </Form.Group>
         <Form.Group >
-          <Form.Input label='City' placeholder='City' width='3' name='city' value={city} onChange={handleChange} error={!cityValidation && !cityZipStateValidation}/>
+          <Form.Input label='City' placeholder='City' width='3' name='city' value={city} onChange={handleChange} error={!validations.city && !validations.city_zip_state}/>
           <Form.Field
             control={Select} 
             options={states}
@@ -113,9 +101,9 @@ const ModalSignUp = (
             name='state'
             value={state} 
             onChange={handleChange}
-            error={!stateValidation && !cityZipStateValidation}
+            error={!validations.state && !validations.city_zip_state}
           />
-          <Form.Input label='Zipcode' placeholder='XXXXX' width='2' maxLength='5' name='zipcode' value={zipcode} onChange={handleChange} error={!zipcodeValidation && !cityZipStateValidation} />
+          <Form.Input label='Zipcode' placeholder='XXXXX' width='2' maxLength='5' name='zipcode' value={zipcode} onChange={handleChange} error={!validations.zipcode && !validations.city_zip_state} />
         </Form.Group>
         <Form.Field control={TextArea} label='About' placeholder='Tell us more about you...' maxLength='250' name='about' value={about} onChange={handleChange} />
         <Form.Checkbox label='I agree to the Terms and Conditions' />
