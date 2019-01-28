@@ -56,7 +56,7 @@ export const validateZip = (zipcodes) => {
   const SmartyStreetsCore = SmartyStreetsSDK.core;
   const Lookup = SmartyStreetsSDK.usZipcode.Lookup;
 
-  let authId = process.env.REACT_APP_SS_ZIPCODE_API_KEY;
+  let authId = '23546282978178536';
   let authToken = '';
   let credentials = new SmartyStreetsCore.StaticCredentials(authId, authToken);
 
