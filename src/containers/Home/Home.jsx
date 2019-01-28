@@ -14,7 +14,7 @@ class Home extends Component {
 
                             <Segment className="map-container" placeholder raised>
                                 <div className="map">
-                                    <p>MAP WILL GO HERE</p>
+                                    {/* MAP WILL GO HERE */}
                                     <span>S t 0 K 3 - A  l  e  R  t</span>
                                     <span>S t 0 K 3 - A  l  e  R  t</span>
                                     <span>S t 0 K 3 - A  l  e  R  t</span>
@@ -24,7 +24,7 @@ class Home extends Component {
 
                             <Segment className="map-list-container" placeholder raised>
                                 <div>
-                                    <p>MAP LIST WILL GO HERE</p>
+                                    {/* MAP LIST WILL GO HERE */}
                                     <p>S t 0 K 3 - A  l  e  R  t</p>    
                                 </div>
                             </Segment>
