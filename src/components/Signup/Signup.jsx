@@ -34,11 +34,12 @@ const ModalSignUp = (
     validations,
   }
 ) => (
-    <Modal trigger={<SignUpButton closeConfig={closeConfig}/>}
-          size='small'
-          open={modalOpen}
-          closeOnDimmerClick={false}
-  >
+    <Modal
+      trigger={<SignUpButton closeConfig={closeConfig}/>}
+      size='small'
+      open={modalOpen}
+      closeOnDimmerClick={false}
+    >
       <Modal.Header><TabBar closeModal={closeModal}/></Modal.Header>
     <Modal.Content>
       <Form onSubmit={handleSubmit} widths='equal'>
