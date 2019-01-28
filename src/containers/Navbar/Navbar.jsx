@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Menu, Button, Icon, Popup } from 'semantic-ui-react';
-import ModalSign from '../../components/Signup/Signup';
+import ModalSignUp from '../../components/Signup/Signup';
 
-import { validateName, validatedZip, validateZipcode, validateUsername, validatePassword, validateRetype, validateEmail } from '../../utils/validations';
+import { validateName, validateZip, validateZipcode, validateUsername, validatePassword, validateRetype, validateEmail } from '../../utils/validations';
 
 export default class MenuExampleTabularOnTop extends Component {
     state = { 
-        activeItem: 'bio',
+        // activeItem: '',
         first_name: '',
         last_name: '', 
         username: '',
@@ -32,7 +32,7 @@ export default class MenuExampleTabularOnTop extends Component {
             first_name: true,
             email: true,
             password: true,
-            passwordMatch: true,
+            retype_password: true,
             last_name: true,
             username: true,
             state: true,
@@ -65,170 +65,135 @@ export default class MenuExampleTabularOnTop extends Component {
         const { name, email } = this.state;
         this.setState({ submittedName: name, submittedEmail: email })
     }
-    
+
+    changeValidation = (name, value) => {
+           this.setState(prevState => ({
+                ...prevState,
+                validations: { ...prevState.validations, [name]: value },
+            }));
+    };
+
+        validateCityZipState = async () => {
+            if (this.state.city.length > 0 && this.state.state.length > 0 && this.state.zipcode.length > 0 ){
+                const rCity = await validateZip(this.state.zipcode);
+                if (this.state.city.toLowerCase() === rCity.city.toLowerCase() && this.state.state === rCity.stateAbbreviation) {
+                    this.changeValidation('city_zip_state', true);
+                    return true
+                } else {
+                    this.changeValidation('city_zip_state', false);
+                        if(this.state.city.toLowerCase() !== rCity.city.toLowerCase()){
+                            this.changeValidation('city', false);
+                        } else if (this.state.state !== rCity.stateAbbreviation) {
+                            this.changeValidation('state', false);
+                        }
+                    // if CITY ZIPCODE AND STATE DO NOT MATCH!!! flash will go here 
+                    return false
+                }
+            } else {
+                return false
+            }
+    }
+
     checkAllInputValidations = () => {
         const { first_name, email, password, retype_password, last_name, username, zipcode, city, state, month, date, year } = this.state;
 
         let submitChanges = true;
         
         if (!validateName(first_name)) {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, first_name: false },
-            }));
+            this.changeValidation('first_name', false);
             submitChanges = false;
         } else {
-                this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, first_name: true },
-            }));
+            this.changeValidation('first_name', true);
         }
 
         if (!validateName(last_name)) {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, last_name: false },
-            }));
+            this.changeValidation('last_name', false);
             submitChanges = false;
         } else {
-                this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, last_name: true },
-            }));
+            this.changeValidation('last_name', true);
         }
 
         if (!validateUsername(username)) {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, username: false },
-            }));
+                this.changeValidation('username', false);
             submitChanges = false;
         } else {
-                this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, username: true },
-            }));
+                this.changeValidation('username', true);
         }
 
         if (!validateZipcode(zipcode)) {
-                this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, zipcode: false },
-            }));
+            this.changeValidation('zipcode', false);
             submitChanges = false;
         } else {
-                this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, zipcode: true },
-            }));
+            this.changeValidation('zipcode', true);
         }
 
         if (!validateName(city)) {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, city: false },
-            }));
+            this.changeValidation('city', false);
             submitChanges = false;
         } else {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, city: true },
-            }));
+            this.changeValidation('city', true);
         }
 
         if (!validateName(state)) {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, state: false },
-            }));
+            this.changeValidation('state', false);
             submitChanges = false;
         } else {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, state: true },
-            }));
+            this.changeValidation('state', true);
         }
 
         if (!validatePassword(password, retype_password)) {
-                this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, password: false },
-            }));
+            this.changeValidation('password', false);
             submitChanges = false;
         } else {
-                this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, password: true },
-            }));
+            this.changeValidation('password', true);
         }
 
         if (!validateRetype(password, retype_password)) {
-                this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, passwordMatch: false },
-            }));
+            this.changeValidation('retype_password', false);
             submitChanges = false;
         } else {
-                this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, passwordMatch: true },
-            }));
+            this.changeValidation('retype_password', true);
         }
 
         if (!validateName(month)) {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, month: false },
-            }));
+            this.changeValidation('month', false);
             submitChanges = false;
         } else {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, month: true },
-            }));
+            this.changeValidation('month', true);
         }
 
         if (!validateName(date)) {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, date: false },
-            }));
+            this.changeValidation('date', false);
             submitChanges = false;
         } else {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, date: true },
-            }));
+            this.changeValidation('date', true);
         }
 
         if (!validateName(year)) {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, year: false },
-            }));
+            this.changeValidation('year', false);
             submitChanges = false;
         } else {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, year: true },
-            }));
+            this.changeValidation('year', true);
         }
 
         if (!validateEmail(email)) {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, email: false },
-            }));
+            this.changeValidation('email', false);
             submitChanges = false;
         } else {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, email: true },
-            }));
+            this.changeValidation('email', true);
         }
 
+        if (this.validateCityZipState()) {
+            this.changeValidation('city_zip_state', true);
+        } else {
+            this.changeValidation('city_zip_state', false);
+            submitChanges = false;
+        }
         return submitChanges;
     }
+
+
+
 
     newUser = async () => {
         await fetch('http://localhost:8080/api/users/signup', {
@@ -251,57 +216,14 @@ export default class MenuExampleTabularOnTop extends Component {
         });
     }
 
-    newClose = async () => {
-        if (this.checkAllInputValidations()){
-            const city = await validatedZip(this.state.zipcode);
-            console.log(city);
-            console.log(city.city);
-            const validateCityZipState = (city) => {
-                if (this.state.city.toLowerCase() === city.city.toLowerCase() && this.state.state === city.stateAbbreviation) {
-                    this.setState(prevState => ({
-                    ...prevState,
-                    validations: { ...prevState.validations, city_zip_state: true },
-                }));
-                    return true
-                } else {
-                    this.setState(prevState => ({
-                        ...prevState,
-                        validations: { ...prevState.validations, city_zip_state: false },
-                    }));
-                        if(this.state.city.toLowerCase() !== city.city.toLowerCase()){
-                            this.setState(prevState => ({
-                                ...prevState,
-                                validations: { ...prevState.validations, city: false },
-                            }));
-                        } else if (this.state.state !== city.stateAbbreviation) {
-                            this.setState(prevState => ({
-                                ...prevState,
-                                validations: { ...prevState.validations, state: false },
-                            }));
-                        }
-                    // if CITY ZIPCODE AND STATE DO NOT MATCH!!! flash will go here 
-                    return false
-                }
+    newClose = () => {
+            if (this.checkAllInputValidations() ) {
+                    this.newUser();
+                    this.close();
+            } else {
+                this.changeValidation('city_zip_state', false);
             }
-
-        if (this.checkAllInputValidations() && validateCityZipState(city)) {
-                this.newUser();
-                this.close();
-        } else {
-            this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, city_zip_state: false },
-            }));
-        }
-
-    } else {
-        this.setState(prevState => ({
-            ...prevState,
-            validations: { ...prevState.validations, city_zip_state: false },
-        }));
     }
-
-}
 
     render() {
         const { 
@@ -333,7 +255,7 @@ export default class MenuExampleTabularOnTop extends Component {
                     </Menu.Item>
                     <Menu.Menu position='right'>
                         <Menu.Item>
-                            <ModalSign
+                            <ModalSignUp
                                 value={value}
                                 first_name={first_name}
                                 lastname={last_name}
@@ -358,19 +280,7 @@ export default class MenuExampleTabularOnTop extends Component {
                                 closeConfig={this.closeConfig}
                                 newClose={this.newClose}
                                 isEnabled={this.checkAllInputValidations}
-                                passwordValidation={validations.password}
-                                passwordMatch={validations.passwordMatch}
-                                firstNameValidation={validations.first_name}
-                                lastNameValidation={validations.last_name}
-                                zipcodeValidation={validations.zipcode}
-                                stateValidation={validations.state}
-                                cityValidation={validations.city}
-                                usernameValidation={validations.username}
-                                monthValidation={validations.month}
-                                yearValidation={validations.year}
-                                dateValidation={validations.date}
-                                emailValidation={validations.email}
-                                cityZipStateValidation={validations.city_zip_state}
+                                validations={validations}
                             />
                             <Button id="login">
                                 <Popup trigger={<Icon name="close" />} content='Sign-out of your account' />
