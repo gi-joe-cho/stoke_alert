@@ -56,17 +56,17 @@ export const validateZip = (zipcodes) => {
   const SmartyStreetsCore = SmartyStreetsSDK.core;
   const Lookup = SmartyStreetsSDK.usZipcode.Lookup;
 
-  let authId = '23546282978178536';
+  let authId = process.env.REACT_APP_SS_ZIPCODE_API_KEY;
   let authToken = '';
   let credentials = new SmartyStreetsCore.StaticCredentials(authId, authToken);
 
   let clientBuilder = new SmartyStreetsCore.ClientBuilder(credentials);
   let client = clientBuilder.buildUsZipcodeClient();
 
-  let lookup1 = new Lookup();
-  lookup1.zipCode = zipcodes;
+  let lookup = new Lookup();
+  lookup.zipCode = zipcodes;
 
-  return client.send(lookup1)
+  return client.send(lookup)
     .then(parseResults)
     .catch(handleError);
 

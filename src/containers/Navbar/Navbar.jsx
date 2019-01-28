@@ -193,7 +193,7 @@ export default class MenuExampleTabularOnTop extends Component {
     }
 
     newUser = async () => {
-        await fetch(`${process.env.DEV_API_DOMAIN}/users/signup`, {
+        await fetch(`${process.env.REACT_APP_DEV_API_DOMAIN}/users/signup`, {
             method: 'POST',
             body: JSON.stringify({
                 first_name: this.state.first_name,
