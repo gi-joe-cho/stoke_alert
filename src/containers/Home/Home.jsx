@@ -14,7 +14,7 @@ class Home extends Component {
 
                             <Segment className="map-container" placeholder raised>
                                 <div className="map">
-                                    {/* MAP WILL GO HERE */}
+                                    {/* MAP WILL GO HERE  <p></p>*/}
                                     <span>S t 0 K 3 - A  l  e  R  t</span>
                                     <span>S t 0 K 3 - A  l  e  R  t</span>
                                     <span>S t 0 K 3 - A  l  e  R  t</span>
