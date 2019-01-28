@@ -6,7 +6,6 @@ import { validateName, validateZip, validateZipcode, validateUsername, validateP
 
 export default class MenuExampleTabularOnTop extends Component {
     state = { 
-        // activeItem: '',
         first_name: '',
         last_name: '', 
         username: '',
