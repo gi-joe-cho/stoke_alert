@@ -45,9 +45,10 @@ export default class MenuExampleTabularOnTop extends Component {
     }
   
     closeConfig = () => {
-        this.setState({ modalOpen: true })
+        this.setState({ modalOpen: true });
     }
-    close = () => this.setState({ modalOpen: false })
+
+    close = () => this.setState({ modalOpen: false });
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -62,35 +63,35 @@ export default class MenuExampleTabularOnTop extends Component {
 
     handleSubmit = () => {
         const { name, email } = this.state;
-        this.setState({ submittedName: name, submittedEmail: email })
+        this.setState({ submittedName: name, submittedEmail: email });
     }
 
     changeValidation = (name, value) => {
-           this.setState(prevState => ({
-                ...prevState,
-                validations: { ...prevState.validations, [name]: value },
-            }));
+        this.setState(prevState => ({
+            ...prevState,
+            validations: { ...prevState.validations, [name]: value },
+        }));
     };
 
-        validateCityZipState = async () => {
-            if (this.state.city.length > 0 && this.state.state.length > 0 && this.state.zipcode.length > 0 ){
-                const rCity = await validateZip(this.state.zipcode);
-                if (this.state.city.toLowerCase() === rCity.city.toLowerCase() && this.state.state === rCity.stateAbbreviation) {
-                    this.changeValidation('city_zip_state', true);
-                    return true
-                } else {
-                    this.changeValidation('city_zip_state', false);
-                        if(this.state.city.toLowerCase() !== rCity.city.toLowerCase()){
-                            this.changeValidation('city', false);
-                        } else if (this.state.state !== rCity.stateAbbreviation) {
-                            this.changeValidation('state', false);
-                        }
-                    // if CITY ZIPCODE AND STATE DO NOT MATCH!!! flash will go here 
-                    return false
-                }
+    validateCityZipState = async () => {
+        if (this.state.city.length > 0 && this.state.state.length > 0 && this.state.zipcode.length > 0 ){
+            const response = await validateZip(this.state.zipcode);
+            if (this.state.city.toLowerCase() === response.city.toLowerCase() && this.state.state === response.stateAbbreviation) {
+                this.changeValidation('city_zip_state', true);
+                return true;
             } else {
-                return false
+                this.changeValidation('city_zip_state', false);
+                    if(this.state.city.toLowerCase() !== response.city.toLowerCase()){
+                        this.changeValidation('city', false);
+                    } else if (this.state.state !== response.stateAbbreviation) {
+                        this.changeValidation('state', false);
+                    }
+                // if CITY ZIPCODE AND STATE DO NOT MATCH!!! flash will go here 
+                return false;
             }
+        } else {
+            return false;
+        }
     }
 
     checkAllInputValidations = () => {
@@ -113,10 +114,10 @@ export default class MenuExampleTabularOnTop extends Component {
         }
 
         if (!validateUsername(username)) {
-                this.changeValidation('username', false);
+            this.changeValidation('username', false);
             submitChanges = false;
         } else {
-                this.changeValidation('username', true);
+            this.changeValidation('username', true);
         }
 
         if (!validateZipcode(zipcode)) {
@@ -191,11 +192,8 @@ export default class MenuExampleTabularOnTop extends Component {
         return submitChanges;
     }
 
-
-
-
     newUser = async () => {
-        await fetch('http://localhost:8080/api/users/signup', {
+        await fetch(`${process.env.DEV_API_DOMAIN}/users/signup`, {
             method: 'POST',
             body: JSON.stringify({
                 first_name: this.state.first_name,
@@ -216,12 +214,12 @@ export default class MenuExampleTabularOnTop extends Component {
     }
 
     newClose = () => {
-            if (this.checkAllInputValidations() ) {
-                    this.newUser();
-                    this.close();
-            } else {
-                this.changeValidation('city_zip_state', false);
-            }
+        if (this.checkAllInputValidations() ) {
+            this.newUser();
+            this.close();
+        } else {
+            this.changeValidation('city_zip_state', false);
+        }
     }
 
     render() {
@@ -316,6 +314,6 @@ export default class MenuExampleTabularOnTop extends Component {
                     </Menu.Item>
                 </Menu>
             </div>
-        )
+        );
     }
 }
