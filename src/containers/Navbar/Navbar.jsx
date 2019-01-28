@@ -81,11 +81,11 @@ export default class MenuExampleTabularOnTop extends Component {
                 return true;
             } else {
                 this.changeValidation('city_zip_state', false);
-                    if(this.state.city.toLowerCase() !== response.city.toLowerCase()){
-                        this.changeValidation('city', false);
-                    } else if (this.state.state !== response.stateAbbreviation) {
-                        this.changeValidation('state', false);
-                    }
+                if(this.state.city.toLowerCase() !== response.city.toLowerCase()) {
+                    this.changeValidation('city', false);
+                } else if (this.state.state !== response.stateAbbreviation) {
+                    this.changeValidation('state', false);
+                }
                 // if CITY ZIPCODE AND STATE DO NOT MATCH!!! flash will go here 
                 return false;
             }
@@ -94,7 +94,7 @@ export default class MenuExampleTabularOnTop extends Component {
         }
     }
 
-    checkAllInputValidations = () => {
+    checkAllInputValidations = async () => {
         const { first_name, email, password, retype_password, last_name, username, zipcode, city, state, month, date, year } = this.state;
 
         let submitChanges = true;
@@ -183,12 +183,14 @@ export default class MenuExampleTabularOnTop extends Component {
             this.changeValidation('email', true);
         }
 
-        if (this.validateCityZipState()) {
+        const cityStateZipValidated = await this.validateCityZipState();
+        if (cityStateZipValidated) {
             this.changeValidation('city_zip_state', true);
         } else {
             this.changeValidation('city_zip_state', false);
             submitChanges = false;
         }
+
         return submitChanges;
     }
 
@@ -213,8 +215,9 @@ export default class MenuExampleTabularOnTop extends Component {
         });
     }
 
-    newClose = () => {
-        if (this.checkAllInputValidations() ) {
+    newClose = async () => {
+        const result = await this.checkAllInputValidations();
+        if (result) {
             this.newUser();
             this.close();
         } else {
