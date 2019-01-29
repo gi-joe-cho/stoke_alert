@@ -8,6 +8,7 @@ const posts = require('../knex')('posts');
 describe('testing the postsRouter', async () => {
   const fakePassword = 'andiechoie1991';
   let fakeUser;
+  const fakePosts = [];
 
   beforeEach(async (done) => {
     const saltRounds = 10;
@@ -46,6 +47,7 @@ describe('testing the postsRouter', async () => {
         state: faker.address.state(),
         zipcode: faker.address.zipCode(),
       };
+      fakePosts.push(fakePost);
 
       await posts
         .clone()
@@ -63,7 +65,7 @@ describe('testing the postsRouter', async () => {
   });
 
   describe('GET /api/posts', async () => {
-    test('it should return a response with the list of surfer posts', async () => {
+    test('it should return a response with 10 surfer posts', async () => {
       const maxLatitude = 99999;
       const maxLongitude = 99999;
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts?lat=${maxLatitude}&lng=${maxLongitude}`, {
@@ -75,6 +77,37 @@ describe('testing the postsRouter', async () => {
       const { posts } = await response.json();
 
       expect(response.status).toBe(200);
+      expect(posts.count).toBe(fakePosts.count)
+    });
+
+    test('it should return the correct post data', async () => {
+      const maxLatitude = 99999;
+      const maxLongitude = 99999;
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts?lat=${maxLatitude}&lng=${maxLongitude}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { posts } = await response.json();
+      const firstSurferPost = posts[0];
+      const surferPostData = fakePosts.find(surferPost => surferPost.id === firstSurferPost.id);
+
+      expect(firstSurferPost.id).toBe(surferPostData.id);
+      expect(firstSurferPost.user_rating).toBe(surferPostData.user_rating);
+      expect(firstSurferPost.up_votes).toBe(surferPostData.up_votes);
+      expect(firstSurferPost.down_votes).toBe(surferPostData.down_votes);
+      expect(firstSurferPost.image_location_url).toBe(surferPostData.image_location_url);
+      expect(firstSurferPost.post_content).toBe(surferPostData.post_content);
+      expect(firstSurferPost.lat).toBe(surferPostData.lat);
+      expect(firstSurferPost.lng).toBe(surferPostData.lng);
+      expect(firstSurferPost.city).toBe(surferPostData.city);
+      expect(firstSurferPost.state).toBe(surferPostData.state);
+      expect(firstSurferPost.zipcode).toBe(surferPostData.zipcode);
+      expect(firstSurferPost.user.id).toBe(fakeUser.id);
+      expect(firstSurferPost.user.first_name).toBe(fakeUser.first_name);
+      expect(firstSurferPost.user.last_name).toBe(fakeUser.last_name);
+      expect(firstSurferPost.user.email).toBe(fakeUser.email);
     });
   });
 });

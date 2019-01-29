@@ -6,7 +6,7 @@ class PostModel {
     this._up_votes = post.up_votes;
     this._down_votes = post.down_votes;
     this._image_location_url = post.image_location_url;
-    this._post_content = post.image_location_url;
+    this._post_content = post.post_content;
     this._lat = post.lat;
     this._lng = post.lng;
     this._city = post.city;
