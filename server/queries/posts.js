@@ -1,4 +1,4 @@
-const findPostsWithinRadius = (posts, lat, lng) =>
+const findPostsWithinRadius = (posts, minLat, maxLat, minLng, maxLng) =>
   posts
     .clone()
     .select([
@@ -22,8 +22,8 @@ const findPostsWithinRadius = (posts, lat, lng) =>
       'users.email',
     ])
     .rightJoin('users', 'posts.user_id', 'users.id')
-    .where('lat', '<=', lat)
-    .andWhere('lng', '<=', lng)
+    .whereBetween('lat', [minLat, maxLat])
+    .whereBetween('lng', [minLng, maxLng])
     .limit(10)
     .orderBy('posts.updated_at', 'desc')
     .then(posts => posts);

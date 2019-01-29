@@ -8,9 +8,9 @@ const postsRouter = knex => {
   const router = new Router();
 
   return router
-    .get('/', async ({ query: { lat, lng } }, res) => {
+    .get('/', async ({ query: { min_lat, max_lat, min_lng, max_lng } }, res) => {
       try {
-        const data = await findPostsWithinRadius(posts, lat, lng);
+        const data = await findPostsWithinRadius(posts, min_lat, max_lat, min_lng, max_lng);
         if (data.length > 0) {
           const posts = data.map(post => {
             const newPost = new PostModel(post);
