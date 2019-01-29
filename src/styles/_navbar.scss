@@ -67,11 +67,18 @@
 }
 
 #login {
-  margin-right: 4px;
+  margin-right: 6px;
+  margin-left: 6px;
   padding: 6px 5px;
 
   i {
     margin: 0;
+  }
+}
+
+.ui.menu:not(.vertical) .right.menu {
+  .item {
+    padding: 0px;
   }
 }
 
