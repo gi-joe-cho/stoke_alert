@@ -6,6 +6,7 @@ const findPostsWithinRadius = (posts, lat, lng) =>
       'posts.user_id',
       'posts.user_rating',
       'posts.up_votes',
+      'posts.down_votes',
       'posts.post_content',
       'posts.lat',
       'posts.lng',
