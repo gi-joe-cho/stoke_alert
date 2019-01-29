@@ -66,9 +66,11 @@ describe('testing the postsRouter', async () => {
 
   describe('GET /api/posts', async () => {
     test('it should return a response with 10 surfer posts', async () => {
+      const minLatitude = -99999;
       const maxLatitude = 99999;
+      const minLongitude = -99999;
       const maxLongitude = 99999;
-      const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts?lat=${maxLatitude}&lng=${maxLongitude}`, {
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts?min_lat=${minLatitude}&max_lat=${maxLatitude}&min_lng=${minLongitude}&max_lng=${maxLongitude}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -81,9 +83,11 @@ describe('testing the postsRouter', async () => {
     });
 
     test('it should return the correct post data', async () => {
+      const minLatitude = -99999;
       const maxLatitude = 99999;
+      const minLongitude = -99999;
       const maxLongitude = 99999;
-      const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts?lat=${maxLatitude}&lng=${maxLongitude}`, {
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts?min_lat=${minLatitude}&max_lat=${maxLatitude}&min_lng=${minLongitude}&max_lng=${maxLongitude}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -108,6 +112,32 @@ describe('testing the postsRouter', async () => {
       expect(firstSurferPost.user.first_name).toBe(fakeUser.first_name);
       expect(firstSurferPost.user.last_name).toBe(fakeUser.last_name);
       expect(firstSurferPost.user.email).toBe(fakeUser.email);
+    });
+
+    test('it should return a 500 status code when not providing coordinates', async () => {
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      expect(response.status).toBe(500);
+    });
+
+    test('it should return a 404 status code when providing unreachable coordinates', async () => {
+      const minLatitude = 0;
+      const maxLatitude = 0;
+      const minLongitude = 0;
+      const maxLongitude = 0;
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts?min_lat=${minLatitude}&max_lat=${maxLatitude}&min_lng=${minLongitude}&max_lng=${maxLongitude}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      expect(response.status).toBe(404);
     });
   });
 });
