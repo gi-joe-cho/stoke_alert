@@ -1,7 +1,6 @@
 require('dotenv').config({ path: '../../../.env' });
 const uuid = require('uuid/v4');
 const faker = require('faker');
-
 const posts = require('../knex')('posts');
 
 describe('testing the postsRouter', async () => {
@@ -48,18 +47,8 @@ describe('testing the postsRouter', async () => {
       });
       const { posts } = await response.json();
 
+      console.log(posts);
       expect(response.status).toBe(200);
-      expect(user.id).toBe(fakeUser.id);
-      expect(user.first_name).toBe(fakeUser.first_name);
-      expect(user.last_name).toBe(fakeUser.last_name);
-      expect(user.username).toBe(fakeUser.username);
-      expect(user.email).toBe(fakeUser.email);
-      expect(user.password).toBe(fakeUser.password);
-      expect(user.birth_date).toBe(fakeUser.birth_date.toISOString());
-      expect(user.city).toBe(fakeUser.city);
-      expect(user.state).toBe(fakeUser.state);
-      expect(user.zipcode).toBe(fakeUser.zipcode);
-      expect(user.annotation).toBe(fakeUser.annotation);
     });
   });
 });
