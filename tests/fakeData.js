@@ -1,5 +1,6 @@
 const faker = require('faker');
 const uuid = require('uuid/v4');
+const bcrypt = require('bcrypt');
 
 const createFakeUser = () => {
   return {
@@ -8,6 +9,24 @@ const createFakeUser = () => {
     last_name: faker.name.lastName(),
     username: faker.internet.userName(),
     password: faker.internet.password(),
+    email: faker.internet.email(),
+    birth_date: faker.date.between('1980-01-01', '2000-12-31'),
+    city: faker.address.city(),
+    state: faker.address.state(),
+    zipcode: faker.address.zipCode(),
+    annotation: faker.lorem.sentence(),
+  };
+};
+
+const createFakeUserWithHashedPassword = fakePassword => {
+  const saltRounds = 10;
+  const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
+  return {
+    id: uuid(),
+    first_name: faker.name.firstName(),
+    last_name: faker.name.lastName(),
+    username: faker.internet.userName(),
+    password: hashedPassword,
     email: faker.internet.email(),
     birth_date: faker.date.between('1980-01-01', '2000-12-31'),
     city: faker.address.city(),
@@ -38,5 +57,6 @@ const createFakePost = user => {
 
 module.exports = {
   createFakeUser,
+  createFakeUserWithHashedPassword,
   createFakePost,
 };
