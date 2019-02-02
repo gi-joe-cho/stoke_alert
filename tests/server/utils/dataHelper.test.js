@@ -1,5 +1,5 @@
 const faker = require('faker');
-const { returnUserObject } = require('../../../server/utils/dataHelper');
+const { returnUserObject, formatDate } = require('../../../server/utils/dataHelper');
 
 describe('Testing dataHelper util methods', () => {
   describe('returnUserObject', () => {
@@ -29,6 +29,21 @@ describe('Testing dataHelper util methods', () => {
       expect(user.state).toBe(data.state);
       expect(user.zipcode).toBe(data.zipcode);
       expect(user.annotation).toBe(data.annotation);
+    });
+  });
+
+  describe('formatDate', async () => {
+    test('it should return the date in YYYY-MM-DD format', async () => {
+      const currentDate = new Date();
+      let month = '' + (currentDate.getMonth() + 1);
+      let day = '' + currentDate.getDate();
+      const year = currentDate.getFullYear();
+      const formattedDate = formatDate(currentDate);
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      expect(formattedDate).toBe(`${year}-${month}-${day}`);
     });
   });
 });
