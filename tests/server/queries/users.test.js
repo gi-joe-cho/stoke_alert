@@ -1,29 +1,15 @@
 const uuid = require('uuid/v4');
-const bcrypt = require('bcrypt');
 
 const users = require('../knex')('users');
+const { formatDate } = require('../../../server/utils/dataHelper');
+const { createFakeUser } = require('../../fakeData');
 const { findUserById, findUserByName, findUserByNameOrEmail, addNewUser } = require('../../../server/queries/users');
 
 describe('users queries', async () => {
   let fakeUser;
 
   beforeEach(async (done) => {
-     const fakePassword = 'andiechoie1991';
-     const saltRounds = 10;
-     const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
-     fakeUser = {
-       id: uuid(),
-       first_name: 'Andie',
-       last_name: 'Choie',
-       username: 'achoie91',
-       email: 'andie_choie@gmail.com',
-       password: hashedPassword,
-       birth_date: new Date('02-01-1991'),
-       city: 'Los Angeles',
-       state: 'CA',
-       zipcode: '90007',
-       annotation: 'I am an architectural engineer who enjoys powerlifting.',
-     };
+     fakeUser = createFakeUser();
      await users
       .clone()
       .insert(fakeUser);
@@ -47,7 +33,7 @@ describe('users queries', async () => {
       expect(user.username).toBe(fakeUser.username);
       expect(user.email).toBe(fakeUser.email);
       expect(user.password).toBe(fakeUser.password);
-      expect(user.birth_date.toISOString()).toBe(fakeUser.birth_date.toISOString());
+      expect(formatDate(user.birth_date)).toBe(formatDate(fakeUser.birth_date));
       expect(user.city).toBe(fakeUser.city);
       expect(user.state).toBe(fakeUser.state);
       expect(user.zipcode).toBe(fakeUser.zipcode);
@@ -72,7 +58,7 @@ describe('users queries', async () => {
       expect(user.username).toBe(fakeUser.username);
       expect(user.email).toBe(fakeUser.email);
       expect(user.password).toBe(fakeUser.password);
-      expect(user.birth_date.toISOString()).toBe(fakeUser.birth_date.toISOString());
+      expect(formatDate(user.birth_date)).toBe(formatDate(fakeUser.birth_date));
       expect(user.city).toBe(fakeUser.city);
       expect(user.state).toBe(fakeUser.state);
       expect(user.zipcode).toBe(fakeUser.zipcode);
@@ -97,7 +83,7 @@ describe('users queries', async () => {
       expect(user.username).toBe(fakeUser.username);
       expect(user.email).toBe(fakeUser.email);
       expect(user.password).toBe(fakeUser.password);
-      expect(user.birth_date.toISOString()).toBe(fakeUser.birth_date.toISOString());
+      expect(formatDate(user.birth_date)).toBe(formatDate(fakeUser.birth_date));
       expect(user.city).toBe(fakeUser.city);
       expect(user.state).toBe(fakeUser.state);
       expect(user.zipcode).toBe(fakeUser.zipcode);
@@ -114,7 +100,7 @@ describe('users queries', async () => {
       expect(user.username).toBe(fakeUser.username);
       expect(user.email).toBe(fakeUser.email);
       expect(user.password).toBe(fakeUser.password);
-      expect(user.birth_date.toISOString()).toBe(fakeUser.birth_date.toISOString());
+      expect(formatDate(user.birth_date)).toBe(formatDate(fakeUser.birth_date));
       expect(user.city).toBe(fakeUser.city);
       expect(user.state).toBe(fakeUser.state);
       expect(user.zipcode).toBe(fakeUser.zipcode);
@@ -123,22 +109,7 @@ describe('users queries', async () => {
   });
 
   describe('addNewUser', async () => {
-    const testPassword = 'gijoecho';
-    const saltRounds = 10;
-    const hashedPassword = bcrypt.hashSync(testPassword, saltRounds);
-    const testUser = {
-      id: uuid(),
-      first_name: 'Joseph',
-      last_name: 'Cho',
-      username: 'gi_cho',
-      email: 'gi_cho@gmail.com',
-      password: hashedPassword,
-      birth_date: new Date('09-15-1991'),
-      city: 'Brea',
-      state: 'CA',
-      zipcode: '92821',
-      annotation: 'I am a musician who enjoys software engineering.',
-    };
+    const testUser = createFakeUser();
 
     test('it should return the newly inserted user when added successfully.', async () => {
       const result = await addNewUser(users, testUser);
@@ -150,7 +121,7 @@ describe('users queries', async () => {
       expect(newUser.username).toBe(testUser.username);
       expect(newUser.email).toBe(testUser.email);
       expect(newUser.password).toBe(testUser.password);
-      expect(newUser.birth_date.toISOString()).toBe(testUser.birth_date.toISOString());
+      expect(formatDate(newUser.birth_date)).toBe(formatDate(testUser.birth_date));
       expect(newUser.city).toBe(testUser.city);
       expect(newUser.state).toBe(testUser.state);
       expect(newUser.zipcode).toBe(testUser.zipcode);
