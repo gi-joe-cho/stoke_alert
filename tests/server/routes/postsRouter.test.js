@@ -1,7 +1,4 @@
 require('dotenv').config({ path: '../../../.env' });
-const uuid = require('uuid/v4');
-const bcrypt = require('bcrypt');
-const faker = require('faker');
 const users = require('../knex')('users');
 const posts = require('../knex')('posts');
 const { createFakeUser, createFakePost } = require('../../fakeData');
