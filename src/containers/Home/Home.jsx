@@ -3,33 +3,36 @@ import { Segment, Button, Dropdown, Icon } from 'semantic-ui-react';
 import TabBar from '../../components/TabBar/TabBar';
 
 class Home extends Component {
-    state = {}
+    state = {
+        tabBarName: localStorage.getItem("username"),
+        textBool: true
+    }
     render() {
         return (
             <div className="wrapper-container">
                 <Segment className="div-thang" raised>
-                    <TabBar name="Map" />
-                    <Segment className="home-ocean-pic">
-                        <Segment className="home-row" stacked>
+                    {this.state.textBool ? <TabBar tabMessage={'U S E R: ' + this.state.tabBarName } name="Map" /> : <TabBar tabMessage={'U S E R: '  } name="Map" /> }
+                        <Segment className="home-ocean-pic">
+                            <Segment className="home-row" stacked>
 
-                            <Segment className="map-container" placeholder raised>
-                                <div className="map">
-                                    {/* MAP WILL GO HERE  <p></p>*/}
-                                    <span>S t 0 K 3 - A  l  e  R  t</span>
-                                    <span>S t 0 K 3 - A  l  e  R  t</span>
-                                    <span>S t 0 K 3 - A  l  e  R  t</span>
-                                    <span>S t 0 K 3 - A  l  e  R  t</span>
-                                </div>
-                            </Segment>
+                                <Segment className="map-container" placeholder raised>
+                                    <div className="map">
+                                        <p>MAP WILL GO HERE</p>
+                                        <span>S t 0 K 3 - A  l  e  R  t</span>
+                                        <span>S t 0 K 3 - A  l  e  R  t</span>
+                                        <span>S t 0 K 3 - A  l  e  R  t</span>
+                                        <span>S t 0 K 3 - A  l  e  R  t</span>
+                                    </div>
+                                </Segment>
 
-                            <Segment className="map-list-container" placeholder raised>
-                                <div>
-                                    {/* MAP LIST WILL GO HERE */}
-                                    <p>S t 0 K 3 - A  l  e  R  t</p>    
-                                </div>
+                                <Segment className="map-list-container" placeholder raised>
+                                    <div>
+                                        <p>MAP LIST WILL GO HERE</p> 
+                                        <p>S t 0 K 3 - A  l  e  R  t</p>    
+                                    </div>
+                                </Segment>
                             </Segment>
-                        </Segment>
-                    </Segment>    
+                        </Segment>    
 
                     <div className="start-menu">
                         <Dropdown text="Start" upward icon="chevron up" floating labeled button id="right-arrow" className="icon" > 
