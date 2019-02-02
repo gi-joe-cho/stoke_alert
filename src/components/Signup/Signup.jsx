@@ -1,8 +1,9 @@
 import React from 'react';
-import { TextArea, Form, Modal, Select } from 'semantic-ui-react';
+import { TextArea, Form, Modal, Select, Popup, Icon } from 'semantic-ui-react';
 
 import TabBar from '../TabBar/TabBar';
 import SignUpButton from '../Shared/SignUpButton'
+
 import { states } from '../../utils/states';
 import { months } from '../../utils/month';
 import { dates } from '../../utils/dates';
@@ -27,20 +28,21 @@ const ModalSignUp = (
     submittedEmail, 
     handleChange, 
     handleSubmit,
-    modalOpen,
-    closeModal,
-    closeConfig,
+    upModalOpen,
+    upClose,
+    upCloseConfig,
     newClose,
+    signBothClose,
     validations,
   }
 ) => (
     <Modal
-      trigger={<SignUpButton closeConfig={closeConfig}/>}
+      trigger={<SignUpButton closeConfig={upCloseConfig}/>}
       size='small'
-      open={modalOpen}
+      open={upModalOpen}
       closeOnDimmerClick={false}
     >
-      <Modal.Header><TabBar closeModal={closeModal}/></Modal.Header>
+      <Modal.Header><TabBar tabMessage={'S i g n_U p . e x e'} closeModal={signBothClose}/></Modal.Header>
     <Modal.Content>
       <Form onSubmit={handleSubmit} widths='equal'>
         <Form.Group unstackable widths={6}>
@@ -120,8 +122,9 @@ const ModalSignUp = (
       </Form>
     </Modal.Content>
     <Modal.Actions>
+      <label className="windows-btn-sign" onClick={upClose}><span className='window-btn-span-sign'>Sign In</span><Popup trigger={<Icon name="sign-in" />} content='Sign-in to your account' /></label>
       <label className="windows-btn" htmlFor="submit-form" onClick={newClose} tabIndex="0"><span className='window-btn-span-ok'>Submit</span></label>
-      <label onClick={closeModal} className="windows-btn"><span className='window-btn-span-cancel'>Cancel</span></label>
+      <label onClick={signBothClose} className="windows-btn"><span className='window-btn-span-cancel'>Cancel</span></label>
     </Modal.Actions>
   </Modal>
 )
