@@ -20,50 +20,6 @@ class PostModel {
     this._email = post.email;
   }
 
-  setUpVotes(up_votes) {
-    this.up_votes = up_votes;
-  }
-
-  setDownVotes(down_votes) {
-    this.down_votes = down_votes;
-  }
-
-  setImageLocationUrl(image_location_url) {
-    this.image_location_url = image_location_url;
-  }
-
-  setPostContent(post_content) {
-    this.post_content = post_content;
-  }
-
-  setLat(lat) {
-    this.lat = lat;
-  }
-
-  setLng(lng) {
-    this.lng = lng;
-  }
-
-  setCity(city) {
-    this.city = city;
-  }
-
-  setState(state) {
-    this.state = state;
-  }
-
-  setZipcode(zipcode) {
-    this.zipcode = zipcode;
-  }
-
-  setCreatedAt(created_at) {
-    this.created_at = created_at;
-  }
-
-  setUpdatedAt(updated_at) {
-    this.updated_at = updated_at;
-  }
-
   get id() {
     return this._id;
   }
