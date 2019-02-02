@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { Menu, Button, Icon, Popup } from 'semantic-ui-react';
+
+import ModalSignIn from '../../components/Signin/Signin';
 import ModalSignUp from '../../components/Signup/Signup';
 
 import { validateName, validateZip, validateZipcode, validateUsername, validatePassword, validateRetype, validateEmail } from '../../utils/validations';
 
 export default class MenuExampleTabularOnTop extends Component {
+
     state = { 
         first_name: '',
         last_name: '', 
         username: '',
+        usernameSignIn: '',
         email: '',
         password: '',
+        passwordSignIn: '',
         retype_password:'',
         year: '',
         month: '',
@@ -25,30 +30,52 @@ export default class MenuExampleTabularOnTop extends Component {
         submittedName: '', 
         submittedEmail: '',
         valid_city: '',
-        modalOpen: false,
+        signInModalOpen: false,
+        signUpModalOpen: false,
         submitClick:false,
         validations: {
             first_name: true,
             email: true,
             password: true,
+            passwordSignIn: true,
             retype_password: true,
             last_name: true,
             username: true,
+            usernameSignIn: true,
             state: true,
             city: true,
             zipcode: true,
             city_zip_state: true,
             month: true,
             date: true,
-            year: true
+            year: true,
+            signedIn: false,
+            token: localStorage.getItem("token"),
+            currentUser: ''
         }
     }
-  
-    closeConfig = () => {
-        this.setState({ modalOpen: true });
+
+    tokenMatch = () => {
+        const { validations } = this.state;
+        let tokenStorage = localStorage.getItem("token");
+        if (validations.token != null && validations.token === tokenStorage){
+            this.changeValidation('signedIn', true);
+        } else {
+            this.changeValidation('signedIn', false);
+        }   
     }
 
-    close = () => this.setState({ modalOpen: false });
+    signInCloseConfig = () => {
+        this.setState({ signInModalOpen: true });
+    }
+
+    signUpCloseConfig = () => {
+        this.setState({ signUpModalOpen: true });
+    }
+
+    signUpClose = () => this.setState({ signUpModalOpen: false, signInModalOpen: true });
+    signInClose = () => this.setState({ signUpModalOpen: true, signInModalOpen: false });
+    signBothClose = () => this.setState({ signUpModalOpen: false, signInModalOpen: false });
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -190,7 +217,25 @@ export default class MenuExampleTabularOnTop extends Component {
             this.changeValidation('city_zip_state', false);
             submitChanges = false;
         }
+        return submitChanges;
+    }
 
+    checkSignInValidations = () => {
+        const { passwordSignIn, usernameSignIn } = this.state;
+        let submitChanges = true;
+
+        if (!validateUsername(usernameSignIn)) {
+            this.changeValidation('usernameSignIn', false);
+            submitChanges = false;
+        } else {
+            this.changeValidation('usernameSignIn', true);
+        }
+        if (!validateUsername(passwordSignIn)) {
+            this.changeValidation('passwordSignIn', false);
+            submitChanges = false;
+        } else {
+            this.changeValidation('passwordSignIn', true);
+        }
         return submitChanges;
     }
 
@@ -215,19 +260,71 @@ export default class MenuExampleTabularOnTop extends Component {
         });
     }
 
+    newSignIn = async () => {
+        const response = await fetch(`${process.env.REACT_APP_DEV_API_DOMAIN}/users/signin`, {
+            method: 'POST',
+            body: JSON.stringify({
+                username: this.state.usernameSignIn,
+                password: this.state.passwordSignIn,
+            }),
+            headers: {
+                "Content-type": "application/json"
+            }
+        });
+        const token = await response.json();
+        localStorage.setItem("token", token.token);
+        localStorage.setItem("username", token.username);
+        this.changeValidation('currentUser', token.username)
+        this.changeValidation('token', token.token)
+        return token
+    }
+
+    signedOut = () => {
+        localStorage.clear();
+        this.changeValidation('token', '');
+        this.changeValidation('signedIn', false);
+        window.location.reload();
+    }
+    
     newClose = async () => {
         const result = await this.checkAllInputValidations();
         if (result) {
-            this.newUser();
-            this.close();
+            await this.setState({ usernameSignIn: this.state.username, passwordSignIn: this.state.password })
+            await this.newUser();
+            await this.newSignIn();
+            await this.signBothClose();
+            window.location.reload();
         } else {
             this.changeValidation('city_zip_state', false);
         }
     }
 
+    signInSubmit = async () => {
+        const result = this.checkSignInValidations();
+        const { token, message } = await this.newSignIn()
+        if (result && token !== undefined ) {
+            this.changeValidation('signedIn', true);
+            this.signBothClose();
+            window.location.reload();
+        } else {
+            this.changeValidation('signedIn', false);
+            if (message === 'User record is not found!'){
+                alert("try again wit the username tho");
+                this.changeValidation('usernameSignIn', false)
+            } else {
+                alert("Wrong password sawka");
+                this.changeValidation('passwordSignIn', false)
+            }
+        }
+    }
+
+    componentDidMount() {
+         this.tokenMatch(); 
+    }
+
     render() {
         const { 
-            activeItem, value,
+            activeItem, 
             first_name, 
             last_name,
             username, 
@@ -243,47 +340,64 @@ export default class MenuExampleTabularOnTop extends Component {
             annotation,
             submittedName,
             submittedEmail,
-            modalOpen,
+            signInModalOpen,
+            signUpModalOpen,
             validations,
+            passwordSignIn,
+            usernameSignIn
         } = this.state;
-
+        
         return (
             <div className="navbar-container">
                 <Menu attached='top' tabular >
                     <Menu.Item className="stoke-bar">
-                        S T O K E - A L E R T
+                        S T O K E_A L E R T_
                     </Menu.Item>
                     <Menu.Menu position='right'>
                         <Menu.Item>
-                            <ModalSignUp
-                                value={value}
-                                first_name={first_name}
-                                lastname={last_name}
-                                username={username}
-                                password={password}
-                                retypepassword={retype_password}
-                                email={email}
-                                month={month}
-                                date={date}
-                                year={year}
-                                city={city}
-                                state={state}
-                                zipcode={zipcode}
-                                annotation={annotation}
-                                submittedName={submittedName}
-                                submittedEmail={submittedEmail}
-                                handleSubmit={this.handleSubmit}
-                                handleChange={this.handleChange}
-                                newUser={this.newUser}
-                                closeModal={this.close}
-                                modalOpen={modalOpen}
-                                closeConfig={this.closeConfig}
-                                newClose={this.newClose}
-                                isEnabled={this.checkAllInputValidations}
-                                validations={validations}
-                            />
-                            <Button id="login">
-                                <Popup trigger={<Icon name="close" />} content='Sign-out of your account' />
+                            { !this.state.validations.signedIn ?
+                                <ModalSignIn
+                                    submittedName={submittedName}
+                                    submittedEmail={submittedEmail}
+                                    handleSubmit={this.handleSubmit}
+                                    handleChange={this.handleChange}
+                                    upClose={this.signInClose}
+                                    inModalOpen={signInModalOpen}
+                                    inCloseConfig={this.signInCloseConfig}
+                                    signInSubmit={this.signInSubmit}
+                                    validations={validations}
+                                    signBothClose={this.signBothClose}
+                                    passwordSignIn={passwordSignIn}
+                                    usernameSignIn={usernameSignIn}
+                                /> : ''}
+                            {!this.state.validations.signedIn ?
+                                <ModalSignUp
+                                    first_name={first_name}
+                                    lastname={last_name}
+                                    username={username}
+                                    password={password}
+                                    retypepassword={retype_password}
+                                    email={email}
+                                    month={month}
+                                    date={date}
+                                    year={year}
+                                    city={city}
+                                    state={state}
+                                    zipcode={zipcode}
+                                    about={annotation}
+                                    submittedName={submittedName}
+                                    submittedEmail={submittedEmail}
+                                    handleSubmit={this.handleSubmit}
+                                    handleChange={this.handleChange}
+                                    upClose={this.signUpClose}
+                                    upModalOpen={signUpModalOpen}
+                                    upCloseConfig={this.signUpCloseConfig}
+                                    newClose={this.newClose}
+                                    validations={validations}
+                                    signBothClose={this.signBothClose}
+                                /> : ''}
+                            <Button id="login" onClick={this.signedOut}>
+                                {this.state.validations.signedIn ? <Popup trigger={<Icon name="close" />} content='Sign-out of your account' /> : <Icon name="close" /> }
                             </Button>
                         </Menu.Item>
                     </Menu.Menu>
