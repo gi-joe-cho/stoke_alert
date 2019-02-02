@@ -1,17 +1,13 @@
 const faker = require('faker');
 const uuid = require('uuid/v4');
-const bcrypt = require('bcrypt');
 
 const createFakeUser = () => {
-  const fakePassword = faker.internet.password();
-  const saltRounds = 10;
-  const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
   return {
     id: uuid(),
     first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
     username: faker.internet.userName(),
-    password: hashedPassword,
+    password: faker.internet.password(),
     email: faker.internet.email(),
     birth_date: faker.date.between('1980-01-01', '2000-12-31'),
     city: faker.address.city(),
