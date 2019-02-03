@@ -5,13 +5,21 @@ import TabBar from '../../components/TabBar/TabBar';
 class Home extends Component {
     state = {
         tabBarName: localStorage.getItem("username"),
-        textBool: true
+    }
+    tokenMatch = () => {
+        const { validations } = this.state;
+        let tokenStorage = localStorage.getItem("token");
+        if (validations.token != null && validations.token === tokenStorage) {
+            this.changeValidation('signedIn', true);
+        } else {
+            this.changeValidation('signedIn', false);
+        }
     }
     render() {
         return (
             <div className="wrapper-container">
                 <Segment className="div-thang" raised>
-                    {this.state.textBool ? <TabBar tabMessage={'U S E R: ' + this.state.tabBarName } name="Map" /> : <TabBar tabMessage={'U S E R: '  } name="Map" /> }
+                    {this.state.tabBarName != null ? <TabBar tabMessage={'U S E R: ' + this.state.tabBarName } name="Map" /> : <TabBar tabMessage={'U S E R: '  } name="Map" /> }
                         <Segment className="home-ocean-pic">
                             <Segment className="home-row" stacked>
 
