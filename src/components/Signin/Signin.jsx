@@ -29,23 +29,24 @@ const ModalSignIn = (
     >
       <Modal.Header><TabBar tabMessage={'S i g n_I n . e x e'} closeModal={signBothClose} /></Modal.Header>
       <Modal.Content>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group >
-            <Form.Input label='Username' placeholder='username' width='6' name='usernameSignIn' value={usernameSignIn} onChange={handleChange} error={!validations.usernameSignIn} />
-          </Form.Group>
-          <Form.Group >
-            <Form.Input label='Password' placeholder='password' type='Password' width='6' name='passwordSignIn' value={passwordSignIn} onChange={handleChange} error={!validations.passwordSignIn} />
-          </Form.Group>
-          <div className="modal-ocean">
-            <div className="color-div">
-              <strong>onChange:</strong>
-              <pre>{JSON.stringify({ usernameSignIn }, null, 2)}</pre>
-              <strong>onSubmit:</strong>
-              <pre>{JSON.stringify({ submittedName, submittedEmail }, null, 2)}</pre>
-            </div>
-          </div>
-          <input type="submit" id="submit-form" className="hidden" />
-        </Form>
+        <div className="modal-pool">
+          <Form onSubmit={handleSubmit}>
+            <Form.Group >
+              <Form.Input label='Username' placeholder='username' width='6' name='usernameSignIn' value={usernameSignIn} onChange={handleChange} error={!validations.usernameSignIn} />
+            </Form.Group>
+            <Form.Group >
+              <Form.Input label='Password' placeholder='password' type='Password' width='6' name='passwordSignIn' value={passwordSignIn} onChange={handleChange} error={!validations.passwordSignIn} />
+            </Form.Group>
+              {/* modal aesthetic undergoing css calibration */}
+              {/* <div className="color-div"> */}
+                <strong>onChange:</strong>
+                <pre>{JSON.stringify({ usernameSignIn }, null, 2)}</pre>
+                <strong>onSubmit:</strong>
+                <pre>{JSON.stringify({ submittedName, submittedEmail }, null, 2)}</pre>
+                <input type="submit" id="submit-form" className="hidden" />
+              {/* </div> */}
+          </Form>
+        </div>
       </Modal.Content>
       <Modal.Actions>
         <label className="windows-btn-sign" onClick={upClose} ><span className='window-btn-span-sign'>Sign Up</span><Popup trigger={<Icon name="user circle" />} content='Sign up for an account' /></label>
