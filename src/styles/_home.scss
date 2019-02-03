@@ -246,10 +246,37 @@ html,body {
   background: rgb(227, 226, 226);
   filter: brightness(0.8);
 
-  .modal-ocean {
+  .modal-pool {
+    background-image: url(../utils/poolPic.png);
+    background-size: contain;
+    color: black;
+
+    .color-div {
+      background-color: red;
+      opacity: 0.4;
+      margin-top: 1rem;
+    }
+  }
+
+  .visible.menu.transition {
+    min-width: 0;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .ui.checkbox input.hidden+label {
+    background: #fff;
+    padding-right: 4px;
+    opacity: 0.7;
+  }
+
+    .modal-ocean {
     background-image: url(../utils/signPic.png);
     background-size: contain;
-    color: white;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
 
     .color-div {
       background-color: red;
