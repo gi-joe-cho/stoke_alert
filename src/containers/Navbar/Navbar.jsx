@@ -7,7 +7,7 @@ import ModalSignUp from '../../components/Signup/Signup';
 import { validateName, validateZip, validateZipcode, validateUsername, validatePassword, validateRetype, validateEmail } from '../../utils/validations';
 
 export default class MenuExampleTabularOnTop extends Component {
-
+    
     state = { 
         first_name: '',
         last_name: '', 
