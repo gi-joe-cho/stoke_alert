@@ -108,17 +108,18 @@ const ModalSignUp = (
           />
           <Form.Input label='Zipcode' placeholder='XXXXX' width='2' maxLength='5' name='zipcode' value={zipcode} onChange={handleChange} error={!validations.zipcode && !validations.city_zip_state} />
         </Form.Group>
-        <Form.Field control={TextArea} label='About' placeholder='Tell us more about you...' maxLength='250' name='about' value={about} onChange={handleChange} />
+        <Form.Field control={TextArea} label='About' placeholder='Tell us more about you...' maxLength='250' name='annotation' value={about} onChange={handleChange} />
         <Form.Checkbox label='I agree to the Terms and Conditions' />
         <div className="modal-ocean">
-          <div className="color-div">
-            <strong>onChange:</strong>
-            <pre>{JSON.stringify({ first_name, email }, null, 2)}</pre>
-            <strong>onSubmit:</strong>
-            <pre>{JSON.stringify({ submittedName, submittedEmail }, null, 2)}</pre>
-          </div>
+          {/* modal aesthetic undergoing css calibration */}
+            {/* <div className="color-div"> */}
+              <strong>onChange:</strong>
+              <pre>{JSON.stringify({ first_name, email }, null, 2)}</pre>
+              <strong>onSubmit:</strong>
+              <pre>{JSON.stringify({ submittedName, submittedEmail }, null, 2)}</pre>
+              <input type="submit" id="submit-form" className="hidden" />
+          {/* </div> */}
         </div>
-        <input type="submit" id="submit-form" className="hidden" />
       </Form>
     </Modal.Content>
     <Modal.Actions>
