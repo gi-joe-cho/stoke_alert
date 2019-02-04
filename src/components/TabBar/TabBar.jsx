@@ -5,7 +5,9 @@ const TabBar = ({ closeModal, tabMessage}) => (
   <div className="nav-bar">
     <div className="title-bar">
       <ul>
-        <li> <span>S t o k e_A l e r t_{tabMessage}</span></li>
+        <li> 
+          <span>S t o k e_A l e r t_{tabMessage}</span>
+        </li>
         <Button onClick={closeModal} id="close-window">
           <Popup trigger={<Icon name="close" />} content='Close Window' />
         </Button>
