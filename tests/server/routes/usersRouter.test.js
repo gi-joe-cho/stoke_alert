@@ -6,27 +6,15 @@ const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 
 const users = require('../knex')('users');
+const { formatDate } = require('../../../server/utils/dataHelper');
+const { createFakeUser, createFakeUserWithHashedPassword } = require('../../fakeData');
 
 describe('testing the usersRouter', async () => {
-  const fakePassword = 'andiechoie1991';
+  const fakePassword = faker.internet.password();
   let fakeUser;
 
   beforeEach(async (done) => {
-    const saltRounds = 10;
-    const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
-    fakeUser = {
-      id: uuid(),
-      first_name: 'Andie',
-      last_name: 'Choie',
-      username: 'achoie91',
-      email: 'andie_choie@gmail.com',
-      password: hashedPassword,
-      birth_date: new Date('02-01-1991'),
-      city: 'Los Angeles',
-      state: 'CA',
-      zipcode: '90007',
-      annotation: 'I am an architectural engineer who enjoys powerlifting.',
-    };
+    fakeUser = createFakeUserWithHashedPassword(fakePassword);
     await users
       .clone()
       .insert(fakeUser);
@@ -57,7 +45,7 @@ describe('testing the usersRouter', async () => {
       expect(user.username).toBe(fakeUser.username);
       expect(user.email).toBe(fakeUser.email);
       expect(user.password).toBe(fakeUser.password);
-      expect(user.birth_date).toBe(fakeUser.birth_date.toISOString());
+      expect(formatDate(user.birth_date)).toBe(formatDate(fakeUser.birth_date));
       expect(user.city).toBe(fakeUser.city);
       expect(user.state).toBe(fakeUser.state);
       expect(user.zipcode).toBe(fakeUser.zipcode);
@@ -80,22 +68,7 @@ describe('testing the usersRouter', async () => {
   });
 
   describe('POST /api/users/signup', async () => {
-    const fakePassword = 'borax4thewin';
-    const saltRounds = 10;
-    const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
-    const testUser = {
-      id: uuid(),
-      first_name: 'Joseph',
-      last_name: 'Cho',
-      username: 'gijoecho',
-      email: 'gijoecho@gmail.com',
-      password: hashedPassword,
-      birth_date: new Date('09-15-1991'),
-      city: 'Brea',
-      state: 'CA',
-      zipcode: '92821',
-      annotation: 'I am a software engineer who enjoys surfing.',
-    };
+    const testUser = createFakeUser();
 
     test('it should insert a new user to the users table and return a 200 status code with a message', async () => {
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signup`, {
@@ -124,16 +97,13 @@ describe('testing the usersRouter', async () => {
     });
 
     test('it should not insert user data with missing one non-nullable fields and should return a 500 error status code', async () => {
-      const fakePassword = 'glutenfree';
-      const saltRounds = 10;
-      const hashedPassword = bcrypt.hashSync(fakePassword, saltRounds);
       const incompleteUser = {
         id: uuid(),
         first_name: "Ryan",
         last_name: "Shin",
         username: "ryan_shinster",
         email: "ryan_shin@gmail.com",
-        password: hashedPassword,
+        password: "wiefhweihfwefwehfo",
         birth_date: new Date('08-08-1992'),
         city: "Irvine",
         state: "CA",
@@ -157,7 +127,7 @@ describe('testing the usersRouter', async () => {
       const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
       const request = {
         username: fakeUser.username,
-        password: fakePassword,
+        password: fakeUser.password,
         token,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
@@ -195,7 +165,7 @@ describe('testing the usersRouter', async () => {
       expect(user.username).toBe(fakeUser.username);
       expect(user.email).toBe(fakeUser.email);
       expect(user.password).toBe(fakeUser.password);
-      expect(user.birth_date).toBe(fakeUser.birth_date.toISOString());
+      expect(formatDate(user.birth_date)).toBe(formatDate(fakeUser.birth_date));
       expect(user.city).toBe(fakeUser.city);
       expect(user.state).toBe(fakeUser.state);
       expect(user.zipcode).toBe(fakeUser.zipcode);
@@ -257,7 +227,7 @@ describe('testing the usersRouter', async () => {
     test('should return a 401 status code response when a JSON web token is not sent', async () => {
       const request = {
         username: fakeUser.username,
-        password: fakePassword,
+        password: 'wefoihwioefhiowehfiwfho',
         token: null,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/refresh_token`, {
@@ -278,7 +248,7 @@ describe('testing the usersRouter', async () => {
       const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: "1" });
       const request = {
         username: fakeUser.username,
-        password: fakePassword,
+        password: fakeUser.password,
         token,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/refresh_token`, {
@@ -297,7 +267,7 @@ describe('testing the usersRouter', async () => {
       expect(user.username).toBe(fakeUser.username);
       expect(user.email).toBe(fakeUser.email);
       expect(user.password).toBe(fakeUser.password);
-      expect(user.birth_date).toBe(fakeUser.birth_date.toISOString());
+      expect(formatDate(user.birth_date)).toBe(formatDate(fakeUser.birth_date));
       expect(user.city).toBe(fakeUser.city);
       expect(user.state).toBe(fakeUser.state);
       expect(user.zipcode).toBe(fakeUser.zipcode);
@@ -310,7 +280,7 @@ describe('testing the usersRouter', async () => {
       const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
       const request = {
         username: fakeUser.username,
-        password: fakePassword,
+        password: 'wefihwioefhehfhfoiw',
         token,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/refresh_token`, {
