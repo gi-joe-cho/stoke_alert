@@ -1,13 +1,12 @@
 import React from 'react';
 import { TextArea, Form, Modal, Select, Popup, Icon } from 'semantic-ui-react';
-
-import TabBar from '../TabBar/TabBar';
-import SignUpButton from '../Shared/SignUpButton'
-
 import { states } from '../../utils/states';
 import { months } from '../../utils/month';
 import { dates } from '../../utils/dates';
 import { years } from '../../utils/year';
+
+import TabBar from '../TabBar/TabBar';
+import SignUpButton from '../Shared/SignUpButton'
 
 const ModalSignUp = (
   { 
