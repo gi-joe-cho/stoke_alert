@@ -6,6 +6,7 @@ class Home extends Component {
     state = {
         tabBarName: localStorage.getItem("username"),
     }
+    
     tokenMatch = () => {
         const { validations } = this.state;
         let tokenStorage = localStorage.getItem("token");
@@ -15,11 +16,15 @@ class Home extends Component {
             this.changeValidation('signedIn', false);
         }
     }
+
     render() {
         return (
             <div className="wrapper-container">
                 <Segment className="div-thang" raised>
-                    {this.state.tabBarName != null ? <TabBar tabMessage={'U S E R: ' + this.state.tabBarName } name="Map" /> : <TabBar tabMessage={'U S E R: '  } name="Map" /> }
+                    <TabBar 
+                        tabMessage={`U S E R: ${this.state.tabBarName !== null ? this.state.tabBarName : ''}` }  
+                        name = "Map"
+                    /> 
                         <Segment className="home-ocean-pic">
                             <Segment className="home-row" stacked>
 
@@ -43,7 +48,16 @@ class Home extends Component {
                         </Segment>    
 
                     <div className="start-menu">
-                        <Dropdown text="Start" upward icon="chevron up" floating labeled button id="right-arrow" className="icon" > 
+                        <Dropdown 
+                            upward 
+                            labeled 
+                            floating 
+                            button 
+                            text="Start" 
+                            icon="chevron up" 
+                            id="right-arrow" 
+                            className="icon" 
+                        > 
                             <Dropdown.Menu>
                                 <Dropdown.Header icon='hand peace outline' content='Stoke_Alert_Menu_' />
                                 <Dropdown.Item>Important</Dropdown.Item>
