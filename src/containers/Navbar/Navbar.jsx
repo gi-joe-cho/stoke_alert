@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Menu, Button, Icon, Popup } from 'semantic-ui-react';
 
+import { validateName, validateZip, validateZipcode, validateUsername, validatePassword, validateRetype, validateEmail } from '../../utils/validations';
 import ModalSignIn from '../../components/Signin/Signin';
 import ModalSignUp from '../../components/Signup/Signup';
 
-import { validateName, validateZip, validateZipcode, validateUsername, validatePassword, validateRetype, validateEmail } from '../../utils/validations';
-
 export default class MenuExampleTabularOnTop extends Component {
-    
     state = { 
         first_name: '',
         last_name: '', 
@@ -37,11 +35,10 @@ export default class MenuExampleTabularOnTop extends Component {
             first_name: true,
             email: true,
             password: true,
-            passwordSignIn: true,
             retype_password: true,
             last_name: true,
             username: true,
-            usernameSignIn: true,
+            errorSignIn: true,
             state: true,
             city: true,
             zipcode: true,
@@ -49,20 +46,16 @@ export default class MenuExampleTabularOnTop extends Component {
             month: true,
             date: true,
             year: true,
-            signedIn: false,
-            token: localStorage.getItem("token"),
             currentUser: ''
         }
     }
 
-    tokenMatch = () => {
-        const { validations } = this.state;
-        let tokenStorage = localStorage.getItem("token");
-        if (validations.token != null && validations.token === tokenStorage){
-            this.changeValidation('signedIn', true);
-        } else {
-            this.changeValidation('signedIn', false);
-        }   
+    isTokenAvailable = () => {
+        const token = localStorage.getItem('token');
+        if (token === null || token === "undefined") {
+            return false;
+        }
+        return true
     }
 
     signInCloseConfig = () => {
@@ -74,7 +67,9 @@ export default class MenuExampleTabularOnTop extends Component {
     }
 
     signUpClose = () => this.setState({ signUpModalOpen: false, signInModalOpen: true });
+
     signInClose = () => this.setState({ signUpModalOpen: true, signInModalOpen: false });
+
     signBothClose = () => this.setState({ signUpModalOpen: false, signInModalOpen: false });
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -274,15 +269,13 @@ export default class MenuExampleTabularOnTop extends Component {
         const token = await response.json();
         localStorage.setItem("token", token.token);
         localStorage.setItem("username", token.username);
-        this.changeValidation('currentUser', token.username)
-        this.changeValidation('token', token.token)
+        this.changeValidation('currentUser', token.username);
         return token
     }
 
     signedOut = () => {
         localStorage.clear();
-        this.changeValidation('token', '');
-        this.changeValidation('signedIn', false);
+        // WILL CHANGE DO NOT USE WINDOW
         window.location.reload();
     }
     
@@ -290,9 +283,12 @@ export default class MenuExampleTabularOnTop extends Component {
         const result = await this.checkAllInputValidations();
         if (result) {
             await this.setState({ usernameSignIn: this.state.username, passwordSignIn: this.state.password })
+            console.log(this.state.username);
+            console.log(this.state.password);
             await this.newUser();
             await this.newSignIn();
             await this.signBothClose();
+            // WILL CHANGE DO NOT USE WINDOW
             window.location.reload();
         } else {
             this.changeValidation('city_zip_state', false);
@@ -302,24 +298,14 @@ export default class MenuExampleTabularOnTop extends Component {
     signInSubmit = async () => {
         const result = this.checkSignInValidations();
         const { token, message } = await this.newSignIn()
-        if (result && token !== undefined ) {
-            this.changeValidation('signedIn', true);
+        if (result && token !== undefined && token !== null) {
             this.signBothClose();
+            // WILL CHANGE DO NOT USE WINDOW
             window.location.reload();
         } else {
-            this.changeValidation('signedIn', false);
-            if (message === 'User record is not found!'){
-                alert("try again wit the username tho");
-                this.changeValidation('usernameSignIn', false)
-            } else {
-                alert("Wrong password sawka");
-                this.changeValidation('passwordSignIn', false)
-            }
+            alert(message);
+            this.changeValidation('errorSignIn', false)
         }
-    }
-
-    componentDidMount() {
-         this.tokenMatch(); 
     }
 
     render() {
@@ -346,7 +332,7 @@ export default class MenuExampleTabularOnTop extends Component {
             passwordSignIn,
             usernameSignIn
         } = this.state;
-        
+
         return (
             <div className="navbar-container">
                 <Menu attached='top' tabular >
@@ -355,49 +341,64 @@ export default class MenuExampleTabularOnTop extends Component {
                     </Menu.Item>
                     <Menu.Menu position='right'>
                         <Menu.Item>
-                            { !this.state.validations.signedIn ?
-                                <ModalSignIn
-                                    submittedName={submittedName}
-                                    submittedEmail={submittedEmail}
-                                    handleSubmit={this.handleSubmit}
-                                    handleChange={this.handleChange}
-                                    upClose={this.signInClose}
-                                    inModalOpen={signInModalOpen}
-                                    inCloseConfig={this.signInCloseConfig}
-                                    signInSubmit={this.signInSubmit}
-                                    validations={validations}
-                                    signBothClose={this.signBothClose}
-                                    passwordSignIn={passwordSignIn}
-                                    usernameSignIn={usernameSignIn}
-                                /> : ''}
-                            {!this.state.validations.signedIn ?
-                                <ModalSignUp
-                                    first_name={first_name}
-                                    lastname={last_name}
-                                    username={username}
-                                    password={password}
-                                    retypepassword={retype_password}
-                                    email={email}
-                                    month={month}
-                                    date={date}
-                                    year={year}
-                                    city={city}
-                                    state={state}
-                                    zipcode={zipcode}
-                                    about={annotation}
-                                    submittedName={submittedName}
-                                    submittedEmail={submittedEmail}
-                                    handleSubmit={this.handleSubmit}
-                                    handleChange={this.handleChange}
-                                    upClose={this.signUpClose}
-                                    upModalOpen={signUpModalOpen}
-                                    upCloseConfig={this.signUpCloseConfig}
-                                    newClose={this.newClose}
-                                    validations={validations}
-                                    signBothClose={this.signBothClose}
-                                /> : ''}
+                            { 
+                                !this.isTokenAvailable()
+                                    ? (
+                                        <ModalSignIn
+                                            submittedName={submittedName}
+                                            submittedEmail={submittedEmail}
+                                            handleSubmit={this.handleSubmit}
+                                            handleChange={this.handleChange}
+                                            upClose={this.signInClose}
+                                            inModalOpen={signInModalOpen}
+                                            inCloseConfig={this.signInCloseConfig}
+                                            signInSubmit={this.signInSubmit}
+                                            validations={validations}
+                                            signBothClose={this.signBothClose}
+                                            passwordSignIn={passwordSignIn}
+                                            usernameSignIn={usernameSignIn}
+                                        />
+                                     )     
+                                    : ''}
+                            {
+                                !this.isTokenAvailable()
+                                    ? (
+                                        <ModalSignUp
+                                            first_name={first_name}
+                                            lastname={last_name}
+                                            username={username}
+                                            password={password}
+                                            retypepassword={retype_password}
+                                            email={email}
+                                            month={month}
+                                            date={date}
+                                            year={year}
+                                            city={city}
+                                            state={state}
+                                            zipcode={zipcode}
+                                            about={annotation}
+                                            submittedName={submittedName}
+                                            submittedEmail={submittedEmail}
+                                            handleSubmit={this.handleSubmit}
+                                            handleChange={this.handleChange}
+                                            upClose={this.signUpClose}
+                                            upModalOpen={signUpModalOpen}
+                                            upCloseConfig={this.signUpCloseConfig}
+                                            newClose={this.newClose}
+                                            validations={validations}
+                                            signBothClose={this.signBothClose}
+                                        /> 
+                                     )    
+                                    : ''
+                            }
                             <Button id="login" onClick={this.signedOut}>
-                                {this.state.validations.signedIn ? <Popup trigger={<Icon name="close" />} content='Sign-out of your account' /> : <Icon name="close" /> }
+                                {
+                                    this.state.validations.signedIn 
+                                        ? (
+                                            <Popup trigger={<Icon name="close" />} content='Sign-out of your account' /> 
+                                          )        
+                                        : <Icon name="close" /> 
+                                }
                             </Button>
                         </Menu.Item>
                     </Menu.Menu>
