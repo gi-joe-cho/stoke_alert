@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form, Modal, Popup, Icon } from 'semantic-ui-react';
-
 import SignInButton from '../Shared/SignInButton'
 import TabBar from '../TabBar/TabBar';
 
@@ -27,15 +26,34 @@ const ModalSignIn = (
       onClose={signBothClose}
       closeOnDimmerClick={true}
     >
-      <Modal.Header><TabBar tabMessage={'S i g n_I n . e x e'} closeModal={signBothClose} /></Modal.Header>
+      <Modal.Header>
+        <TabBar tabMessage="S i g n_I n . e x e" closeModal={signBothClose} />
+      </Modal.Header>
       <Modal.Content>
         <div className="modal-pool">
           <Form onSubmit={handleSubmit}>
             <Form.Group >
-              <Form.Input label='Username' placeholder='username' width='6' name='usernameSignIn' value={usernameSignIn} onChange={handleChange} error={!validations.usernameSignIn} />
+              <Form.Input 
+                label='Username' 
+                placeholder='username' 
+                width='6' 
+                name='usernameSignIn' 
+                value={usernameSignIn} 
+                onChange={handleChange} 
+                error={!validations.errorSignIn} 
+              />
             </Form.Group>
             <Form.Group >
-              <Form.Input label='Password' placeholder='password' type='Password' width='6' name='passwordSignIn' value={passwordSignIn} onChange={handleChange} error={!validations.passwordSignIn} />
+              <Form.Input 
+                label='Password' 
+                placeholder='password' 
+                type='Password' 
+                width='6' 
+                name='passwordSignIn' 
+                value={passwordSignIn} 
+                onChange={handleChange} 
+                error={!validations.errorSignIn} 
+              />
             </Form.Group>
               {/* modal aesthetic undergoing css calibration */}
               {/* <div className="color-div"> */}
@@ -49,9 +67,22 @@ const ModalSignIn = (
         </div>
       </Modal.Content>
       <Modal.Actions>
-        <label className="windows-btn-sign" onClick={upClose} ><span className='window-btn-span-sign'>Sign Up</span><Popup trigger={<Icon name="user circle" />} content='Sign up for an account' /></label>
-        <label className="windows-btn" htmlFor="submit-form" onClick={signInSubmit} tabIndex="0"><span className='window-btn-span-ok'>Sign In</span></label>
-        <label onClick={signBothClose} className="windows-btn"><span className='window-btn-span-cancel'>Cancel</span></label>
+        <label className="windows-btn-sign" onClick={upClose}>
+          <span className='window-btn-span-sign'>
+            Sign Up
+          </span>
+          <Popup trigger={<Icon name="user circle" />} content='Sign up for an account' />
+        </label>
+        <label className="windows-btn" htmlFor="submit-form" onClick={signInSubmit} tabIndex="0">
+          <span className='window-btn-span-ok'>
+            Sign In
+          </span>
+        </label>
+        <label onClick={signBothClose} className="windows-btn">
+          <span className='window-btn-span-cancel'>
+            Cancel
+          </span>
+        </label>
       </Modal.Actions>
     </Modal>
   )
