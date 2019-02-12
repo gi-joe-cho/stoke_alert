@@ -179,7 +179,7 @@ html,body {
 
   .ui.button.start-menu-icon-ig{
     height: 90%;
-    margin-top: 6px;
+    margin-top: 2px;
     margin-bottom: 4px;
     padding: 0px;
     padding: 3px 3px;
@@ -209,7 +209,7 @@ html,body {
   
   .ui.button.start-menu-icon {
     height: 90%;
-    margin-top: 6px;
+    margin-top: 2px;
     margin-bottom: 2px;
     padding: 0px;
     padding-top: 1px;
@@ -244,6 +244,7 @@ html,body {
   border-bottom: 0;
   border-top: 0;
   background: rgb(227, 226, 226);
+  padding: 0px;
   filter: brightness(0.8);
 
   .modal-pool {
@@ -253,8 +254,9 @@ html,body {
 
     .color-div {
       background-color: red;
-      opacity: 0.4;
+      opacity: 0.3;
       margin-top: 1rem;
+      color: white;
     }
   }
 
@@ -276,7 +278,7 @@ html,body {
     background-image: url(../utils/signPic.png);
     background-size: contain;
     color: rgb(0, 0, 0);
-    font-size: 20px;
+    font-size: 14px;
 
     .color-div {
       background-color: red;
