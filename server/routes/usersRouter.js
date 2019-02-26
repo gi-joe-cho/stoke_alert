@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 
 const { findUserById, addNewUser, findUserByName } = require('../queries/users');
-const { checkForDuplicateNameAndEmail, checkSessionTokenExists, validateSessionToken } = require('../utils/validations');
+const { checkForDuplicateNameAndEmail, checkSessionTokenExists, validateSessionTokenExpiration } = require('../utils/validations');
 const { returnUserObject } = require('../utils/dataHelper');
 
 const usersRouter = knex => {
@@ -52,7 +52,7 @@ const usersRouter = knex => {
         return res.status(500).jsonp({ error });
       }
     })
-    .post('/refresh_token', validateSessionToken, async ({ body: { username } }, res) => {
+    .post('/refresh_token', validateSessionTokenExpiration, async ({ body: { username } }, res) => {
       const user = await findUserByName(users, username);
       const jwtSign = promisify(jwt.sign);
       const token = await jwtSign({ password: user.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });

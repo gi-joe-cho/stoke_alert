@@ -23,7 +23,7 @@ const checkSessionTokenExists = async ({ body: { username, token } }, res, next)
   });
 };
 
-const validateSessionToken = async ({ body: { token }}, res, next) => {
+const validateSessionTokenExpiration = async ({ body: { token }}, res, next) => {
   if (!token) {
     return res.status(401).jsonp({ message: 'Session token is unavailable!' });
   }
@@ -42,5 +42,5 @@ const validateSessionToken = async ({ body: { token }}, res, next) => {
 module.exports = {
   checkForDuplicateNameAndEmail,
   checkSessionTokenExists,
-  validateSessionToken
+  validateSessionTokenExpiration
 };
