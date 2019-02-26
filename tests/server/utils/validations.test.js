@@ -3,7 +3,12 @@ const bcrypt = require('bcrypt');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const knex = require('../knex');
-const { checkForDuplicateNameAndEmail, checkSessionTokenExists, validateSessionTokenExpiration } = require('../../../server/utils/validations');
+const {
+  checkForDuplicateNameAndEmail,
+  checkSessionTokenExists,
+  validateSessionTokenExpiration,
+  verifySessionTokenForAccess,
+} = require('../../../server/utils/validations');
 
 describe('Testing all of the validations util methods', () => {
   let fakeUser;
@@ -167,6 +172,58 @@ describe('Testing all of the validations util methods', () => {
         },
       };
       await validateSessionTokenExpiration(req, res, next);
+
+      expect(next).toBeCalled();
+    });
+  });
+
+  describe('verifySessionTokenForAccess', async () => {
+    const res = {
+      status: jest.fn(() => ({
+        jsonp: jest.fn(),
+      })),
+    };
+    const next = jest.fn();
+
+    test('should return a 401 status code error when not providing a session token', async () => {
+      const req = {
+        body: {
+          username: fakeUser.username,
+          email: 'faker@gmail.com',
+          token: null,
+        },
+      };
+      await verifySessionTokenForAccess(req, res, next);
+
+      expect(res.status).toBeCalled();
+    });
+
+    test('should return a 401 status code error when the token still has expired yet', async () => {
+      const jwtSign = promisify(jwt.sign);
+      const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '1' });
+      const req = {
+        body: {
+          username: fakeUser.username,
+          email: 'faker@gmail.com',
+          token,
+        },
+      };
+      await verifySessionTokenForAccess(req, res, next);
+
+      expect(res.status).toBeCalled();
+    });
+
+    test('should call the next function when the token has not expired', async () => {
+      const jwtSign = promisify(jwt.sign);
+      const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
+      const req = {
+        body: {
+          username: fakeUser.username,
+          email: 'faker@gmail.com',
+          token,
+        },
+      };
+      await verifySessionTokenForAccess(req, res, next);
 
       expect(next).toBeCalled();
     });
