@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const knex = require('../knex');
-const { checkForDuplicateNameAndEmail, checkSessionTokenExists, validateSessionToken } = require('../../../server/utils/validations');
+const { checkForDuplicateNameAndEmail, checkSessionTokenExists, validateSessionTokenExpiration } = require('../../../server/utils/validations');
 
 describe('Testing all of the validations util methods', () => {
   let fakeUser;
@@ -120,7 +120,7 @@ describe('Testing all of the validations util methods', () => {
     });
   });
 
-  describe('validateSessionToken', async () => {
+  describe('validateSessionTokenExpiration', async () => {
     const res = {
       status: jest.fn(() => ({
         jsonp: jest.fn(),
@@ -136,7 +136,7 @@ describe('Testing all of the validations util methods', () => {
           token: null,
         },
       };
-      await validateSessionToken(req, res, next);
+      await validateSessionTokenExpiration(req, res, next);
 
       expect(res.status).toBeCalled();
     });
@@ -151,7 +151,7 @@ describe('Testing all of the validations util methods', () => {
           token,
         },
       };
-      await checkSessionTokenExists(req, res, next);
+      await validateSessionTokenExpiration(req, res, next);
 
       expect(res.status).toBeCalled();
     });
@@ -166,7 +166,7 @@ describe('Testing all of the validations util methods', () => {
           token,
         },
       };
-      await checkSessionTokenExists(req, res, next);
+      await validateSessionTokenExpiration(req, res, next);
 
       expect(next).toBeCalled();
     });
