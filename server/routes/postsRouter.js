@@ -2,6 +2,9 @@ const { Router } = require('express');
 
 const PostModel = require('../models/postModel');
 const { findPostsWithinRadius } = require('../queries/posts');
+const upload = require('../aws-sdk');
+
+const singleUpload = upload.single('image');
 
 const postsRouter = knex => {
   const posts = knex('posts');
@@ -23,6 +26,15 @@ const postsRouter = knex => {
       catch(error) {
         return res.status(500).jsonp({ error });
       }
+    })
+    .post('/:user_id/create', async (req, res) => {
+      singleUpload(req, res, (err, some) => {
+        if (err) {
+          return res.status(422).send({errors: [{ title: 'Image Upload Error', detail: err.message }] });
+        }
+
+        return res.json({'imageUrl': `${req.file.location}.jpg` });
+      });
     })
 };
 
