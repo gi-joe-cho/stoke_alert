@@ -39,7 +39,7 @@ const validateSessionTokenExpiration = async ({ body: { token }}, res, next) => 
   next();
 };
 
-const verifySessionTokenForAccess = async ({ body: { token }}, res, next) => {
+const verifySessionTokenForAccess = async ({ headers: { token } }, res, next) => {
   if (!token) {
     return res.status(401).jsonp({ message: 'Session token is unavailable!' });
   }
