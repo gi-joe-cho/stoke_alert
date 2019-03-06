@@ -28,6 +28,13 @@ const findPostsWithinRadius = (posts, minLat, maxLat, minLng, maxLng) =>
     .orderBy('posts.updated_at', 'desc')
     .then(posts => posts);
 
+const createSurferPost = (posts, newPost) =>
+  posts
+    .clone()
+    .insert(newPost)
+    .returning('*');
+
 module.exports = {
   findPostsWithinRadius,
+  createSurferPost,
 };
