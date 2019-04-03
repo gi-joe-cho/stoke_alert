@@ -41,10 +41,10 @@
       padding-bottom: 3px;
       border: 0;
       margin-top: 0;
-      margin-bottom:0;
+			margin-bottom:0;
 
       .under-line {
-        text-decoration: underline;
+				text-decoration: underline;
       }
     }
   }
@@ -84,4 +84,8 @@
 
 .ui.tabular.menu.active.item {
   border-radius: 0;
+}
+
+a.active {
+	color: black;
 }
