@@ -142,5 +142,39 @@ describe('testing the postsRouter', async () => {
       expect(response.status).toBe(401);
       expect(message).toBe("Token has expired! Try signing in again!");
     });
+
+    test('it should throw a 401 error if token has expired', async () => {
+      const fakePost = createFakePost(fakeUser);
+      const jwtSign = promisify(jwt.sign);
+      const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: "5h" });
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts/${fakeUser.id}/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "token": token,
+        },
+        body: JSON.stringify(fakePost),
+      });
+      const { post } = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(post.id).toBeDefined();
+      expect(post.user_rating).toBe(fakePost.user_rating);
+      expect(post.up_votes).toBe(0);
+      expect(post.down_votes).toBe(0);
+      expect(post.image_location_url).toBeNull();
+      expect(post.post_content).toBe(fakePost.post_content);
+      expect(post.lat).toBe(fakePost.lat);
+      expect(post.lng).toBe(fakePost.lng);
+      expect(post.city).toBe(fakePost.city);
+      expect(post.state).toBe(fakePost.state);
+      expect(post.zipcode).toBe(fakePost.zipcode);
+      expect(post.created_at).toBeDefined();
+      expect(post.updated_at).toBeDefined();
+      expect(post.user.id).toBe(fakeUser.id);
+      expect(post.user.first_name).toBe(fakeUser.first_name);
+      expect(post.user.last_name).toBe(fakeUser.last_name);
+      expect(post.user.email).toBe(fakeUser.email);
+    });
   });
 });
