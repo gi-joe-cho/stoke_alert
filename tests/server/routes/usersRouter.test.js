@@ -127,12 +127,12 @@ describe('testing the usersRouter', async () => {
       const request = {
         username: fakeUser.username,
         password: fakeUser.password,
-        token,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "token": token,
         },
         body: JSON.stringify(request),
       });
@@ -146,12 +146,12 @@ describe('testing the usersRouter', async () => {
       const request = {
         username: fakeUser.username,
         password: fakePassword,
-        token: null,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "token": null,
         },
         body: JSON.stringify(request),
       });
@@ -176,12 +176,12 @@ describe('testing the usersRouter', async () => {
       const request = {
         username: faker.internet.userName(),
         password: faker.internet.password(),
-        token: null,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "token": null,
         },
         body: JSON.stringify(request),
       });
@@ -195,12 +195,12 @@ describe('testing the usersRouter', async () => {
       const request = {
         username: fakeUser.username,
         password: faker.internet.password(),
-        token: null,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "token": null,
         },
         body: JSON.stringify(request),
       });
@@ -227,7 +227,6 @@ describe('testing the usersRouter', async () => {
       const request = {
         username: fakeUser.username,
         password: 'wefoihwioefhiowehfiwfho',
-        token: null,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/refresh_token`, {
         method: "POST",
@@ -248,12 +247,12 @@ describe('testing the usersRouter', async () => {
       const request = {
         username: fakeUser.username,
         password: fakeUser.password,
-        token,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/refresh_token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "token": token,
         },
         body: JSON.stringify(request),
       });
@@ -280,12 +279,12 @@ describe('testing the usersRouter', async () => {
       const request = {
         username: fakeUser.username,
         password: 'wefihwioefhehfhfoiw',
-        token,
       };
       const response = await fetch(`${process.env.DEV_API_DOMAIN}/users/refresh_token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "token": token,
         },
         body: JSON.stringify(request),
       });

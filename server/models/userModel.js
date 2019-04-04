@@ -70,6 +70,8 @@ class UserModel {
       first_name: this._first_name,
       last_name: this._last_name,
       email: this._email,
+      password: this._password,
+      birth_date: this._birth_date,
       city: this._city,
       state: this._state,
       zipcode: this._zipcode,
