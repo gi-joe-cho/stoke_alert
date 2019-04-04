@@ -108,4 +108,20 @@ describe('testing the postsRouter', async () => {
       expect(response.status).toBe(404);
     });
   });
+
+  describe('POST /api/posts/:user_id/create', async () => {
+    test('it should throw a 401 error if no token is provided', async () => {
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts/${fakeUser.id}/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(createFakePost(fakeUser)),
+      });
+      const { message } = await response.json();
+
+      expect(response.status).toBe(401);
+      expect(message).toBe('Session token is unavailable!');
+    });
+  });
 });
