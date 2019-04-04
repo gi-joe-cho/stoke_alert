@@ -23,7 +23,7 @@ const checkSessionTokenExists = async ({ body: { username, token } }, res, next)
   });
 };
 
-const validateSessionTokenExpiration = async ({ body: { token }}, res, next) => {
+const validateSessionTokenExpiration = async ({ headers: { token }}, res, next) => {
   if (!token) {
     return res.status(401).jsonp({ message: 'Session token is unavailable!' });
   }
