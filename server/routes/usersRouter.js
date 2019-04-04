@@ -16,8 +16,8 @@ const usersRouter = knex => {
     .get('/:id', async ({ params: { id } }, res) => {
       try {
         const response = await findUserById(users, id);
-        const user = new UserModel(response);
-        if (user) {
+        if (response) {
+          const user = new UserModel(response);
           return res.status(200).jsonp({ user: user.getUser() });
         }
         return res.status(404).jsonp({ message: 'User record not found!' });
@@ -39,8 +39,8 @@ const usersRouter = knex => {
     .post('/signin', checkSessionTokenExists, async ({ body: { username, password } }, res) => {
       try {
         const response = await findUserByName(users, username);
-        const user = new UserModel(response);
-        if (user) {
+        if (response) {
+          const user = new UserModel(response);
           const match = await bcrypt.compare(password, user.password);
           if (match) {
             const jwtSign = promisify(jwt.sign);
