@@ -1,6 +1,5 @@
 require('dotenv').config({ path: '../../../.env' });
 const uuid = require('uuid/v4');
-const bcrypt = require('bcrypt');
 const faker = require('faker');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');

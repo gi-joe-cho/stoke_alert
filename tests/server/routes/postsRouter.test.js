@@ -1,4 +1,6 @@
 require('dotenv').config({ path: '../../../.env' });
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
 const users = require('../knex')('users');
 const posts = require('../knex')('posts');
 const { createFakeUser, createFakePost } = require('../../fakeData');
@@ -122,6 +124,23 @@ describe('testing the postsRouter', async () => {
 
       expect(response.status).toBe(401);
       expect(message).toBe('Session token is unavailable!');
+    });
+
+    test('it should throw a 401 error if token has expired', async () => {
+      const jwtSign = promisify(jwt.sign);
+      const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: "1" });
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts/${fakeUser.id}/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "token": token,
+        },
+        body: JSON.stringify(createFakePost(fakeUser)),
+      });
+      const { message } = await response.json();
+
+      expect(response.status).toBe(401);
+      expect(message).toBe("Token has expired! Try signing in again!");
     });
   });
 });
