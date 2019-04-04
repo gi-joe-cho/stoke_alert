@@ -45,7 +45,7 @@ describe('UserModel', async () => {
   });
 
   test('get birth_date', () => {
-    expect(user.birthDate).toBe(fakeUser.birth_date);
+    expect(user.birth_date).toBe(fakeUser.birth_date);
   });
 
   test('get city', () => {

@@ -39,7 +39,7 @@ class UserModel {
     return this._password;
   }
 
-  get birthDate() {
+  get birth_date() {
     return this._birth_date;
   }
 
