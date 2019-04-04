@@ -135,10 +135,12 @@ describe('Testing all of the validations util methods', () => {
 
     test('should return a 401 status code error when not providing a session token', async () => {
       const req = {
+        headers: {
+          token: null,
+        },
         body: {
           username: fakeUser.username,
           email: 'faker@gmail.com',
-          token: null,
         },
       };
       await validateSessionTokenExpiration(req, res, next);
@@ -150,10 +152,12 @@ describe('Testing all of the validations util methods', () => {
       const jwtSign = promisify(jwt.sign);
       const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
       const req = {
+        headers: {
+          token,
+        },
         body: {
           username: fakeUser.username,
           email: 'faker@gmail.com',
-          token,
         },
       };
       await validateSessionTokenExpiration(req, res, next);
@@ -165,10 +169,12 @@ describe('Testing all of the validations util methods', () => {
       const jwtSign = promisify(jwt.sign);
       const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '1' });
       const req = {
+        headers: {
+          token,
+        },
         body: {
           username: fakeUser.username,
           email: 'faker@gmail.com',
-          token,
         },
       };
       await validateSessionTokenExpiration(req, res, next);
@@ -187,10 +193,12 @@ describe('Testing all of the validations util methods', () => {
 
     test('should return a 401 status code error when not providing a session token', async () => {
       const req = {
+        headers: {
+          token: null,
+        },
         body: {
           username: fakeUser.username,
           email: 'faker@gmail.com',
-          token: null,
         },
       };
       await verifySessionTokenForAccess(req, res, next);
@@ -202,10 +210,12 @@ describe('Testing all of the validations util methods', () => {
       const jwtSign = promisify(jwt.sign);
       const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '1' });
       const req = {
+        headers: {
+          token,
+        },
         body: {
           username: fakeUser.username,
           email: 'faker@gmail.com',
-          token,
         },
       };
       await verifySessionTokenForAccess(req, res, next);
@@ -217,10 +227,12 @@ describe('Testing all of the validations util methods', () => {
       const jwtSign = promisify(jwt.sign);
       const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
       const req = {
+        headers: {
+          token,
+        },
         body: {
           username: fakeUser.username,
           email: 'faker@gmail.com',
-          token,
         },
       };
       await verifySessionTokenForAccess(req, res, next);
