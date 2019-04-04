@@ -17,7 +17,7 @@ const postsRouter = knex => {
         if (data.length > 0) {
           const posts = data.map(post => {
             const newPost = new PostModel(post);
-            return newPost.post();
+            return newPost.getPost();
           });
           return res.status(200).jsonp({ posts });
         }
@@ -43,7 +43,7 @@ const postsRouter = knex => {
       try {
         const response = await createSurferPost(posts, newSurferPostData);
         const newPost = new PostModel(response);
-        return res.status(200).json({ post: newPost.post() });
+        return res.status(200).json({ post: newPost.getPost() });
       } catch(error) {
         return res.status(500).json({'error': error});
       }
