@@ -86,4 +86,35 @@ describe('PostModel', async () => {
   test('get email', () => {
     expect(post.email).toBe(fakeUser.email);
   });
+
+  test('getUser', () => {
+    const userObj = post.getUser();
+    expect(userObj.id).toBe(fakeUser.id);
+    expect(userObj.username).toBe(fakeUser.username);
+    expect(userObj.first_name).toBe(fakeUser.first_name);
+    expect(userObj.last_name).toBe(fakeUser.last_name);
+    expect(userObj.email).toBe(fakeUser.email);
+  });
+
+  test('getPost', () => {
+    const postObj = post.getPost();
+    expect(postObj.id).toBe(fakePost.id);
+    expect(postObj.user_rating).toBe(fakePost.user_rating);
+    expect(postObj.up_votes).toBe(fakePost.up_votes);
+    expect(postObj.down_votes).toBe(fakePost.down_votes);
+    expect(postObj.image_location_url).toBe(fakePost.image_location_url);
+    expect(postObj.post_content).toBe(fakePost.post_content);
+    expect(postObj.lat).toBe(fakePost.lat);
+    expect(postObj.lng).toBe(fakePost.lng);
+    expect(postObj.city).toBe(fakePost.city);
+    expect(postObj.state).toBe(fakePost.state);
+    expect(postObj.zipcode).toBe(fakePost.zipcode);
+    expect(postObj.created_at).toBeDefined();
+    expect(postObj.updated_at).toBeDefined();
+    expect(postObj.user.id).toBe(fakeUser.id);
+    expect(postObj.user.username).toBe(fakeUser.username);
+    expect(postObj.user.first_name).toBe(fakeUser.first_name);
+    expect(postObj.user.last_name).toBe(fakeUser.last_name);
+    expect(postObj.user.email).toBe(fakeUser.email);
+  });
 });
