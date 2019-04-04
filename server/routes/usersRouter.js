@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 
+const UserModel = require('../models/userModel');
 const { findUserById, addNewUser, findUserByName } = require('../queries/users');
 const { checkForDuplicateNameAndEmail, checkSessionTokenExists, validateSessionTokenExpiration } = require('../utils/validations');
 const { returnUserObject } = require('../utils/dataHelper');
@@ -14,9 +15,10 @@ const usersRouter = knex => {
   return router
     .get('/:id', async ({ params: { id } }, res) => {
       try {
-        const user = await findUserById(users, id);
+        const response = await findUserById(users, id);
+        const user = new UserModel(response);
         if (user) {
-          return res.status(200).jsonp({ user });
+          return res.status(200).jsonp({ user: user.getUser() });
         }
         return res.status(404).jsonp({ message: 'User record not found!' });
       }
@@ -36,13 +38,14 @@ const usersRouter = knex => {
     })
     .post('/signin', checkSessionTokenExists, async ({ body: { username, password } }, res) => {
       try {
-        const user = await findUserByName(users, username);
+        const response = await findUserByName(users, username);
+        const user = new UserModel(response);
         if (user) {
           const match = await bcrypt.compare(password, user.password);
           if (match) {
             const jwtSign = promisify(jwt.sign);
             const token = await jwtSign({ password: user.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
-            return res.status(200).jsonp({ ...user, token });
+            return res.status(200).jsonp({ ...user.getUser(), token });
           }
           return res.status(404).jsonp({ message: 'Password did not match with the given username!' });
         }
@@ -53,10 +56,11 @@ const usersRouter = knex => {
       }
     })
     .post('/refresh_token', validateSessionTokenExpiration, async ({ body: { username } }, res) => {
-      const user = await findUserByName(users, username);
+      const response = await findUserByName(users, username);
+      const user = new UserModel(response);
       const jwtSign = promisify(jwt.sign);
       const token = await jwtSign({ password: user.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
-      return res.status(200).jsonp({ ...user, token });
+      return res.status(200).jsonp({ ...user.getUser(), token });
     });
 };
 
