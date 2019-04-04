@@ -95,6 +95,7 @@ class PostModel {
   user() {
     return {
       id: this._user_id,
+      username: this._username,
       first_name: this._first_name,
       last_name: this._last_name,
       email: this._email,

@@ -1,8 +1,9 @@
 require('dotenv').config({ path: '../../../.env' });
+const uuid = require('uuid/v4');
 const faker = require('faker');
 const users = require('../knex')('users');
 const posts = require('../knex')('posts');
-const { findPostsWithinRadius } = require('../../../server/queries/posts');
+const { findPostsWithinRadius, createSurferPost } = require('../../../server/queries/posts');
 const { createFakeUserWithHashedPassword, createFakePost } = require('../../fakeData');
 
 describe('testing the postsRouter', async () => {
@@ -31,7 +32,7 @@ describe('testing the postsRouter', async () => {
     done();
   });
 
-  describe('GET /api/posts', async () => {
+  describe('findPostsWithinRadius', async () => {
     test('it should return a response with 1 surfer post', async () => {
       const minLatitude = -99999;
       const maxLatitude = 99999;
@@ -56,6 +57,36 @@ describe('testing the postsRouter', async () => {
       expect(post.first_name).toBe(fakeUser.first_name);
       expect(post.last_name).toBe(fakeUser.last_name);
       expect(post.email).toBe(fakeUser.email);
+    });
+  });
+
+  describe('createSurferPost', async () => {
+    test('it should create a new surfer post and return the new surfer post information', async () => {
+      const body = {
+        id: uuid(),
+        user_id: fakeUser.id,
+        user_rating: 'Good',
+        lat: faker.random.number(),
+        lng: faker.random.number(),
+        image_location_url: faker.image.imageUrl(),
+        city: faker.address.city(),
+        state: faker.address.stateAbbr(),
+        zipcode: faker.address.zipCode(),
+        post_content: faker.lorem.sentence(),
+      };
+      const response = await createSurferPost(posts, body);
+
+      expect(response.user_id).toBe(body.user_id);
+      expect(response.user_rating).toBe(body.user_rating);
+      expect(response.lat).toBe(body.lat);
+      expect(response.lng).toBe(body.lng);
+      expect(response.city).toBe(body.city);
+      expect(response.state).toBe(body.state);
+      expect(response.zipcode).toBe(body.zipcode);
+      expect(response.username).toBe(fakeUser.username);
+      expect(response.first_name).toBe(fakeUser.first_name);
+      expect(response.last_name).toBe(fakeUser.last_name);
+      expect(response.email).toBe(fakeUser.email);
     });
   });
 });
