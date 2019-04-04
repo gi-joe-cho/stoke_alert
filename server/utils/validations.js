@@ -14,7 +14,7 @@ const checkForDuplicateNameAndEmail = users => async ({ body: { username, email 
   next();
 };
 
-const checkSessionTokenExists = async ({ body: { username, token } }, res, next) => {
+const checkSessionTokenExists = async ({ body: { username }, headers: { token } }, res, next) => {
   jwt.verify(token, process.env.JWT_TOKEN_SECRET, (error, decoded) => {
     if (decoded) {
       return res.status(401).jsonp({ message: `${username} is already logged in!` });

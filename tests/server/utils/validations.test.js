@@ -98,10 +98,12 @@ describe('Testing all of the validations util methods', () => {
 
     test('should call the next function when a token is not provided', async () => {
       const req = {
+        headers: {
+          token: null
+        },
         body: {
           username: fakeUser.username,
           email: 'faker@gmail.com',
-          token: null,
         },
       };
       await checkSessionTokenExists(req, res, next);
@@ -113,10 +115,12 @@ describe('Testing all of the validations util methods', () => {
       const jwtSign = promisify(jwt.sign);
       const token = await jwtSign({ password: fakeUser.password }, process.env.JWT_TOKEN_SECRET, { expiresIn: '5h' });
       const req = {
+        headers: {
+          token,
+        },
         body: {
           username: fakeUser.username,
           email: 'faker@gmail.com',
-          token,
         },
       };
       await checkSessionTokenExists(req, res, next);
