@@ -52,7 +52,7 @@ const findSurferPostById = (posts, id) =>
       'users.email',
     ])
     .rightJoin('users', 'posts.user_id', 'users.id')
-    .where('id', id)
+    .where('posts.id', id)
     .then(posts => posts[0]);
 
 const createSurferPost = (posts, newPost) =>
