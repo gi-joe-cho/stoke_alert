@@ -28,6 +28,33 @@ const findPostsWithinRadius = (posts, minLat, maxLat, minLng, maxLng) =>
     .orderBy('posts.updated_at', 'desc')
     .then(posts => posts);
 
+const findSurferPostById = (posts, id) =>
+  posts
+    .clone()
+    .select([
+      'posts.id',
+      'posts.user_id',
+      'posts.user_rating',
+      'posts.post_content',
+      'posts.up_votes',
+      'posts.down_votes',
+      'posts.image_location_url',
+      'posts.lat',
+      'posts.lng',
+      'posts.city',
+      'posts.state',
+      'posts.zipcode',
+      'posts.created_at',
+      'posts.updated_at',
+      'users.username',
+      'users.first_name',
+      'users.last_name',
+      'users.email',
+    ])
+    .rightJoin('users', 'posts.user_id', 'users.id')
+    .where('id', id)
+    .then(posts => posts[0]);
+
 const createSurferPost = (posts, newPost) =>
   posts
     .clone()
@@ -63,5 +90,6 @@ const createSurferPost = (posts, newPost) =>
 
 module.exports = {
   findPostsWithinRadius,
+  findSurferPostById,
   createSurferPost,
 };
