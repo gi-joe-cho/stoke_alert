@@ -34,7 +34,7 @@ const postsRouter = knex => {
           const foundPost = new PostModel(response);
           return res.status(200).jsonp({ post: foundPost.getPost() });
         }
-        return res.status(404).jsonp({ error: 'Surfer post could not be found!' });
+        return res.status(404).jsonp({ message: 'Surfer post could not be found!' });
       } catch (error) {
         return res.status(500).jsonp({ error });
       }
