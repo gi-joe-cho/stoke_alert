@@ -2,7 +2,7 @@ const uuid = require('uuid/v4');
 const { Router } = require('express');
 
 const PostModel = require('../models/postModel');
-const { findPostsWithinRadius, createSurferPost } = require('../queries/posts');
+const { findPostsWithinRadius, findSurferPostById, createSurferPost } = require('../queries/posts');
 const { verifySessionTokenForAccess } = require('../utils/validations');
 const upload = require('../aws-sdk');
 
@@ -27,6 +27,18 @@ const postsRouter = knex => {
         return res.status(500).jsonp({ error });
       }
     })
+    .get('/:id', async ({ params: { id } }, res) => {
+      try {
+        const response = await findSurferPostById(posts, id);
+        if (response) {
+          const foundPost = new PostModel(response);
+          return res.status(200).jsonp({ post: foundPost.getPost() });
+        }
+        return res.status(404).jsonp({ message: 'Surfer post could not be found!' });
+      } catch (error) {
+        return res.status(500).jsonp({ error });
+      }
+    })
     .post('/:user_id/create', verifySessionTokenForAccess, upload.single('image'), async ({ file, body }, res) => {
       const newSurferPostData = {
         id: uuid(),
@@ -43,9 +55,9 @@ const postsRouter = knex => {
       try {
         const response = await createSurferPost(posts, newSurferPostData);
         const newPost = new PostModel(response);
-        return res.status(200).json({ post: newPost.getPost() });
+        return res.status(200).jsonp({ post: newPost.getPost() });
       } catch(error) {
-        return res.status(500).json({'error': error});
+        return res.status(500).jsonp({ error });
       }
     })
 };

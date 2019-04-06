@@ -3,7 +3,7 @@ const uuid = require('uuid/v4');
 const faker = require('faker');
 const users = require('../knex')('users');
 const posts = require('../knex')('posts');
-const { findPostsWithinRadius, createSurferPost } = require('../../../server/queries/posts');
+const { findPostsWithinRadius, findSurferPostById, createSurferPost } = require('../../../server/queries/posts');
 const { createFakeUserWithHashedPassword, createFakePost } = require('../../fakeData');
 
 describe('testing the postsRouter', async () => {
@@ -57,6 +57,37 @@ describe('testing the postsRouter', async () => {
       expect(post.first_name).toBe(fakeUser.first_name);
       expect(post.last_name).toBe(fakeUser.last_name);
       expect(post.email).toBe(fakeUser.email);
+    });
+  });
+
+  describe('findSurferPostById', async () => {
+    test('it should return undefined results if the post is not available', async () => {
+      const response = await findSurferPostById(posts, faker.random.uuid());
+
+      expect(response).toBeUndefined();
+    });
+
+    test('it should return surfer post information associated by the ID', async () => {
+      const response = await findSurferPostById(posts, fakePost.id);
+
+      expect(response.id).toBe(fakePost.id);
+      expect(response.user_id).toBe(fakeUser.id);
+      expect(response.user_rating).toBe(fakePost.user_rating);
+      expect(response.post_content).toBe(fakePost.post_content);
+      expect(response.up_votes).toBe(fakePost.up_votes);
+      expect(response.down_votes).toBe(fakePost.down_votes);
+      expect(response.image_location_url).toBe(fakePost.image_location_url);
+      expect(response.lat).toBe(fakePost.lat);
+      expect(response.lng).toBe(fakePost.lng);
+      expect(response.city).toBe(fakePost.city);
+      expect(response.state).toBe(fakePost.state);
+      expect(response.zipcode).toBe(fakePost.zipcode);
+      expect(response.created_at).toBeDefined();
+      expect(response.updated_at).toBeDefined();
+      expect(response.username).toBe(fakeUser.username);
+      expect(response.first_name).toBe(fakeUser.first_name);
+      expect(response.last_name).toBe(fakeUser.last_name);
+      expect(response.email).toBe(fakeUser.email);
     });
   });
 

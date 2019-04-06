@@ -1,6 +1,7 @@
 require('dotenv').config({ path: '../../../.env' });
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
+const faker = require('faker');
 const users = require('../knex')('users');
 const posts = require('../knex')('posts');
 const { createFakeUser, createFakePost } = require('../../fakeData');
@@ -108,6 +109,52 @@ describe('testing the postsRouter', async () => {
       });
 
       expect(response.status).toBe(404);
+    });
+  });
+
+  describe('GET /api/posts/:id', async () => {
+    test('it should throw a 404 error if the surfer post cannot be found when passing a non-existent post ID', async () => {
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts/${faker.random.uuid()}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { message } = await response.json();
+
+      expect(response.status).toBe(404);
+      expect(message).toBe('Surfer post could not be found!');
+    });
+
+    test('it should return surfer post information when providing the available post ID', async () => {
+      const selectedPost = await posts.select('*').from('posts').first();
+      const response = await fetch(`${process.env.DEV_API_DOMAIN}/posts/${selectedPost.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { post } = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(post.id).toBe(selectedPost.id);
+      expect(post.user_rating).toBe(selectedPost.user_rating);
+      expect(post.up_votes).toBe(selectedPost.up_votes);
+      expect(post.down_votes).toBe(selectedPost.down_votes);
+      expect(post.image_location_url).toBe(selectedPost.image_location_url);
+      expect(post.post_content).toBe(selectedPost.post_content);
+      expect(post.lat).toBe(selectedPost.lat);
+      expect(post.lng).toBe(selectedPost.lng);
+      expect(post.city).toBe(selectedPost.city);
+      expect(post.state).toBe(selectedPost.state);
+      expect(post.zipcode).toBe(selectedPost.zipcode);
+      expect(post.created_at).toBeDefined();
+      expect(post.updated_at).toBeDefined();
+      expect(post.user.id).toBe(fakeUser.id);
+      expect(post.user.username).toBe(fakeUser.username);
+      expect(post.user.first_name).toBe(fakeUser.first_name);
+      expect(post.user.last_name).toBe(fakeUser.last_name);
+      expect(post.user.email).toBe(fakeUser.email);
     });
   });
 
