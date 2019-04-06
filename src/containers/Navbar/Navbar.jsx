@@ -4,8 +4,9 @@ import { Menu, Button, Icon, Popup } from 'semantic-ui-react';
 import { validateName, validateZip, validateZipcode, validateUsername, validatePassword, validateRetype, validateEmail } from '../../utils/validations';
 import ModalSignIn from '../../components/Signin/Signin';
 import ModalSignUp from '../../components/Signup/Signup';
+import { withRouter } from 'react-router-dom';
 
-export default class MenuExampleTabularOnTop extends Component {
+class MenuExampleTabularOnTop extends Component {
 state = { 
 	first_name: '',
 	last_name: '', 
@@ -72,7 +73,14 @@ signInClose = () => this.setState({ signUpModalOpen: true, signInModalOpen: fals
 
 signBothClose = () => this.setState({ signUpModalOpen: false, signInModalOpen: false });
 
-handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+handleItemClick = (e, { name }) => {
+	this.setState({ activeItem: name });
+	if(name !== 'home'){
+		this.props.history.push('/' + name);
+	} else {
+		this.props.history.push('/');
+	}
+};
 
 handleChange = (e, { name, value }) => {
 	this.setState(prevState => {
@@ -274,8 +282,7 @@ newSignIn = async () => {
 
 signedOut = () => {
 	localStorage.clear();
-	// WILL CHANGE DO NOT USE WINDOW
-	window.location.reload();
+	this.props.history.go('/');
 }
     
 newClose = async () => {
@@ -405,17 +412,16 @@ render() {
 			</Menu>
 			<Menu className="file-menu" attached='top' tabular>
 				<Menu.Item 
-					name='Home' 
-					active={activeItem === 'Home'} 
-					onClick={this.handleItemClick} 
+					name='home' 
+					active={activeItem === 'home'} 
+					onClick={this.handleItemClick}
 				>
 					<span className="under-line">H</span>
 					<span>ome</span>
 				</Menu.Item> 
-                    
 				<Menu.Item 
-					name='New Post'
-					active={activeItem === 'New Post'}
+					name='post/new'
+					active={activeItem === 'post/new'}
 					onClick={this.handleItemClick}
 				>
 					<span className="under-line">N</span>
@@ -423,8 +429,8 @@ render() {
 				</Menu.Item>
 
 				<Menu.Item
-					name='Profile'
-					active={activeItem === 'Profile'}
+					name='profile'
+					active={activeItem === 'profile'}
 					onClick={this.handleItemClick}
 				>
 					<span className="under-line">P</span>
@@ -435,3 +441,5 @@ render() {
 	);
 }
 }
+
+export default withRouter(MenuExampleTabularOnTop);

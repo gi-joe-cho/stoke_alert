@@ -1,12 +1,12 @@
 import React from 'react';
 import { Icon, Button, Popup } from 'semantic-ui-react';
 
-const TabBar = ({ closeModal, tabMessage}) => (
+const TabBar = ({ closeModal, tabMessage, name}) => (
 	<div className="nav-bar">
 		<div className="title-bar">
 			<ul>
 				<li>
-					<span>S t o k e_A l e r t_{tabMessage}</span>
+					<span>S t o k e_A l e r t_{name}{tabMessage}</span>
 				</li>
 				<Button onClick={closeModal} id="close-window">
 					<Popup trigger={<Icon name="close" />} content='Close Window' />
