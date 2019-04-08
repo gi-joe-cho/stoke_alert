@@ -6,34 +6,34 @@ import StartMenu from '../../components/StartMenu/StartMenu';
 import HomeComponent from '../../components/Home/HomeComponent';
 
 class Home extends Component {
-state = {
-	tabBarName: localStorage.getItem('username'),
-}
-    
-tokenMatch = () => {
-	const { validations } = this.state;
-	let tokenStorage = localStorage.getItem('token');
-	if (validations.token != null && validations.token === tokenStorage) {
-		this.changeValidation('signedIn', true);
-	} else {
-		this.changeValidation('signedIn', false);
+	state = {
+		tabBarName: localStorage.getItem('username'),
 	}
-}
+	
+	tokenMatch = () => {
+		const { validations } = this.state;
+		let tokenStorage = localStorage.getItem('token');
+		if (validations.token != null && validations.token === tokenStorage) {
+			this.changeValidation('signedIn', true);
+		} else {
+			this.changeValidation('signedIn', false);
+		}
+	}
 
-render() {
-	return (
-		<div className="wrapper-container">
-			<Segment className="div-thang" raised>
-				<TabBar 
-					tabMessage={`U S E R: ${this.state.tabBarName !== null ? this.state.tabBarName : ''}` }
-					name = 'M a p_'
-				/>
-				<HomeComponent />
-				<StartMenu />
-			</Segment>
-		</div>
-	);
-}
+	render() {
+		return (
+			<div className="wrapper-container">
+				<Segment className="div-thang" raised>
+					<TabBar 
+						tabMessage={`U S E R: ${this.state.tabBarName !== null ? this.state.tabBarName : ''}` }
+						name = 'M a p_'
+					/>
+					<HomeComponent />
+					<StartMenu />
+				</Segment>
+			</div>
+		);
+	}
 }
 
 export default Home;
