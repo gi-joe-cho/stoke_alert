@@ -4,6 +4,7 @@ import { Segment } from 'semantic-ui-react';
 import TabBar from '../../components/TabBar/TabBar';
 import StartMenu from '../../components/StartMenu/StartMenu';
 import ProfileComponent from '../../components/Profile/ProfileComponent';
+
 class Profile extends Component {
 	state = {
 		tabBarName: localStorage.getItem('username'),

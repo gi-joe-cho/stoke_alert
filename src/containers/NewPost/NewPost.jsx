@@ -4,6 +4,7 @@ import { Segment } from 'semantic-ui-react';
 import TabBar from '../../components/TabBar/TabBar';
 import StartMenu from '../../components/StartMenu/StartMenu';
 import NewPostComponent from '../../components/NewPost/NewPostComponent';
+
 class NewPost extends Component {
 	state = {
 		tabBarName: localStorage.getItem('username'),
