@@ -413,7 +413,7 @@ render() {
 			<Menu className="file-menu" attached='top' tabular>
 				<Menu.Item 
 					name='home' 
-					active={activeItem === 'home'} 
+					active={activeItem === 'home' || this.props.location.pathname === '/'} 
 					onClick={this.handleItemClick}
 				>
 					<span className="under-line">H</span>
@@ -421,7 +421,7 @@ render() {
 				</Menu.Item> 
 				<Menu.Item 
 					name='post/new'
-					active={activeItem === 'post/new'}
+					active={activeItem === 'post/new' || this.props.location.pathname === '/post/new'}
 					onClick={this.handleItemClick}
 				>
 					<span className="under-line">N</span>
@@ -430,7 +430,7 @@ render() {
 
 				<Menu.Item
 					name='profile'
-					active={activeItem === 'profile'}
+					active={activeItem === 'profile' || this.props.location.pathname === '/profile'}
 					onClick={this.handleItemClick}
 				>
 					<span className="under-line">P</span>
