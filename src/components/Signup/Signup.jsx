@@ -41,7 +41,9 @@ const ModalSignUp = (
 		open={upModalOpen}
 		closeOnDimmerClick={false}
 	>
-		<Modal.Header><TabBar tabMessage={'S i g n_U p . e x e'} closeModal={signBothClose}/></Modal.Header>
+		<Modal.Header>
+			<TabBar tabMessage={'S i g n_U p . e x e'} closeModal={signBothClose}/>
+		</Modal.Header>
 		<Modal.Content>
 			<Form onSubmit={handleSubmit} widths='equal'>
 				<Segment className="modal-pool">
@@ -121,9 +123,27 @@ const ModalSignUp = (
 			</Form>
 		</Modal.Content>
 		<Modal.Actions>
-			<label className="windows-btn-sign" onClick={upClose}><span className='window-btn-span-sign'>Sign In</span><Popup trigger={<Icon name="sign-in" />} content='Sign-in to your account' /></label>
-			<label className="windows-btn" htmlFor="submit-form" onClick={newClose} tabIndex="0"><span className='window-btn-span-ok'>Submit</span></label>
-			<label onClick={signBothClose} className="windows-btn"><span className='window-btn-span-cancel'>Cancel</span></label>
+			<label 
+				className="windows-btn-sign" 
+				onClick={upClose}
+			>
+				<span className='window-btn-span-sign'>Sign In</span>
+				<Popup trigger={<Icon name="sign-in" />} content='Sign-in to your account' />
+			</label>
+			<label 
+				className="windows-btn" 
+				htmlFor="submit-form" 
+				onClick={newClose} 
+				tabIndex="0"
+			>
+				<span className='window-btn-span-ok'>Submit</span>
+			</label>
+			<label 
+				onClick={signBothClose} 
+				className="windows-btn"
+			>
+				<span className='window-btn-span-cancel'>Cancel</span>
+			</label>
 		</Modal.Actions>
 	</Modal>
 );
