@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Segment } from 'semantic-ui-react';
-class Home extends Component {
 
+class Home extends Component {
 render() {
 	return(
 		<Segment className="home-ocean-pic">
