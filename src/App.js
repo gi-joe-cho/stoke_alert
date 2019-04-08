@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Navbar from './containers/Navbar/Navbar';
 import Home from './containers/Home/Home';
@@ -6,8 +7,6 @@ import NewPost from './containers/NewPost/NewPost';
 import Profile from './containers/Profile/Profile';
 import asyncComponent from './hoc/asyncComponent';
 import NoLogin from './components/NoLogin/NoLogin';
-
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 class App extends Component {
 	state = {
