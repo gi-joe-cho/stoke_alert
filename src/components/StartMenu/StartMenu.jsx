@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Button, Dropdown, Icon } from 'semantic-ui-react';
 
-const startMenu = () => (
+const StartMenu = () => (
 	<div className="start-menu">
 		<Dropdown
 			upward
@@ -33,4 +33,4 @@ const startMenu = () => (
 	</div>
 );
 
-export default startMenu;
+export default StartMenu;
