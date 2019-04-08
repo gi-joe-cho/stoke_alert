@@ -10,15 +10,6 @@ class NewPost extends Component {
 		tabBarName: localStorage.getItem('username'),
 	}
 
-	tokenMatch = () => {
-		const { validations } = this.state;
-		let tokenStorage = localStorage.getItem('token');
-		if (validations.token != null && validations.token === tokenStorage) {
-			this.changeValidation('signedIn', true);
-		} else {
-			this.changeValidation('signedIn', false);
-		}
-	}
 	render() {
 		return (
 			<div className="wrapper-container">
