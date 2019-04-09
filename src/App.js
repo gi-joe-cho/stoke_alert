@@ -5,8 +5,8 @@ import Navbar from './containers/Navbar/Navbar';
 import Home from './containers/Home/Home';
 import NewPost from './containers/NewPost/NewPost';
 import Profile from './containers/Profile/Profile';
-import asyncComponent from './hoc/asyncComponent';
 import NoLogin from './components/NoLogin/NoLogin';
+import NoMatch from './components/NoMatch/NoMatch';
 
 class App extends Component {
 	state = {
@@ -36,10 +36,10 @@ class App extends Component {
 					<Switch>
 						{/* {this.state.auth ? <Route path="/new-post" component={AsyncNewPost} /> : null} */}
 						{/* <Redirect from="/" to="/posts" /> */}
-						{this.state.signedIn ? <Route path="/profile" component={Profile} /> : <Route path="/profile" component={NoLogin}/> }
-						{this.state.signedIn ? <Route path="/post/new" component={NewPost} /> : <Route path="/post/new" component={NoLogin} /> }
+						{this.state.signedIn ? <Route path="/profile" exact component={Profile} /> : <Route path="/profile" component={NoLogin}/> }
+						{this.state.signedIn ? <Route path="/post/new" exact component={NewPost} /> : <Route path="/post/new" component={NoLogin} /> }
 						<Route path="/" exact component={Home} />
-						<Route render={() => <h1>Not found</h1>} />
+						<Route component={NoMatch} />
 					</Switch>
 				</div>
 			</BrowserRouter>
