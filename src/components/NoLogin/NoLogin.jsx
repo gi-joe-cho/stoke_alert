@@ -14,12 +14,12 @@ class NoLogin extends Component {
 			<div className="wrapper-container">
 				<Segment className="div-thang" raised>
 					<TabBar
-						tabMessage={`U S E R: ${this.state.tabBarName !== null ? this.state.tabBarName : ''}`}
-						name='M a p_'
+						tabMessage={`U S E R: ${this.state.tabBarName !== null ? this.state.tabBarName : 'L O G I N_N o t_V e r i f i e d'}`}
+						name='E r r o r_'
 					/>
 					<Segment className="no-login-pic">
 						<Segment className="home-row" stacked>
-							<h1>4 4 0_L o g i n_I n_D u d e</h1>
+							<h1>4 4 0 : L o g i n_T o_P r o c e e d</h1>
 						</Segment>
 					</Segment>
 					<StartMenu />

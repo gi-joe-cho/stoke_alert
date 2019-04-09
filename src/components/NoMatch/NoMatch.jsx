@@ -8,7 +8,7 @@ class NoMatch extends Component {
 	render() {
 		return (
 			<div className="wrapper-no-login">
-				<h1>4 0 4_P a g e_N o t_F o u n d</h1>
+				<h1>4 0 4 : P a g e_N o t_F o u n d</h1>
 			</div>
 		);
 	}
