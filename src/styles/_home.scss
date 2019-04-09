@@ -19,11 +19,17 @@ html,body {
   height: 100vh;
   z-index: 1;
   // MOVE TO ASSETS
-  background-image: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/frog-man-wipeout-sean-davey.jpg);
+	background: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/frog-man-wipeout-sean-davey.jpg) center;
+	background-size: cover;
+	background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+	align-items: center;
+	color: rgb(240, 67, 122);
+	h1{
+		margin-bottom: 200px;
+	}
 }
 
 .ui.segment.div-thang {
@@ -63,6 +69,25 @@ html,body {
 .ui.segment.new-post-ocean-pic {
   // MOVE PIC TO ASSETS
   background: url(https://kids.nationalgeographic.com/content/dam/kids/photos/articles/Nature/H-P/Habitats/Ocean/wave.ngsversion.1500050062134.adapt.1900.1.jpg) center;
+  background-size:cover ;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-right: 4px solid rgb(210, 210, 210);
+  border-left: 3px solid rgb(210, 210, 210);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 0;
+  border-bottom: 0;
+  border-radius: 0;
+}
+
+.ui.segment.no-login-pic {
+  // MOVE PIC TO ASSETS
+  background: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/frog-man-wipeout-sean-davey.jpg) center;
   background-size:cover ;
   height: 100%;
   width: 100%;
