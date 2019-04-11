@@ -408,7 +408,7 @@ class MenuExampleTabularOnTop extends Component {
                 }
               </Button>
             </Menu.Item>
-  				</Menu.Menu>
+          </Menu.Menu>
         </Menu>
         <Menu className="file-menu" attached='top' tabular>
           <Menu.Item 
