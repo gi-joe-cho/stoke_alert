@@ -19,17 +19,18 @@ html,body {
   height: 100vh;
   z-index: 1;
   // MOVE TO ASSETS
-	background: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/frog-man-wipeout-sean-davey.jpg) center;
-	background-size: cover;
-	background-repeat: no-repeat;
+  background: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/frog-man-wipeout-sean-davey.jpg) center;
+  background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
-	align-items: center;
-	color: rgb(240, 67, 122);
-	h1{
-		margin-bottom: 200px;
-	}
+  align-items: center;
+  color: rgb(240, 67, 122);
+
+  h1{
+    margin-bottom: 200px;
+  }
 }
 
 .ui.segment.div-thang {
