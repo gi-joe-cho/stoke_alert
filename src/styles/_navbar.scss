@@ -19,7 +19,7 @@
       letter-spacing: 1vw;
       border-radius: 0
     }
-  } 
+  }
 
   .ui.menu[class*="top attached"]:first-child {
     background-color: rgb(95, 192, 252);
@@ -84,4 +84,12 @@
 
 .ui.tabular.menu.active.item {
   border-radius: 0;
+}
+
+a {
+  color:black;
+}
+
+a.active {
+  color: black;
 }

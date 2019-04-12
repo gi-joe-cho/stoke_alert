@@ -14,6 +14,25 @@ html,body {
   align-items: center;
 }
 
+.wrapper-no-login {
+  padding-top: 69px;
+  height: 100vh;
+  z-index: 1;
+  // MOVE TO ASSETS
+  background: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/frog-man-wipeout-sean-davey.jpg) center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgb(240, 67, 122);
+
+  h1{
+    margin-bottom: 200px;
+  }
+}
+
 .ui.segment.div-thang {
   height: 90%;
   width: 90%;
@@ -33,6 +52,63 @@ html,body {
   // MOVE PIC TO ASSETS
   background: url(https://images.pexels.com/photos/7321/sea-water-ocean-horizon.jpg?auto=compress&cs=tinysrgb&h=750&w=1260) center;
   background-size:cover ;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-right: 4px solid rgb(210, 210, 210);
+  border-left: 3px solid rgb(210, 210, 210);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 0;
+  border-bottom: 0;
+  border-radius: 0;
+}
+
+.ui.segment.new-post-ocean-pic {
+  // MOVE PIC TO ASSETS
+  background: url(https://kids.nationalgeographic.com/content/dam/kids/photos/articles/Nature/H-P/Habitats/Ocean/wave.ngsversion.1500050062134.adapt.1900.1.jpg) center;
+  background-size:cover ;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-right: 4px solid rgb(210, 210, 210);
+  border-left: 3px solid rgb(210, 210, 210);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 0;
+  border-bottom: 0;
+  border-radius: 0;
+}
+
+.ui.segment.no-login-pic {
+  // MOVE PIC TO ASSETS
+  background: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/frog-man-wipeout-sean-davey.jpg) center;
+  background-size:cover ;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-right: 4px solid rgb(210, 210, 210);
+  border-left: 3px solid rgb(210, 210, 210);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 0;
+  border-bottom: 0;
+  border-radius: 0;
+}
+
+.ui.segment.profile-ocean-pic {
+  // MOVE PIC TO ASSETS
+  background: url(https://i.ytimg.com/vi/3J1IYEQ1h4U/hqdefault.jpg) left top;
+  background-size: center;
   height: 100%;
   width: 100%;
   margin: 0;
@@ -179,7 +255,7 @@ html,body {
 
   .ui.button.start-menu-icon-ig{
     height: 90%;
-    margin-top: 6px;
+    margin-top: 2px;
     margin-bottom: 4px;
     padding: 0px;
     padding: 3px 3px;
@@ -209,7 +285,7 @@ html,body {
   
   .ui.button.start-menu-icon {
     height: 90%;
-    margin-top: 6px;
+    margin-top: 2px;
     margin-bottom: 2px;
     padding: 0px;
     padding-top: 1px;
@@ -244,12 +320,41 @@ html,body {
   border-bottom: 0;
   border-top: 0;
   background: rgb(227, 226, 226);
+  padding: 0px;
   filter: brightness(0.8);
 
-  .modal-ocean {
+  .modal-pool {
+    background-image: url(../utils/poolPic.png);
+    background-size: contain;
+    color: black;
+
+    .color-div {
+      background-color: red;
+      opacity: 0.3;
+      margin-top: 1rem;
+      color: white;
+    }
+  }
+
+  .visible.menu.transition {
+    min-width: 0;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .ui.checkbox input.hidden+label {
+    background: #fff;
+    padding-right: 4px;
+    opacity: 0.7;
+  }
+
+    .modal-ocean {
     background-image: url(../utils/signPic.png);
     background-size: contain;
-    color: white;
+    color: rgb(0, 0, 0);
+    font-size: 14px;
 
     .color-div {
       background-color: red;
@@ -272,12 +377,59 @@ html,body {
     opacity: 0.7;
   }
 }
+
 .ui.modal>.actions {
   background: rgb(198, 197, 197);
   border: 3px solid rgb(210, 210, 210);
   border-top: 0;
+  display: flex;
+  flex-direction: row;
+
+  .windows-btn-sign {
+    margin-right: auto;
+    border-radius: 0;
+    border: 0.5px solid rgb(142, 142, 142);
+    border-top: 0;
+    border-left: 0;
+    background: rgb(198, 197, 197);
+    padding: 5.5px 3px;
+    box-shadow: 
+      2px 1px 0.7px rgb(91, 91, 91),
+      inset 1px 1px 2px rgb(114, 114, 114);
+    margin-left: 10px;
+
+    .window-btn-span-sign {
+      padding: 1px 0.7rem;
+    }
+        &:focus {
+      outline: 0;
+    }
+    
+    &:hover {
+      background-color:rgb(181, 181, 181);
+      cursor: pointer;
+    }
+    
+    &:active {
+      background:rgb(133, 133, 133);
+    }
+
+    .window-btn-span-ok {
+      border: 1px dotted black;
+      padding: 1px 3rem;
+    }
+    
+    .window-btn-span-cancel {
+      padding: 1px 2rem;
+    }
+
+    &::first-letter {
+      text-decoration: underline;
+    }
+  }
   
   .windows-btn {
+    margin-left: auto;
     border-radius: 0;
     border: 0.5px solid rgb(142, 142, 142);
     border-top: 0;
@@ -306,7 +458,7 @@ html,body {
       border: 1px dotted black;
       padding: 1px 3rem;
     }
-
+    
     .window-btn-span-cancel {
       padding: 1px 2rem;
     }
