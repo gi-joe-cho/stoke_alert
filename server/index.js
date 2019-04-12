@@ -12,6 +12,7 @@ const mainRouter = require('./routes/mainRouter');
 express()
   .use(cors())
   .use(bodyParser.json())
+  .use(bodyParser.urlencoded({ extended: true }))
   .use('/api', mainRouter(knex))
   .listen(process.env.SERVER_PORT, err => {
     if (err) {

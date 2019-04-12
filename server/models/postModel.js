@@ -92,16 +92,17 @@ class PostModel {
     return this._email;
   }
 
-  user() {
+  getUser() {
     return {
       id: this._user_id,
+      username: this._username,
       first_name: this._first_name,
       last_name: this._last_name,
       email: this._email,
     }
   }
 
-  post() {
+  getPost() {
     return {
       id: this._id,
       user_rating: this._user_rating,
@@ -116,7 +117,7 @@ class PostModel {
       zipcode: this._zipcode,
       created_at: this._created_at,
       updated_at: this._updated_at,
-      user: this.user(),
+      user: this.getUser(),
     }
   }
 }
