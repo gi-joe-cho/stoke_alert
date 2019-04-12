@@ -34,8 +34,6 @@ class App extends Component {
         <div>
           <Navbar />
           <Switch>
-            {/* {this.state.auth ? <Route path="/new-post" component={AsyncNewPost} /> : null} */}
-            {/* <Redirect from="/" to="/posts" /> */}
             {this.state.signedIn ? <Route path="/profile" exact component={Profile} /> : <Route path="/profile" component={NoLogin}/> }
             {this.state.signedIn ? <Route path="/post/new" exact component={NewPost} /> : <Route path="/post/new" component={NoLogin} /> }
             <Route path="/" exact component={Home} />

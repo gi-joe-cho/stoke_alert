@@ -4,8 +4,8 @@
     "node": true,
     "commonjs": true,
     "es6": true
-	},
-	"parser": "babel-eslint",
+  },
+  "parser": "babel-eslint",
   "extends": "eslint:recommended",
   "parserOptions": {
     "ecmaFeatures": {
@@ -20,7 +20,7 @@
   "rules": {
     "indent": [
       "error",
-      "tab"
+      "spaces"
     ],
     "linebreak-style": [
       "error",
@@ -34,12 +34,12 @@
       "error",
       "always"
     ],
-		"react/jsx-uses-react": [
-			"error"
-		],
-		"react/jsx-uses-vars": [ 
-			"error"
-		],
-		"no-console": 0
-	}
+    "react/jsx-uses-react": [
+      "error"
+    ],
+    "react/jsx-uses-vars": [ 
+      "error"
+    ],
+    "no-console": 0
+  }
 }
