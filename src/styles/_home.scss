@@ -135,6 +135,37 @@ html,body {
   padding: 0;
 }
 
+@media (max-width: 1000px) {
+  .ui.segment.home-row {
+    overflow-y: scroll;
+    display: inline-block;
+    align-items: center;
+  }
+  
+  div.ui.placeholder.segment.map-list-container {
+    width: 60%;
+    height: 20%px;
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+  
+  div.map-list-item-active {
+    background-color: rgb(254, 113, 136);
+    height: 25%;
+    padding-top: 3%;
+    padding-left: 5px;
+  }
+  
+  div.ui.placeholder.segment.map-container {
+    width: 90%;
+    height: 80%;
+    margin: auto;
+    margin-top: 5%;
+    margin-top: 5%;
+  }
+}
+
 .map {
   background-color: red;
   display: inline;
@@ -144,12 +175,11 @@ html,body {
   background-color:skyblue;
   height: 80%;
   width: 60%;
-  overflow-y:scroll;
   margin: 0;
   border:0;
   padding: 0;
   min-height:0;
-  opacity:0.4;
+  opacity:0.8;
 
   &::-webkit-scrollbar {
     width: 20px;
@@ -192,6 +222,8 @@ html,body {
   border:0;
   padding: 0;
   min-height:0;
+  display: block;
+  
 
   &::-webkit-scrollbar {
     width: 20px;
