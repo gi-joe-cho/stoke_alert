@@ -1,0 +1,65 @@
+h4 {
+  margin-bottom: 0;
+}
+
+p{
+  padding-left: 22px;
+}
+
+.red{
+  color: red;
+}
+
+.orange{
+  color: rgb(244, 159, 3);
+}
+
+.yellow{
+  color: rgb(255, 249, 70);
+}
+
+.teal{
+  color: teal;
+}
+
+.grey{
+  color: rgb(91, 90, 90);
+}
+
+.marker-span{
+  padding-left: 22px;
+}
+
+.map-list-item {
+  padding-left: 5px;
+  border-bottom: 1px solid;
+}
+
+.map-list-item-active{
+  background-color: rgb(254, 113, 136);
+  height: 25%;
+  padding-top: 5%;
+  padding-left: 5px;
+}
+
+.segment.map-list-header {
+  text-align: center;
+  font-size: 17px;
+  margin-bottom: 0;
+}
+
+.pointing.below.circular.label.map-marker-active{
+  padding: 4px!important;
+  border: 3px solid;
+  border-color: rgb(151, 255, 253)!important;
+}
+
+div.map-list-item:hover {
+  background-color: rgb(254, 113, 136);
+  cursor: pointer;
+}
+
+div.map-list-item-active:hover {
+  background-color: rgb(254, 113, 136);
+  cursor: pointer;
+}
