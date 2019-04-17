@@ -118,7 +118,7 @@ const ModalSignUp = (
             <strong>onSubmit:</strong>
             <pre>{JSON.stringify({ submittedName, submittedEmail }, null, 2)}</pre>
             <input type="submit" id="submit-form" className="hidden" />
-        </div>
+          </div>
         </Segment>
       </Form>
     </Modal.Content>
