@@ -1,61 +1,10 @@
 import React, { Component } from 'react';
-import { Menu, Segment, Popup, Icon, Label } from 'semantic-ui-react';
-import GoogleMapReact from 'google-map-react';
+import { Segment, Icon } from 'semantic-ui-react';
 import { withRouter} from 'react-router-dom';
 
-const style = {
-  borderRadius: 0,
-  border: '1px solid white',
-  opacity : 0.7,
-  backgroundColor: 'grey',
-  color: 'white'
-};
-
-const AnyReactComponent = ({ onClose, opened, labelClass, mouseEnter, mouseLeave, clicked, date, upVote, downVote, city, text, color }) => (
-  <Popup
-    trigger={(
-      <Label 
-        as='a'
-        className={labelClass}
-        onClick={clicked}
-        onMouseEnter={mouseEnter}
-        onMouseLeave={mouseLeave}
-        color={color}
-        pointing='below'
-        circular 
-      >
-        {text}
-      </Label>
-    )}
-    style={style}
-    size='mini'
-    on='click'
-    open={opened}
-    onClose={onClose}
-  >
-    <Menu.Header>
-      {city}
-    </Menu.Header>
-    <span>Posted: {date}</span>
-    <Menu size='tiny'>
-      <Menu.Item as='a'>
-        <Icon name='thumbs up'/>
-        <Label color='teal' floating>
-          {upVote}
-        </Label>
-      </Menu.Item>
-      <Menu.Item as='a'>
-        <Icon name='thumbs down' />
-        <Label color='red' floating>
-          {downVote}
-        </Label>
-      </Menu.Item>
-    </Menu>
-  </Popup>
-);
-
-let today = new Date();
-let dateToday = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+import HomeMap from './HomeMap';
+import HomeMapList from './HomeMapList';
+let popOpen = false;
 
 class Home extends Component {
   state = { 
@@ -79,7 +28,7 @@ class Home extends Component {
     }
   }
     
-  componentWillMount = async () => {
+  componentDidMount = async () => {
     await navigator.geolocation.watchPosition(
       position => {
         const { latitude, longitude } = position.coords;
@@ -102,105 +51,50 @@ class Home extends Component {
   
   postMouseEnterHandler = (id) => this.setState({ selectedPostId: id });
   
-  postMouseLeaveHandler () {this.setState({ selectedPostId: ''});}
+  postMouseLeaveHandler = () => this.setState({ selectedPostId: ''});
   
-  postClickedHandler = (id) => {
-    // this.props.history.push('/post/' + id);
-    this.setState({ clickedPostId: id });
-    // this.setState({ clickedMarkerId: id });
-  }
+  postClickedHandler = (id) => this.setState({ clickedPostId: id });
   
-  markerSelectedHandler = (id) => this.setState({ selectedMarkerId: id, selectedPostId: id })
+  markerSelectedHandler = (id) => this.setState({ selectedMarkerId: id, selectedPostId: id });
   
-  markerNotSelectedHandler() {
-    this.setState({ selectedMarkerId: '', selectedPostId: '' });
-  }
+  markerNotSelectedHandler = () => this.setState({ selectedMarkerId: '', selectedPostId: '' });
 
   markerClickedHandler = (id) => this.setState({ clickedMarkerId: id });
+  
+  onCloseHandler = () => this.setState({ selectedMarkerId: '', selectedPostId: '', clickedMarkerId: '', clickedPostId: '' });
 
   render() {
-    const { loading, userLocation, posts, selectedMarkerId, clickedMarkerId, selectedPostId, clickedPostId } = this.state;
-    let popOpen = false;
+    const { 
+      zoom,
+      loading, 
+      userLocation, 
+      posts, 
+      selectedMarkerId, 
+      clickedMarkerId, 
+      selectedPostId, 
+      clickedPostId 
+    } = this.state;
+    
     return(
       <Segment className="home-ocean-pic">
         <Segment className="home-row" stacked>
           <Segment className="map-container" placeholder raised>
-            <div style={{ height: '100%', width: '100%' }}>
-              {
-                !loading
-                  ? (
-                    <GoogleMapReact
-                      // bootstrapURLKeys={{ key: /* YOUR KEY HERE */ }}
-                      defaultCenter={userLocation}
-                      defaultZoom={this.state.zoom}
-                      onChange={this.changeBounds}
-                    >
-                      <AnyReactComponent
-                        lat={userLocation.lat}
-                        lng={userLocation.lng}
-                        date={dateToday}
-                        text="Current Location"
-                        city='Current Location'
-                      />
-                      {
-                        posts !== undefined
-                          ? (
-                            posts.map(post => {
-                              let markerColor='';
-                              let markerClass = '';
-                              if(post.user_rating === 'Gnarly') {
-                                markerColor = 'red';
-                              } else if (post.user_rating === 'Good') {
-                                markerColor ='orange';
-                              } else if (post.user_rating === 'Fair') {
-                                markerColor ='yellow';
-                              } else if (post.user_rating === 'Poor') {
-                                markerColor ='teal';
-                              } else if (post.user_rating === 'Flat') {
-                                markerColor ='grey';
-                              }
-                              if (selectedPostId === post.id || clickedPostId === post.id) {
-                                markerClass = 'map-marker-active';
-                              }
-                              if (clickedPostId === post.id || clickedMarkerId === post.id ){
-                                popOpen = true;
-                              } else {
-                                popOpen = false;
-                              }
-                              return (
-                                <AnyReactComponent
-                                  labelClass={markerClass}
-                                  key={post.id}
-                                  lat={post.lat}
-                                  lng={post.lng}
-                                  text={post.user_rating}
-                                  city={post.city}
-                                  color={markerColor}
-                                  upVote={post.up_votes}
-                                  downVote={post.down_votes}
-                                  date={post.created_at.substring(0, 10)}
-                                  opened={popOpen}
-                                  onClose={() => {
-                                    this.setState({selectedMarkerId: ''});
-                                    this.setState({selectedPostId: ''});
-                                    this.setState({clickedMarkerId: ''});
-                                    this.setState({clickedPostId: ''});
-                                    popOpen = false;
-                                  }}
-                                  clicked={() => this.markerClickedHandler(post.id)}
-                                  mouseEnter={() => this.markerSelectedHandler(post.id)}
-                                  mouseLeave={() => this.markerNotSelectedHandler(post.id)}
-                                />
-                              );
-                            })
-                          )
-                          : null
-                      }
-                    </GoogleMapReact>
-                  )
-                  : null
-              }
-            </div>
+            <HomeMap 
+              loading={loading}
+              userLocation={userLocation}
+              posts={posts}
+              selectedMarkerId={selectedMarkerId}
+              selectedPostId={selectedPostId}
+              clickedMarkerId={clickedMarkerId}
+              clickedPostId={clickedPostId}
+              onCloseHandler={this.onCloseHandler}
+              changeBounds={this.changeBounds}
+              markerClickedHandler={this.markerClickedHandler}
+              markerNotSelectedHandler={this.markerNotSelectedHandler}
+              markerSelectedHandler={this.markerSelectedHandler}
+              popOpen={popOpen}
+              zoom={zoom}
+            />
           </Segment>
           <Segment className="map-list-container" placeholder raised>
             <Segment className='map-list-header'>
@@ -210,53 +104,17 @@ class Home extends Component {
               </span>
               <Icon name='warning sign'/>
             </Segment>
-            {
-              posts !== undefined
-                ? (
-                  posts.map(post => {
-                    let postColor = '';
-                    let postClass = 'map-list-item';
-                    if (post.user_rating === 'Gnarly') {
-                      postColor = 'red';
-                    } else if (post.user_rating === 'Good') {
-                      postColor = 'orange';
-                    } else if (post.user_rating === 'Fair') {
-                      postColor = 'yellow';
-                    } else if (post.user_rating === 'Poor') {
-                      postColor = 'teal';
-                    } else if (post.user_rating === 'Flat') {
-                      postColor = 'grey';
-                    }
-                    if (selectedMarkerId === post.id || clickedMarkerId === post.id ){
-                      postClass = 'map-list-item-active';
-                    }
-                    return (
-                      <div 
-                        className={postClass} 
-                        onMouseEnter={() => this.postMouseEnterHandler(post.id)}
-                        onMouseLeave={() => this.postMouseLeaveHandler(post.id)}
-                        onClick={() => {
-                          this.postClickedHandler(post.id);
-                          popOpen = false;
-                        }}
-                        key={post.id}
-                      >
-                        <h4 className={postColor}>
-                          <Icon name='folder' />{post.city}
-                        </h4>
-                        <span className='marker-span'>
-                          <strong>Posted: </strong>
-                          {post.created_at.substring(0, 10)}
-                        </span>
-                        <p>
-                          {post.post_content.substring(0, 65) + '...'}
-                        </p>
-                      </div>
-                    );
-                  })
-                )
-                : null
-            }
+            <HomeMapList 
+              posts={posts}
+              clickedMarkerId={clickedMarkerId}
+              clickedPostId={clickedPostId}
+              selectedMarkerId={selectedMarkerId}
+              selectedPostId={selectedPostId}
+              popOpen={popOpen}
+              postClickedHandler={this.postClickedHandler}
+              postMouseEnterHandler={this.postMouseEnterHandler}
+              postMouseLeaveHandler={this.postMouseLeaveHandler}
+            />
           </Segment>
         </Segment>
       </Segment>
