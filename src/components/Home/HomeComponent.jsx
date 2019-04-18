@@ -75,59 +75,49 @@ class Home extends Component {
     if (this.state.newBounds !== null){
       const response = await fetch('http://localhost:8081/api/posts?min_lat=' + this.state.newBounds.se.lat.toString() + '&max_lat=' + this.state.newBounds.ne.lat.toString() + '&min_lng=' + this.state.newBounds.sw.lng.toString() + '&max_lng=' + this.state.newBounds.ne.lng.toString());
       const { posts } = await response.json();
-      this.setState({posts})
-    } else{
-      
+      this.setState({posts});
     }
   }
     
   componentWillMount = async () => {
-      await navigator.geolocation.watchPosition(
-        position => {
-          const { latitude, longitude } = position.coords;
-          
-          this.setState({
-            userLocation: {lat:latitude, lng:longitude},
-            loading: false
-          });
-        },
-        () => {
-          this.setState({ loading: false });
-        }
-      );
+    await navigator.geolocation.watchPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        
+        this.setState({
+          userLocation: {lat:latitude, lng:longitude},
+          loading: false
+        });
+      },
+      () => {
+        this.setState({ loading: false });
+      }
+    );
   }
   
   changeBounds = async (props) => {
-    await this.setState({newBounds: props.bounds})
+    await this.setState({newBounds: props.bounds});
     this.getPosts();
   }
   
-  postMouseEnterHandler = (id) => {this.setState({ selectedPostId: id })}
+  postMouseEnterHandler = (id) => this.setState({ selectedPostId: id });
   
-  postMouseLeaveHandler () {this.setState({ selectedPostId: ''})}
+  postMouseLeaveHandler () {this.setState({ selectedPostId: ''});}
   
   postClickedHandler = (id) => {
     // this.props.history.push('/post/' + id);
     this.setState({ clickedPostId: id });
     // this.setState({ clickedMarkerId: id });
-    
   }
   
-  markerSelectedHandler = (id) => {
-    this.setState({ selectedMarkerId: id});
-    this.setState({ selectedPostId: id });
-  }
+  markerSelectedHandler = (id) => this.setState({ selectedMarkerId: id, selectedPostId: id })
   
   markerNotSelectedHandler() {
-    this.setState({ selectedMarkerId: ''});
-    this.setState({ selectedPostId: '' });
-  }
-  
-  markerClickedHandler = (id) => {
-    this.setState({ clickedMarkerId: id });
+    this.setState({ selectedMarkerId: '', selectedPostId: '' });
   }
 
-    
+  markerClickedHandler = (id) => this.setState({ clickedMarkerId: id });
+
   render() {
     const { loading, userLocation, posts, selectedMarkerId, clickedMarkerId, selectedPostId, clickedPostId } = this.state;
     let popOpen = false;
@@ -135,7 +125,7 @@ class Home extends Component {
       <Segment className="home-ocean-pic">
         <Segment className="home-row" stacked>
           <Segment className="map-container" placeholder raised>
-              <div style={{ height: '100%', width: '100%' }}>
+            <div style={{ height: '100%', width: '100%' }}>
               {
                 !loading
                   ? (
@@ -159,18 +149,18 @@ class Home extends Component {
                               let markerColor='';
                               let markerClass = '';
                               if(post.user_rating === 'Gnarly') {
-                                markerColor = 'red' 
+                                markerColor = 'red';
                               } else if (post.user_rating === 'Good') {
-                                  markerColor ='orange'
+                                markerColor ='orange';
                               } else if (post.user_rating === 'Fair') {
-                                  markerColor ='yellow'
+                                markerColor ='yellow';
                               } else if (post.user_rating === 'Poor') {
-                                  markerColor ='teal'
+                                markerColor ='teal';
                               } else if (post.user_rating === 'Flat') {
-                                  markerColor ='grey'
+                                markerColor ='grey';
                               }
                               if (selectedPostId === post.id || clickedPostId === post.id) {
-                                markerClass = 'map-marker-active'
+                                markerClass = 'map-marker-active';
                               }
                               if (clickedPostId === post.id || clickedMarkerId === post.id ){
                                 popOpen = true;
@@ -178,30 +168,30 @@ class Home extends Component {
                                 popOpen = false;
                               }
                               return (
-                              <AnyReactComponent
-                                labelClass={markerClass}
-                                key={post.id}
-                                lat={post.lat}
-                                lng={post.lng}
-                                text={post.user_rating}
-                                city={post.city}
-                                color={markerColor}
-                                upVote={post.up_votes}
-                                downVote={post.down_votes}
-                                date={post.created_at.substring(0, 10)}
-                                opened={popOpen}
-                                onClose={() => {
-                                  this.setState({selectedMarkerId: ''});
-                                  this.setState({selectedPostId: ''});
-                                  this.setState({clickedMarkerId: ''});
-                                  this.setState({clickedPostId: ''});
-                                  popOpen = false;
-                                }}
-                                clicked={() => this.markerClickedHandler(post.id)}
-                                mouseEnter={() => this.markerSelectedHandler(post.id)}
-                                mouseLeave={() => this.markerNotSelectedHandler(post.id)}
-                              />
-                              )
+                                <AnyReactComponent
+                                  labelClass={markerClass}
+                                  key={post.id}
+                                  lat={post.lat}
+                                  lng={post.lng}
+                                  text={post.user_rating}
+                                  city={post.city}
+                                  color={markerColor}
+                                  upVote={post.up_votes}
+                                  downVote={post.down_votes}
+                                  date={post.created_at.substring(0, 10)}
+                                  opened={popOpen}
+                                  onClose={() => {
+                                    this.setState({selectedMarkerId: ''});
+                                    this.setState({selectedPostId: ''});
+                                    this.setState({clickedMarkerId: ''});
+                                    this.setState({clickedPostId: ''});
+                                    popOpen = false;
+                                  }}
+                                  clicked={() => this.markerClickedHandler(post.id)}
+                                  mouseEnter={() => this.markerSelectedHandler(post.id)}
+                                  mouseLeave={() => this.markerNotSelectedHandler(post.id)}
+                                />
+                              );
                             })
                           )
                           : null
@@ -210,68 +200,68 @@ class Home extends Component {
                   )
                   : null
               }
-              </div>
+            </div>
           </Segment>
           <Segment className="map-list-container" placeholder raised>
-              <Segment className='map-list-header'>
-                <Icon name='warning sign'/>
-                <span>
-                  {'S t 0 K 3 - A  l  e  R  t_'  + ' '}
-                </span>
-                <Icon name='warning sign'/>
-              </Segment>
-              {
-                posts !== undefined
-                  ? (
-                    posts.map(post => {
-                      let postColor = '';
-                      let postClass = 'map-list-item'
-                      if (post.user_rating === 'Gnarly') {
-                        postColor = 'red'
-                      } else if (post.user_rating === 'Good') {
-                        postColor = 'orange'
-                      } else if (post.user_rating === 'Fair') {
-                        postColor = 'yellow'
-                      } else if (post.user_rating === 'Poor') {
-                        postColor = 'teal'
-                      } else if (post.user_rating === 'Flat') {
-                        postColor = 'grey'
-                      }
-                      if (selectedMarkerId === post.id || clickedMarkerId === post.id ){
-                        postClass = 'map-list-item-active'
-                      }
-                      return (
-                        <div 
-                          className={postClass} 
-                          onMouseEnter={() => this.postMouseEnterHandler(post.id)}
-                          onMouseLeave={() => this.postMouseLeaveHandler(post.id)}
-                          onClick={() => {
-                            this.postClickedHandler(post.id);
-                            popOpen = false;
-                          }}
-                          key={post.id}
-                        >
-                          <h4 className={postColor}>
-                            <Icon name='folder' />{post.city}
-                          </h4>
-                          <span className='marker-span'>
-                            <strong>Posted: </strong>
-                            {post.created_at.substring(0, 10)}
-                          </span>
-                          <p>
-                            {post.post_content.substring(0, 65) + '...'}
-                          </p>
-                        </div>
-                      )
-                    })
-                  )
-                  : null
-              }
+            <Segment className='map-list-header'>
+              <Icon name='warning sign'/>
+              <span>
+                {'S t 0 K 3 - A  l  e  R  t_'  + ' '}
+              </span>
+              <Icon name='warning sign'/>
+            </Segment>
+            {
+              posts !== undefined
+                ? (
+                  posts.map(post => {
+                    let postColor = '';
+                    let postClass = 'map-list-item';
+                    if (post.user_rating === 'Gnarly') {
+                      postColor = 'red';
+                    } else if (post.user_rating === 'Good') {
+                      postColor = 'orange';
+                    } else if (post.user_rating === 'Fair') {
+                      postColor = 'yellow';
+                    } else if (post.user_rating === 'Poor') {
+                      postColor = 'teal';
+                    } else if (post.user_rating === 'Flat') {
+                      postColor = 'grey';
+                    }
+                    if (selectedMarkerId === post.id || clickedMarkerId === post.id ){
+                      postClass = 'map-list-item-active';
+                    }
+                    return (
+                      <div 
+                        className={postClass} 
+                        onMouseEnter={() => this.postMouseEnterHandler(post.id)}
+                        onMouseLeave={() => this.postMouseLeaveHandler(post.id)}
+                        onClick={() => {
+                          this.postClickedHandler(post.id);
+                          popOpen = false;
+                        }}
+                        key={post.id}
+                      >
+                        <h4 className={postColor}>
+                          <Icon name='folder' />{post.city}
+                        </h4>
+                        <span className='marker-span'>
+                          <strong>Posted: </strong>
+                          {post.created_at.substring(0, 10)}
+                        </span>
+                        <p>
+                          {post.post_content.substring(0, 65) + '...'}
+                        </p>
+                      </div>
+                    );
+                  })
+                )
+                : null
+            }
           </Segment>
         </Segment>
       </Segment>
     );
   }
-};
+}
 
 export default withRouter(Home);
