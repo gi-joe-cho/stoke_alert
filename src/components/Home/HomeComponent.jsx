@@ -8,7 +8,7 @@ let popOpen = false;
 
 class Home extends Component {
   state = { 
-    userLocation: { lat: '', lng: '' },
+    userLocation: { lat: null, lng: null },
     loading: false,
     posts: [],
     zoom: 12,
@@ -22,9 +22,10 @@ class Home extends Component {
   
   getPosts = async () => {
     if (this.state.newBounds !== null){
-      const response = await fetch('http://localhost:8081/api/posts?min_lat=' + this.state.newBounds.se.lat.toString() + '&max_lat=' + this.state.newBounds.ne.lat.toString() + '&min_lng=' + this.state.newBounds.sw.lng.toString() + '&max_lng=' + this.state.newBounds.ne.lng.toString());
+      const response = await fetch(`${process.env.REACT_APP_DEV_API_DOMAIN}/posts?min_lat=${this.state.newBounds.se.lat.toString()}&max_lat=${this.state.newBounds.ne.lat.toString()}&min_lng=${this.state.newBounds.sw.lng.toString()}&max_lng=${this.state.newBounds.ne.lng.toString()}`);
       const { posts } = await response.json();
       this.setState({posts});
+      
     }
   }
     
@@ -53,7 +54,7 @@ class Home extends Component {
   
   postMouseLeaveHandler = () => this.setState({ selectedPostId: ''});
   
-  postClickedHandler = (id) => this.setState({ clickedPostId: id });
+  postClickedHandler = (id) => this.setState({ clickedPostId: id, clickedMarkerId: id });
   
   markerSelectedHandler = (id) => this.setState({ selectedMarkerId: id, selectedPostId: id });
   
