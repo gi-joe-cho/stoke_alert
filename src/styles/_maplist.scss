@@ -39,6 +39,7 @@ p{
   background-color: rgb(254, 113, 136);
   height: 25%;
   padding-top: 5%;
+  padding-bottom: 5%;
   padding-left: 5px;
 }
 
@@ -56,10 +57,26 @@ p{
 
 div.map-list-item:hover {
   background-color: rgb(254, 113, 136);
+  padding-top: 5%;
+  padding-bottom: 5%;
   cursor: pointer;
 }
 
 div.map-list-item-active:hover {
   background-color: rgb(254, 113, 136);
   cursor: pointer;
+}
+
+div.ui.top.left.mini.popup.transition.visible.map-marker {
+  border-radius: 0;
+  border: 1px solid white;
+  opacity: 0.7;
+  background-color: grey;
+  color: white;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
