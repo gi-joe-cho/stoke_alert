@@ -41,7 +41,7 @@ class MapHome extends Component {
   
   render () {
     return(
-      <div class='google-map-react' >
+      <div className='google-map-react' >
         {
           !this.props.loading
             ? (
