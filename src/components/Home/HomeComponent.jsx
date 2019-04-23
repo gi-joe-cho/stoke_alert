@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Segment, Icon } from 'semantic-ui-react';
-import { withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import HomeMap from './HomeMap';
 import HomeMapList from './HomeMapList';
