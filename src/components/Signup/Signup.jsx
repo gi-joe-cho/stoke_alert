@@ -46,7 +46,7 @@ const ModalSignUp = (
     </Modal.Header>
     <Modal.Content>
       <Form onSubmit={handleSubmit} widths='equal'>
-        <Segment className="modal-pool">
+        <Segment >
           <Form.Group unstackable widths={6}>
             <Form.Input label='First name' placeholder='First name' name='first_name' value={first_name} onChange={handleChange} error={!validations.first_name}/>
             <Form.Input label='Last name' placeholder='Last name' name='last_name' value={last_name} onChange={handleChange} error={!validations.last_name}/>
