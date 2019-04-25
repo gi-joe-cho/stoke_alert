@@ -25,7 +25,6 @@ class Home extends Component {
       const response = await fetch(`${process.env.REACT_APP_DEV_API_DOMAIN}/posts?min_lat=${this.state.newBounds.se.lat.toString()}&max_lat=${this.state.newBounds.ne.lat.toString()}&min_lng=${this.state.newBounds.sw.lng.toString()}&max_lng=${this.state.newBounds.ne.lng.toString()}`);
       const { posts } = await response.json();
       this.setState({posts});
-      
     }
   }
     
@@ -45,8 +44,8 @@ class Home extends Component {
     );
   }
   
-  changeBounds = async (props) => {
-    await this.setState({newBounds: props.bounds});
+  changeBounds = async (data) => {
+    await this.setState({newBounds: data.bounds});
     this.getPosts();
   }
   
