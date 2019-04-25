@@ -5,6 +5,8 @@ import Navbar from './containers/Navbar/Navbar';
 import Home from './containers/Home/Home';
 import NewPost from './containers/NewPost/NewPost';
 import Profile from './containers/Profile/Profile';
+import PostDetail from './containers/Post/PostDetail';
+import EditPost from './containers/Post/EditPost';
 import NoLogin from './components/NoLogin/NoLogin';
 import NoMatch from './components/NoMatch/NoMatch';
 
@@ -36,6 +38,8 @@ class App extends Component {
           <Switch>
             {this.state.signedIn ? <Route path="/profile" exact component={Profile} /> : <Route path="/profile" component={NoLogin}/> }
             {this.state.signedIn ? <Route path="/post/new" exact component={NewPost} /> : <Route path="/post/new" component={NoLogin} /> }
+            <Route path="/post/:post_id/edit" exact component={EditPost} />
+            <Route path="/post/:post_id" exact component={PostDetail} />
             <Route path="/" exact component={Home} />
             <Route component={NoMatch} />
           </Switch>

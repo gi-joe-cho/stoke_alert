@@ -74,7 +74,6 @@ class MenuExampleTabularOnTop extends Component {
   signBothClose = () => this.setState({ signUpModalOpen: false, signInModalOpen: false });
 
   handleItemClick = (e, { name }) => {
-    this.setState({ activeItem: name });
     if(name !== 'home'){
       this.props.history.push('/' + name);
     } else {
@@ -276,6 +275,7 @@ class MenuExampleTabularOnTop extends Component {
     const token = await response.json();
     localStorage.setItem('token', token.token);
     localStorage.setItem('username', token.username);
+    localStorage.setItem('user_Id', token.id);
     this.changeValidation('currentUser', token.username);
     return token;
   }
@@ -314,10 +314,9 @@ class MenuExampleTabularOnTop extends Component {
       this.changeValidation('errorSignIn', false);
     }
   }
-
+  
   render() {
     const { 
-      activeItem, 
       first_name, 
       last_name,
       username, 
@@ -339,7 +338,7 @@ class MenuExampleTabularOnTop extends Component {
       passwordSignIn,
       usernameSignIn
     } = this.state;
-
+    
     return (
       <div className="navbar-container">
         <Menu attached='top' tabular >
@@ -351,22 +350,22 @@ class MenuExampleTabularOnTop extends Component {
               { 
                 !this.isTokenAvailable()
                   ? (
-                      <ModalSignIn
-                        submittedName={submittedName}
-                        submittedEmail={submittedEmail}
-                        handleSubmit={this.handleSubmit}
-                        handleChange={this.handleChange}
-                        upClose={this.signInClose}
-                        inModalOpen={signInModalOpen}
-                        inCloseConfig={this.signInCloseConfig}
-                        signInSubmit={this.signInSubmit}
-                        validations={validations}
-                        signBothClose={this.signBothClose}
-                        passwordSignIn={passwordSignIn}
-                        usernameSignIn={usernameSignIn}
-                      />
+                    <ModalSignIn
+                      submittedName={submittedName}
+                      submittedEmail={submittedEmail}
+                      handleSubmit={this.handleSubmit}
+                      handleChange={this.handleChange}
+                      upClose={this.signInClose}
+                      inModalOpen={signInModalOpen}
+                      inCloseConfig={this.signInCloseConfig}
+                      signInSubmit={this.signInSubmit}
+                      validations={validations}
+                      signBothClose={this.signBothClose}
+                      passwordSignIn={passwordSignIn}
+                      usernameSignIn={usernameSignIn}
+                    />
                   )     
-                : ''}
+                  : ''}
               {
                 !this.isTokenAvailable()
                   ? (
@@ -413,7 +412,7 @@ class MenuExampleTabularOnTop extends Component {
         <Menu className="file-menu" attached='top' tabular>
           <Menu.Item 
             name='home' 
-            active={activeItem === 'home' || this.props.location.pathname === '/'} 
+            active={this.props.location.pathname === '/'} 
             onClick={this.handleItemClick}
           >
             <span className="under-line">H</span>
@@ -421,7 +420,7 @@ class MenuExampleTabularOnTop extends Component {
           </Menu.Item> 
           <Menu.Item 
             name='post/new'
-            active={activeItem === 'post/new' || this.props.location.pathname === '/post/new'}
+            active={this.props.location.pathname === '/post/new'}
             onClick={this.handleItemClick}
           >
             <span className="under-line">N</span>
@@ -429,7 +428,7 @@ class MenuExampleTabularOnTop extends Component {
           </Menu.Item>
           <Menu.Item
             name='profile'
-            active={activeItem === 'profile' || this.props.location.pathname === '/profile'}
+            active={this.props.location.pathname === '/profile'}
             onClick={this.handleItemClick}
           >
             <span className="under-line">P</span>
