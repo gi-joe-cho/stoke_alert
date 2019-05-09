@@ -78,6 +78,7 @@ class MenuExampleTabularOnTop extends Component {
       this.props.history.push('/' + name);
     } else {
       this.props.history.push('/');
+      window.location.reload();
     }
   };
 
