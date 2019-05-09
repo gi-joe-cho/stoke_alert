@@ -51,7 +51,11 @@ class HomeMapList extends Component {
                     </span>
                     <p className='truncate'>
                       {post.post_content}
-                      <Link to={'/post/' + post.id}>Read More</Link>
+                    </p>
+                    <p>
+                      <strong>
+                        <Link to={'/post/' + post.id}> Read More</Link>
+                      </strong>
                     </p>
                   </div>
                 );
