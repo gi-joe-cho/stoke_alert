@@ -14,7 +14,7 @@ class NewPost extends Component {
             </h1>
             <h3>
               {this.props.location.state.post.city}, 
-              {this.props.location.state.post.state}
+              { ' ' + this.props.location.state.post.state}
               
             </h3>
             <p>
@@ -28,7 +28,7 @@ class NewPost extends Component {
               {this.props.location.state.post.post_content}
             </p>
             <div>
-              u p_V o t e s: {this.props.location.state.post.up_votes }
+              u p_V o t e s: { ' ' + this.props.location.state.post.up_votes + ' '}
               d o w n_V o t e s: {this.props.location.state.post.up_votes}
             </div>
             <span>
