@@ -28,8 +28,8 @@ class Home extends Component {
     }
   }
     
-  componentDidMount = async () => {
-    await navigator.geolocation.watchPosition(
+  componentDidMount = () => {
+    navigator.geolocation.watchPosition(
       position => {
         const { latitude, longitude } = position.coords;
         
