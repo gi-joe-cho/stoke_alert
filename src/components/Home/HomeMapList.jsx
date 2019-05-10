@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+// import PostDetail from '../Post/PostDetailComponent';
 
 class HomeMapList extends Component {
   postColorHandler = (post) => {
@@ -54,7 +55,14 @@ class HomeMapList extends Component {
                     </p>
                     <p>
                       <strong>
-                        <Link to={'/post/' + post.id}> Read More</Link>
+                        <Link to={
+                          { 
+                            pathname: '/post/' + post.id,
+                            state:{post}
+                          }
+                        }> 
+                          Read More
+                        </Link>
                       </strong>
                     </p>
                   </div>
