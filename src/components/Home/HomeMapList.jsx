@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-// import PostDetail from '../Post/PostDetailComponent';
 
 class HomeMapList extends Component {
   postColorHandler = (post) => {
@@ -35,6 +34,7 @@ class HomeMapList extends Component {
           this.props.posts !== undefined
             ? (
               this.props.posts.map(post => {
+                let color = this.postColorHandler(post);
                 return (
                   <div
                     className={this.postClassHandler(post)}
@@ -43,7 +43,7 @@ class HomeMapList extends Component {
                     onClick={() => this.props.postClickedHandler(post.id)}
                     key={post.id}
                   >
-                    <h4 className={this.postColorHandler(post)}>
+                    <h4 className={color}>
                       <Icon name='folder' />{post.city}
                     </h4>
                     <span className='marker-span'>
@@ -58,7 +58,10 @@ class HomeMapList extends Component {
                         <Link to={
                           { 
                             pathname: '/post/' + post.id,
-                            state:{post}
+                            state:{
+                              post: post,
+                              color: color
+                            }
                           }
                         }> 
                           Read More
