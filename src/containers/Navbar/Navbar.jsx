@@ -291,8 +291,6 @@ class MenuExampleTabularOnTop extends Component {
     if (result) {
       this.changeValidation('city_zip_state', true);
       await this.setState({ usernameSignIn: this.state.username, passwordSignIn: this.state.password });
-      console.log(this.state.username);
-      console.log(this.state.password);
       await this.newUser();
       await this.newSignIn();
       this.signBothClose();
