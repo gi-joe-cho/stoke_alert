@@ -1,13 +1,27 @@
 h4 {
-  margin: 0;
+  margin-bottom: 1%;
+  margin-top: 2%;
+}
+img {
+  // margin-left: 5%;  
 }
 
+h1{
+  margin-bottom: 2%;
+  font-weight: bold;
+}
 h3 {
-  margin: 0;
+  margin-bottom: 0;
+  margin-top: 2%;
 }
 
 p{
   padding-left: 22px;
+  margin-bottom: 1%;
+}
+
+.break-word{
+  word-wrap: break-word;
 }
 
 .red{
@@ -89,4 +103,75 @@ div.ui.top.left.mini.popup.transition.visible.map-marker {
   height: 100%;
   width: 100%; 
   z-index: 7;
+}
+
+#post-detail-map-div{
+  height: 70%;
+  width: 30%; 
+  margin: 0;
+}
+
+.google-map-container{
+  height: 60%;
+  width: 100%;
+}
+
+.post-detail-div{
+  width: 40%;
+  height: 80%;
+  padding-top: 1%;
+}
+
+.windows-btn-edit {
+  margin-left: auto;
+  border-radius: 0;
+  border: 0.5px solid rgb(142, 142, 142);
+  border-top: 0;
+  border-left: 0;
+  background: rgb(198, 197, 197);
+  padding: 5.5px 3px;
+  box-shadow: 
+    2px 1px 0.7px rgb(91, 91, 91),
+    inset 1px 1px 2px rgb(114, 114, 114);
+  margin-top: 2%;
+  
+  &:focus {
+    outline: 0;
+  }
+  
+  &:hover {
+    background-color:rgb(181, 181, 181);
+    cursor: pointer;
+  }
+  
+  &:active {
+    background:rgb(133, 133, 133);
+  }
+  
+  .window-btn-span-cancel {
+    padding: 1px 2rem;
+  }
+  
+  &::first-letter {
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 1000px) {
+  .post-detail-div{
+    display: inline-block;
+  }
+  .post-detail-map-div{
+    display: inline-block;
+  }
+
+}
+
+@media (min-width: 1200px){
+  .post-detail-div{
+    overflow-y: scroll;
+    height: 90%;
+    width: 50%;
+    padding-right: 5%;
+  }
 }
