@@ -39,7 +39,7 @@ class Home extends Component {
         });
       },
       () => {
-        this.setState({ loading: false });
+        this.setState({ loading: true });
       }
     );
   }
@@ -95,6 +95,7 @@ class Home extends Component {
               popOpen={popOpen}
               zoom={zoom}
             />
+            
           </Segment>
           <Segment className="map-list-container" placeholder raised>
             <Segment className='map-list-header'>
