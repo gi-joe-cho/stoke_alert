@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Segment } from 'semantic-ui-react';
 
+import { withRouter } from 'react-router-dom';
+
 class EditPost extends Component {
   render() {
     return (
@@ -13,4 +15,4 @@ class EditPost extends Component {
   }
 }
 
-export default EditPost;
+export default withRouter(EditPost);
