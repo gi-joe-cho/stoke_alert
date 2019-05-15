@@ -8,7 +8,6 @@ import MapMarker from '../Home/MapMarkers';
 class NewPost extends Component {
   state = {
     zoom:15,
-    loading: false,
   }
   
   postColorHandler = (post) => {
@@ -44,10 +43,13 @@ class NewPost extends Component {
           this.state.post !== undefined
             ?(
               <Segment className="home-row" stacked>
-                <div className='post-detail-div'>
+                <Segment className='post-detail-div'>
                   <h1>
                     P O S T_D E T A I L_
                   </h1>
+                  <p>
+                    U S E R_S T O K E_R A T I N G: {this.state.post.user_rating}
+                  </p>
                   <Image src='https://i.pinimg.com/originals/90/64/a1/9064a16dc937d44f1fedba59074d5fa5.jpg' size='large' wrapped />
                   <h4>
                     p o s t e d_b y: {this.state.post.user.username}
@@ -55,8 +57,8 @@ class NewPost extends Component {
                   <div className='break-word'>
                     {this.state.post.post_content}
                   </div>
-                </div>
-                <div id='post-detail-map-div'>
+                </Segment>
+                <Segment id='post-detail-map-div'>
                   <h3>
                     {this.state.post.city},
                     {' ' + this.state.post.state}
@@ -70,7 +72,6 @@ class NewPost extends Component {
                       bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API_KEY }}
                       center={this.state.userLocation}
                       zoom={this.state.zoom}
-                    // options={this.getMapOptions}
                     >
                       <MapMarker
                         lat={this.state.post.lat}
@@ -93,10 +94,6 @@ class NewPost extends Component {
                   <div>
                     d o w n_V o t e s: {this.state.post.down_votes}
                   </div>
-                  <span>
-                    u s e r_R a t i n g : {this.state.post.user_rating}
-                  </span>
-                  <br></br>
                   {
                     localStorage.getItem('user_Id') === this.state.post.user.id
                       ? (
@@ -118,7 +115,7 @@ class NewPost extends Component {
                       )
                       : null
                   }
-                </div>
+                </Segment>
               </Segment>
             )
             : null

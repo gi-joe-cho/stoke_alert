@@ -8,8 +8,7 @@ let popOpen = false;
 
 class Home extends Component {
   state = { 
-    userLocation: { lat: null, lng: null },
-    loading: false,
+    loading: true,
     posts: [],
     zoom: 12,
     markerColor:'',
@@ -28,19 +27,15 @@ class Home extends Component {
     }
   }
     
-  componentDidMount = () => {
-    navigator.geolocation.watchPosition(
+  componentDidMount = async () => {
+    await navigator.geolocation.watchPosition(
       position => {
         const { latitude, longitude } = position.coords;
-        
         this.setState({
           userLocation: {lat:latitude, lng:longitude},
           loading: false
         });
       },
-      () => {
-        this.setState({ loading: true });
-      }
     );
   }
   
