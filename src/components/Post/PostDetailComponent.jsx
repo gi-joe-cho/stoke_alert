@@ -60,8 +60,7 @@ class NewPost extends Component {
                 </Segment>
                 <Segment id='post-detail-map-div'>
                   <h3>
-                    {this.state.post.city},
-                    {' ' + this.state.post.state}
+                    {`${this.state.post.city}, ${this.state.post.state}`}
                   </h3>
                   <p>
                     l  a  t  : {this.state.post.lat}_
@@ -89,7 +88,7 @@ class NewPost extends Component {
                     u p d a t e d_A t : {this.state.post.updated_at.substring(0, 10)}
                   </p>
                   <div>
-                    u p_V o t e s: {' ' + this.state.post.up_votes + ' '}
+                    u p_V o t e s: {this.state.post.up_votes}
                   </div>
                   <div>
                     d o w n_V o t e s: {this.state.post.down_votes}
