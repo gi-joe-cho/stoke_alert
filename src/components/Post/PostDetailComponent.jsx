@@ -28,7 +28,7 @@ class NewPost extends Component {
   
   getPost = async () => {
     if (this.state.post === undefined) {
-      const response = await fetch(`${process.env.REACT_APP_DEV_API_DOMAIN}/posts/${this.props.match.params.post_id.toString()}`);
+      const response = await fetch(`${process.env.REACT_APP_DEV_API_DOMAIN}/posts/${this.props.match.params.post_id}`);
       const { post } = await response.json();
       this.setState({ post: post, userLocation: { lat: post.lat, lng: post.lng } });
       localStorage.setItem('post_user_Id', this.state.post.user.id);
