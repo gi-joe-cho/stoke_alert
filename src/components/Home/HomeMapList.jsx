@@ -34,7 +34,6 @@ class HomeMapList extends Component {
           this.props.posts !== undefined
             ? (
               this.props.posts.map(post => {
-                let color = this.postColorHandler(post);
                 return (
                   <div
                     className={this.postClassHandler(post)}
@@ -43,7 +42,7 @@ class HomeMapList extends Component {
                     onClick={() => this.props.postClickedHandler(post.id)}
                     key={post.id}
                   >
-                    <h4 className={color}>
+                    <h4 className={this.postColorHandler(post)}>
                       <Icon name='folder' />{post.city}
                     </h4>
                     <span className='marker-span'>
@@ -60,7 +59,7 @@ class HomeMapList extends Component {
                             pathname: '/post/' + post.id,
                             state:{
                               post: post,
-                              color: color
+                              color: this.postColorHandler(post)
                             }
                           }
                         }> 
