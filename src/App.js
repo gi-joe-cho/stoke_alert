@@ -19,7 +19,7 @@ class App extends Component {
   tokenMatch () {
     const { token } = this.state;
     let tokenStorage = localStorage.getItem('token');
-    if (token != null && token === tokenStorage) {
+    if (token !== null && token === tokenStorage) {
       this.setState({signedIn: true});
     } else {
       this.setState({signedIn: false});
