@@ -29,6 +29,16 @@ class App extends Component {
   componentDidMount() {
     this.tokenMatch();
   }
+  
+  editRouteHandler() {
+    let editRoute = null;
+    if (localStorage.getItem('user_Id') !== null && localStorage.getItem('user_Id') === localStorage.getItem('post_user_Id')){
+      editRoute = <Route path="/post/:post_id/edit" exact component={EditPost} />
+    } else{
+      editRoute = <Route path="/post/:post_id/edit" component={NoMatch} />
+    }
+    return editRoute
+  }
 
   render() {
     return (
@@ -37,13 +47,7 @@ class App extends Component {
           <Switch>
             {this.state.signedIn ? <Route path="/profile" exact component={Profile} /> : <Route path="/profile" component={NoLogin}/> }
             {this.state.signedIn ? <Route path="/post/new" exact component={NewPost} /> : <Route path="/post/new" component={NoLogin} /> }
-            {
-              localStorage.getItem('user_Id') !== null && localStorage.getItem('user_Id') === localStorage.getItem('post_user_Id')
-                ? (
-                  <Route path="/post/:post_id/edit" exact component={EditPost} />
-                )
-                : <Route path="/post/:post_id/edit" component={NoMatch} />
-            }
+            {this.editRouteHandler()}
             <Route path="/post/:post_id" exact component={PostDetail} />
             <Route path="/" exact component={Home} />
             <Route component={NoMatch} />
