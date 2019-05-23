@@ -77,7 +77,7 @@ class MenuExampleTabularOnTop extends Component {
     if(name !== 'home'){
       this.props.history.push('/' + name);
     } else {
-      this.props.history.push('/');
+      this.props.history.push('/home');
       window.location.reload();
     }
   };
@@ -411,7 +411,7 @@ class MenuExampleTabularOnTop extends Component {
         <Menu className="file-menu" attached='top' tabular>
           <Menu.Item 
             name='home' 
-            active={this.props.location.pathname === '/'} 
+            active={this.props.location.pathname === '/home'} 
             onClick={this.handleItemClick}
           >
             <span className="under-line">H</span>
