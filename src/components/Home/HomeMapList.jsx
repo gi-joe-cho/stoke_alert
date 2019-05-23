@@ -58,7 +58,7 @@ class HomeMapList extends Component {
                           { 
                             pathname: `/post/${post.id}`,
                             state:{
-                              post: post,
+                              post,
                               color: this.postColorHandler(post)
                             }
                           }
