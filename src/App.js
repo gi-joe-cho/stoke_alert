@@ -9,6 +9,7 @@ import PostDetail from './containers/Post/PostDetail';
 import EditPost from './containers/Post/EditPost';
 import NoLogin from './components/NoLogin/NoLogin';
 import NoMatch from './components/NoMatch/NoMatch';
+import Landing from './containers/Landing/Landing';
 
 class App extends Component {
   state = {
@@ -49,7 +50,8 @@ class App extends Component {
             {this.state.signedIn ? <Route path="/post/new" exact component={NewPost} /> : <Route path="/post/new" component={NoLogin} /> }
             {this.editRouteHandler()}
             <Route path="/post/:post_id" exact component={PostDetail} />
-            <Route path="/" exact component={Home} />
+            <Route path="/home" exact component={Home} />
+            <Route path="/" exact component={Landing} />
             <Route component={NoMatch} />
           </Switch>
         </div>
