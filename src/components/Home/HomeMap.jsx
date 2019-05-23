@@ -7,19 +7,18 @@ import { getMapOptions } from '../../utils/getMapOptions';
 
 class MapHome extends Component {
   markerColorHandler = (post) => {
-    let markerColor = '';
-    if (post.user_rating === 'Gnarly') {
-      markerColor = 'red';
-    } else if (post.user_rating === 'Good') {
-      markerColor = 'orange';
-    } else if (post.user_rating === 'Fair') {
-      markerColor = 'yellow';
-    } else if (post.user_rating === 'Poor') {
-      markerColor = 'teal';
-    } else if (post.user_rating === 'Flat') {
-      markerColor = 'grey';
+    switch (post.user_rating) {
+    case 'Gnarly':
+      return 'red';
+    case 'Good':
+      return 'orange';
+    case 'Fair':
+      return 'yellow';
+    case 'Poor':
+      return 'teal';
+    case 'Flat':
+      return 'grey';
     }
-    return markerColor;
   };
   
   markerClassHandler = (post) => {

@@ -11,19 +11,18 @@ class NewPost extends Component {
   }
   
   postColorHandler = (post) => {
-    let postColor = '';
-    if (post.user_rating === 'Gnarly') {
-      postColor = 'red';
-    } else if (post.user_rating === 'Good') {
-      postColor = 'orange';
-    } else if (post.user_rating === 'Fair') {
-      postColor = 'yellow';
-    } else if (post.user_rating === 'Poor') {
-      postColor = 'teal';
-    } else if (post.user_rating === 'Flat') {
-      postColor = 'grey';
+    switch (post.user_rating) {
+    case 'Gnarly':
+      return 'red';
+    case 'Good':
+      return 'orange';
+    case 'Fair':
+      return 'yellow';
+    case 'Poor':
+      return 'teal';
+    case 'Flat':
+      return 'grey';
     }
-    return postColor;
   };
   
   getPost = async () => {
