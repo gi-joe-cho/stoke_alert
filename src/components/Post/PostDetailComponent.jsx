@@ -98,7 +98,7 @@ class NewPost extends Component {
                       ? (
                         <Link to={
                           {
-                            pathname: '/post/' + this.state.post.id + '/edit',
+                            pathname: `/post/${this.state.post.id}/edit`,
                             state: {
                               post: this.state.post,
                               color: this.postColorHandler(this.state.post)
