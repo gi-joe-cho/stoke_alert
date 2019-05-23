@@ -75,7 +75,7 @@ class MenuExampleTabularOnTop extends Component {
 
   handleItemClick = (e, { name }) => {
     if(name !== 'home'){
-      this.props.history.push('/' + name);
+      this.props.history.push(`/${name}`);
     } else {
       this.props.history.push('/home');
       window.location.reload();
@@ -290,7 +290,7 @@ class MenuExampleTabularOnTop extends Component {
     const result = await this.checkAllInputValidations();
     if (result) {
       this.changeValidation('city_zip_state', true);
-      await this.setState({ usernameSignIn: this.state.username, passwordSignIn: this.state.password });
+      this.setState({ usernameSignIn: this.state.username, passwordSignIn: this.state.password });
       await this.newUser();
       await this.newSignIn();
       this.signBothClose();
