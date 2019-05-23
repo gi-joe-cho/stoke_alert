@@ -4,7 +4,6 @@ import { withRouter, Link } from 'react-router-dom';
 import GoogleMapReact from 'google-map-react';
 
 import MapMarker from '../Home/MapMarkers';
-// import NoMatch from '../../components/NoMatch/NoMatch';
 
 class NewPost extends Component {
   state = {
