@@ -4,10 +4,12 @@ import { withRouter, Link } from 'react-router-dom';
 import GoogleMapReact from 'google-map-react';
 
 import MapMarker from '../Home/MapMarkers';
+// import NoMatch from '../../components/NoMatch/NoMatch';
 
 class NewPost extends Component {
   state = {
     zoom:15,
+    loading: false
   }
   
   postColorHandler = (post) => {
@@ -26,12 +28,35 @@ class NewPost extends Component {
   };
   
   getPost = async () => {
-    if (this.state.post === undefined) {
-      const response = await fetch(`${process.env.REACT_APP_DEV_API_DOMAIN}/posts/${this.props.match.params.post_id}`);
+    const response = await fetch(`${process.env.REACT_APP_DEV_API_DOMAIN}/posts/${this.props.match.params.post_id}`);
+    if (this.state.post === undefined && response.status !== 404) {
       const { post } = await response.json();
       this.setState({ post: post, userLocation: { lat: post.lat, lng: post.lng } });
       localStorage.setItem('post_user_Id', this.state.post.user.id);
     } 
+    else if (response.status === 404) {
+      console.log('page not found');
+    }
+  }
+  
+  renderEditButton() {
+    return (
+      <Link to={
+        {
+          pathname: `/post/${this.state.post.id}/edit`,
+          state: {
+            post: this.state.post,
+            color: this.postColorHandler(this.state.post)
+          }
+        }
+      }>
+        <button className="windows-btn-edit">
+          <span className='window-btn-span-cancel'>
+            Edit
+          </span>
+        </button>
+      </Link>
+    );
   }
   
   render() {
@@ -92,27 +117,7 @@ class NewPost extends Component {
                   <div>
                     d o w n_V o t e s: {this.state.post.down_votes}
                   </div>
-                  {
-                    localStorage.getItem('user_Id') === this.state.post.user.id
-                      ? (
-                        <Link to={
-                          {
-                            pathname: `/post/${this.state.post.id}/edit`,
-                            state: {
-                              post: this.state.post,
-                              color: this.postColorHandler(this.state.post)
-                            }
-                          }
-                        }>
-                          <button className="windows-btn-edit">
-                            <span className='window-btn-span-cancel'>
-                              Edit
-                            </span>
-                          </button>
-                        </Link>
-                      )
-                      : null
-                  }
+                  {localStorage.getItem('user_Id') === this.state.post.user.id ? this.renderEditButton() : null}
                 </Segment>
               </Segment>
             )
