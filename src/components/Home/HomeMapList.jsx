@@ -56,7 +56,7 @@ class HomeMapList extends Component {
                       <strong>
                         <Link to={
                           { 
-                            pathname: '/post/' + post.id,
+                            pathname: `/post/${post.id}`,
                             state:{
                               post: post,
                               color: this.postColorHandler(post)
