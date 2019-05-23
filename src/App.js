@@ -32,13 +32,9 @@ class App extends Component {
   }
   
   editRouteHandler() {
-    let editRoute = null;
-    if (localStorage.getItem('user_Id') !== null && localStorage.getItem('user_Id') === localStorage.getItem('post_user_Id')){
-      editRoute = <Route path="/post/:post_id/edit" exact component={EditPost} />
-    } else{
-      editRoute = <Route path="/post/:post_id/edit" component={NoMatch} />
-    }
-    return editRoute
+    localStorage.getItem('user_Id') !== null && localStorage.getItem('user_Id') === localStorage.getItem('post_user_Id')
+    ? <Route path="/post/:post_id/edit" exact component={EditPost} />
+    : <Route path="/post/:post_id/edit" component={NoMatch} />
   }
 
   render() {
