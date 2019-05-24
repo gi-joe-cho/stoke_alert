@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 
 import MapMarker from './MapMarkers';
@@ -21,6 +21,10 @@ class MapHome extends Component {
     }
   };
   
+  reloadPage () {
+    window.location.reload;
+  }
+  
   markerClassHandler = (post) => {
     let markerClass = '';
     if (this.props.selectedPostId === post.id || this.props.clickedMarkerId === post.id || this.props.selectedMarkerId === post.id) {
@@ -28,7 +32,7 @@ class MapHome extends Component {
     }
     return markerClass;
   };
-  
+
   popUpHandler = (post) => {
     let popOpen = false;
     if (this.props.clickedPostId === post.id || this.props.clickedMarkerId === post.id) {
@@ -38,10 +42,10 @@ class MapHome extends Component {
     }
     return popOpen;
   };
-  
-  render () {
-    return(
-      <div id='googleMapReact'>
+
+  render() {
+    return (
+      <div id='google-map-react'>
         {
           !this.props.loading
             ? (
@@ -93,7 +97,7 @@ class MapHome extends Component {
                 }
               </GoogleMapReact>
             )
-            : window.location.reload
+            : this.reloadPage()
         }
       </div>
     );
