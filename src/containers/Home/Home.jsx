@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Segment} from 'semantic-ui-react';
+import { Segment } from 'semantic-ui-react';
 
 import TabBar from '../../components/TabBar/TabBar';
 import StartMenu from '../../components/StartMenu/StartMenu';
