@@ -65,8 +65,15 @@ html,body {
   
   h1{
     font-size: 2em;
-    font-family: 'Press Start 2P', cursive;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 3%;
   }
+  h2{
+    margin-bottom: 2%;
+  }
+  
   div{
     button{
       margin-right: 5px;

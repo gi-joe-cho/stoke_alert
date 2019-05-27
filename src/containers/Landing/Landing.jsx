@@ -22,11 +22,11 @@ class EditPost extends Component {
             <h2>
               W e l c o m e_T o_
             </h2>
-            <h1>S t o k e_A  l  e  R  t_</h1>
+            <h1>S t o k e_A  l  e  r  t_</h1>
+            {/* <p>S t 0 K 3 - A  l  e  R  t_</p>
             <p>S t 0 K 3 - A  l  e  R  t_</p>
             <p>S t 0 K 3 - A  l  e  R  t_</p>
-            <p>S t 0 K 3 - A  l  e  R  t_</p>
-            <p>S t 0 K 3 - A  l  e  R  t_</p>
+            <p>S t 0 K 3 - A  l  e  R  t_</p> */}
             <div>
               <Link to='/home'>
                 <button className="windows-btn-edit">
