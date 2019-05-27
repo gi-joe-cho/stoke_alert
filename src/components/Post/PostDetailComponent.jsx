@@ -35,7 +35,7 @@ class NewPost extends Component {
       this.setState({ post: post, userLocation: { lat: post.lat, lng: post.lng } });
       localStorage.setItem('post_user_Id', this.state.post.user.id);
     } 
-    else if (response.status === 404) {
+    else {
       console.log('page not found');
     }
   }
@@ -60,8 +60,11 @@ class NewPost extends Component {
     );
   }
   
-  render() {
+  componentDidMount() {
     this.getPost();
+  }
+  
+  render() {
     return (
       <Segment className="new-post-ocean-pic">
         {
