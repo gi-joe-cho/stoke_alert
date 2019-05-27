@@ -23,6 +23,8 @@ class NewPost extends Component {
       return 'teal';
     case 'Flat':
       return 'grey';
+    default:
+      'grey';
     }
   };
   

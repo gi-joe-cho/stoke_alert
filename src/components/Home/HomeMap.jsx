@@ -18,6 +18,8 @@ class MapHome extends Component {
       return 'teal';
     case 'Flat':
       return 'grey';
+    default:
+      'grey';
     }
   };
   
