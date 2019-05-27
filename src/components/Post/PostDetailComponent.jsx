@@ -1,16 +1,135 @@
 import React, { Component } from 'react';
-import { Segment } from 'semantic-ui-react';
+import { Segment, Image } from 'semantic-ui-react';
+import { withRouter, Link } from 'react-router-dom';
+import GoogleMapReact from 'google-map-react';
+
+import MapMarker from '../Home/MapMarkers';
 
 class NewPost extends Component {
+  state = {
+    zoom:15,
+    loading: false
+  }
+  
+  postColorHandler = (post) => {
+    switch (post.user_rating) {
+    case 'Gnarly':
+      return 'red';
+    case 'Good':
+      return 'orange';
+    case 'Fair':
+      return 'yellow';
+    case 'Poor':
+      return 'teal';
+    case 'Flat':
+      return 'grey';
+    default:
+      'grey';
+    }
+  };
+  
+  getPost = async () => {
+    const response = await fetch(`${process.env.REACT_APP_DEV_API_DOMAIN}/posts/${this.props.match.params.post_id}`);
+    if (this.state.post === undefined && response.status !== 404) {
+      const { post } = await response.json();
+      this.setState({ post: post, userLocation: { lat: post.lat, lng: post.lng } });
+      localStorage.setItem('post_user_Id', this.state.post.user.id);
+    } 
+    else {
+      console.log('page not found');
+    }
+  }
+  
+  renderEditButton() {
+    return (
+      <Link to={
+        {
+          pathname: `/post/${this.state.post.id}/edit`,
+          state: {
+            post: this.state.post,
+            color: this.postColorHandler(this.state.post)
+          }
+        }
+      }>
+        <button className="windows-btn-edit">
+          <span className='window-btn-span-cancel'>
+            Edit
+          </span>
+        </button>
+      </Link>
+    );
+  }
+  
+  componentDidMount() {
+    this.getPost();
+  }
+  
   render() {
     return (
       <Segment className="new-post-ocean-pic">
-        <Segment className="home-row" stacked>
-          <div>P o s t_D e t a i l_</div>
-        </Segment>
+        {
+          this.state.post !== undefined
+            ?(
+              <Segment className="home-row" stacked>
+                <Segment className='post-detail-div'>
+                  <h1>
+                    P O S T_D E T A I L_
+                  </h1>
+                  <p>
+                    U S E R_S T O K E_R A T I N G: {this.state.post.user_rating}
+                  </p>
+                  <Image src='https://i.pinimg.com/originals/90/64/a1/9064a16dc937d44f1fedba59074d5fa5.jpg' size='large' wrapped />
+                  <h4>
+                    p o s t e d_b y: {this.state.post.user.username}
+                  </h4>
+                  <div className='break-word'>
+                    {this.state.post.post_content}
+                  </div>
+                </Segment>
+                <Segment id='post-detail-map-div'>
+                  <h3>
+                    {`${this.state.post.city}, ${this.state.post.state}`}
+                  </h3>
+                  <p>
+                    l  a  t  : {this.state.post.lat}_
+                      l  n  g  : {this.state.post.lng}
+                  </p>
+                  <div className='google-map-container'>
+                    <GoogleMapReact
+                      bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API_KEY }}
+                      center={this.state.userLocation}
+                      zoom={this.state.zoom}
+                    >
+                      <MapMarker
+                        lat={this.state.post.lat}
+                        lng={this.state.post.lng}
+                        text={this.state.post.user_rating}
+                        city={this.state.post.city}
+                        color={this.postColorHandler(this.state.post)}
+                        upVote={this.state.post.up_votes}
+                        downVote={this.state.post.down_votes}
+                        date={this.state.post.created_at.substring(0, 10)}
+                      />
+                    </GoogleMapReact>
+                  </div>
+                  <p>
+                    u p d a t e d_A t : {this.state.post.updated_at.substring(0, 10)}
+                  </p>
+                  <div>
+                    u p_V o t e s: {this.state.post.up_votes}
+                  </div>
+                  <div>
+                    d o w n_V o t e s: {this.state.post.down_votes}
+                  </div>
+                  {localStorage.getItem('user_Id') === this.state.post.user.id ? this.renderEditButton() : null}
+                </Segment>
+              </Segment>
+            )
+            : null
+        }
       </Segment>
     );
   }
 }
 
-export default NewPost;
+export default withRouter(NewPost);

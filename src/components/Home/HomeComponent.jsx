@@ -8,8 +8,7 @@ let popOpen = false;
 
 class Home extends Component {
   state = { 
-    userLocation: { lat: null, lng: null },
-    loading: false,
+    loading: true,
     posts: [],
     zoom: 12,
     markerColor:'',
@@ -24,7 +23,7 @@ class Home extends Component {
     if (this.state.newBounds !== null){
       const response = await fetch(`${process.env.REACT_APP_DEV_API_DOMAIN}/posts?min_lat=${this.state.newBounds.se.lat.toString()}&max_lat=${this.state.newBounds.ne.lat.toString()}&min_lng=${this.state.newBounds.sw.lng.toString()}&max_lng=${this.state.newBounds.ne.lng.toString()}`);
       const { posts } = await response.json();
-      this.setState({posts});
+      this.setState({ ...this.state, posts});
     }
   }
     
@@ -32,36 +31,33 @@ class Home extends Component {
     await navigator.geolocation.watchPosition(
       position => {
         const { latitude, longitude } = position.coords;
-        
         this.setState({
+          ...this.state, 
           userLocation: {lat:latitude, lng:longitude},
           loading: false
         });
       },
-      () => {
-        this.setState({ loading: false });
-      }
     );
   }
   
   changeBounds = async (data) => {
-    await this.setState({newBounds: data.bounds});
+    await this.setState({ ...this.state, newBounds: data.bounds});
     this.getPosts();
   }
   
-  postMouseEnterHandler = (id) => this.setState({ selectedPostId: id });
+  postMouseEnterHandler = (id) => this.setState({ ...this.state, selectedPostId: id });
   
-  postMouseLeaveHandler = () => this.setState({ selectedPostId: ''});
+  postMouseLeaveHandler = () => this.setState({ ...this.state, selectedPostId: ''});
   
-  postClickedHandler = (id) => this.setState({ clickedPostId: id, clickedMarkerId: id });
+  postClickedHandler = (id) => this.setState({ ...this.state, clickedPostId: id, clickedMarkerId: id });
   
-  markerSelectedHandler = (id) => this.setState({ selectedMarkerId: id, selectedPostId: id });
+  markerSelectedHandler = (id) => this.setState({ ...this.state, selectedMarkerId: id, selectedPostId: id });
   
-  markerNotSelectedHandler = () => this.setState({ selectedMarkerId: '', selectedPostId: '' });
+  markerNotSelectedHandler = () => this.setState({ ...this.state, selectedMarkerId: '', selectedPostId: '' });
 
-  markerClickedHandler = (id) => this.setState({ clickedMarkerId: id });
+  markerClickedHandler = (id) => this.setState({ ...this.state, clickedMarkerId: id });
   
-  onCloseHandler = () => this.setState({ selectedMarkerId: '', selectedPostId: '', clickedMarkerId: '', clickedPostId: '' });
+  onCloseHandler = () => this.setState({ ...this.state, selectedMarkerId: '', selectedPostId: '', clickedMarkerId: '', clickedPostId: '' });
 
   render() {
     const { 

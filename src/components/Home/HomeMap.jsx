@@ -1,25 +1,31 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 
 import MapMarker from './MapMarkers';
 import CurrentDate from '../../utils/currentDate';
+import { getMapOptions } from '../../utils/getMapOptions';
 
 class MapHome extends Component {
   markerColorHandler = (post) => {
-    let markerColor = '';
-    if (post.user_rating === 'Gnarly') {
-      markerColor = 'red';
-    } else if (post.user_rating === 'Good') {
-      markerColor = 'orange';
-    } else if (post.user_rating === 'Fair') {
-      markerColor = 'yellow';
-    } else if (post.user_rating === 'Poor') {
-      markerColor = 'teal';
-    } else if (post.user_rating === 'Flat') {
-      markerColor = 'grey';
+    switch (post.user_rating) {
+    case 'Gnarly':
+      return 'red';
+    case 'Good':
+      return 'orange';
+    case 'Fair':
+      return 'yellow';
+    case 'Poor':
+      return 'teal';
+    case 'Flat':
+      return 'grey';
+    default:
+      'grey';
     }
-    return markerColor;
   };
+  
+  reloadPage () {
+    window.location.reload;
+  }
   
   markerClassHandler = (post) => {
     let markerClass = '';
@@ -28,7 +34,7 @@ class MapHome extends Component {
     }
     return markerClass;
   };
-  
+
   popUpHandler = (post) => {
     let popOpen = false;
     if (this.props.clickedPostId === post.id || this.props.clickedMarkerId === post.id) {
@@ -38,25 +44,27 @@ class MapHome extends Component {
     }
     return popOpen;
   };
-  
-  render () {
-    return(
-      <div className='google-map-react' >
+
+  render() {
+    return (
+      <div id='google-map-react'>
         {
           !this.props.loading
             ? (
               <GoogleMapReact
-                // bootstrapURLKeys={{ key: /* YOUR KEY HERE */ }}
-                defaultCenter={this.props.userLocation}
-                defaultZoom={this.props.zoom}
+                bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API_KEY }}
+                center={this.props.userLocation}
+                zoom={this.props.zoom}
                 onChange={this.props.changeBounds}
+                options={getMapOptions}
               >
                 <MapMarker
                   lat={this.props.userLocation.lat}
                   lng={this.props.userLocation.lng}
                   date={<CurrentDate />}
-                  text="Current Location"
+                  text='Current Location'
                   city='Current Location'
+                  color={'purple'}
                 />
                 {
                   this.props.posts !== undefined
@@ -91,7 +99,7 @@ class MapHome extends Component {
                 }
               </GoogleMapReact>
             )
-            : window.location.reload
+            : this.reloadPage()
         }
       </div>
     );

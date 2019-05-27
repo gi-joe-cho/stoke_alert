@@ -4,19 +4,18 @@ import { Link } from 'react-router-dom';
 
 class HomeMapList extends Component {
   postColorHandler = (post) => {
-    let postColor = '';
-    if (post.user_rating === 'Gnarly') {
-      postColor = 'red';
-    } else if (post.user_rating === 'Good') {
-      postColor = 'orange';
-    } else if (post.user_rating === 'Fair') {
-      postColor = 'yellow';
-    } else if (post.user_rating === 'Poor') {
-      postColor = 'teal';
-    } else if (post.user_rating === 'Flat') {
-      postColor = 'grey';
+    switch (post.user_rating) {
+    case 'Gnarly':
+      return 'red';
+    case 'Good':
+      return 'orange';
+    case 'Fair':
+      return 'yellow';
+    case 'Poor':
+      return 'teal';
+    case 'Flat':
+      return 'grey';
     }
-    return postColor;
   };
   
   postClassHandler = (post) => {
@@ -51,7 +50,21 @@ class HomeMapList extends Component {
                     </span>
                     <p className='truncate'>
                       {post.post_content}
-                      <Link to={'/post/' + post.id}>Read More</Link>
+                    </p>
+                    <p>
+                      <strong>
+                        <Link to={
+                          { 
+                            pathname: `/post/${post.id}`,
+                            state:{
+                              post,
+                              color: this.postColorHandler(post)
+                            }
+                          }
+                        }> 
+                          Read More
+                        </Link>
+                      </strong>
                     </p>
                   </div>
                 );

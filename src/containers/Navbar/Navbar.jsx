@@ -75,9 +75,10 @@ class MenuExampleTabularOnTop extends Component {
 
   handleItemClick = (e, { name }) => {
     if(name !== 'home'){
-      this.props.history.push('/' + name);
+      this.props.history.push(`/${name}`);
     } else {
-      this.props.history.push('/');
+      this.props.history.push('/home');
+      window.location.reload();
     }
   };
 
@@ -289,9 +290,7 @@ class MenuExampleTabularOnTop extends Component {
     const result = await this.checkAllInputValidations();
     if (result) {
       this.changeValidation('city_zip_state', true);
-      await this.setState({ usernameSignIn: this.state.username, passwordSignIn: this.state.password });
-      console.log(this.state.username);
-      console.log(this.state.password);
+      this.setState({ usernameSignIn: this.state.username, passwordSignIn: this.state.password });
       await this.newUser();
       await this.newSignIn();
       this.signBothClose();
@@ -412,7 +411,7 @@ class MenuExampleTabularOnTop extends Component {
         <Menu className="file-menu" attached='top' tabular>
           <Menu.Item 
             name='home' 
-            active={this.props.location.pathname === '/'} 
+            active={this.props.location.pathname === '/home'} 
             onClick={this.handleItemClick}
           >
             <span className="under-line">H</span>
