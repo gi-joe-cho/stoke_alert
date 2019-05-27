@@ -21,7 +21,7 @@ export const getMapOptions = (maps) => {
         'elementType': 'geometry',
         'stylers': [
           {
-            'color': '#ebe3cd'
+            'color': '#c1b6c4'
           }
         ]
       },
@@ -73,7 +73,7 @@ export const getMapOptions = (maps) => {
         'elementType': 'geometry',
         'stylers': [
           {
-            'color': '#dfd2ae'
+            'color': '#d9d6db'
           }
         ]
       },
@@ -100,7 +100,7 @@ export const getMapOptions = (maps) => {
         'elementType': 'geometry.fill',
         'stylers': [
           {
-            'color': '#a5b076'
+            'color': '#71bc8f'
           }
         ]
       },
@@ -127,7 +127,7 @@ export const getMapOptions = (maps) => {
         'elementType': 'geometry',
         'stylers': [
           {
-            'color': '#fdfcf8'
+            'color': '#e8f2ff'
           }
         ]
       },
@@ -145,7 +145,7 @@ export const getMapOptions = (maps) => {
         'elementType': 'geometry.stroke',
         'stylers': [
           {
-            'color': '#e9bc62'
+            'color': '#e850ce'
           }
         ]
       },
@@ -154,7 +154,7 @@ export const getMapOptions = (maps) => {
         'elementType': 'geometry',
         'stylers': [
           {
-            'color': '#e98d58'
+            'color': '#c751e8'
           }
         ]
       },
@@ -217,7 +217,7 @@ export const getMapOptions = (maps) => {
         'elementType': 'geometry.fill',
         'stylers': [
           {
-            'color': '#b9d3c2'
+            'color': '#81bdc4'
           }
         ]
       },
