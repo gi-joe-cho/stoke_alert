@@ -16,14 +16,16 @@ class PostDetail extends Component {
     if (response.status !== 404) {
       this.setState({ loading: true });
     }
-    else if (response.status === 404) {
-      console.log('page not found');
+    else {
       this.setState({ loading: false });
     }
   }
+  
+  componentDidMount() {
+    this.checkPost();
+  }
 
   render() {
-    this.checkPost();
     return (
       <div>
         {
