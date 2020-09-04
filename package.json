@@ -44,7 +44,7 @@
     "mini-css-extract-plugin": "0.4.3",
     "multer": "^1.4.1",
     "multer-s3": "^2.9.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "pg": "^7.7.1",
     "pnp-webpack-plugin": "1.1.0",
